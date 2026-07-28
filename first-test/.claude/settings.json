@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "changed=$(git status --porcelain -uall -- '*.ts'); if [ -n \"$changed\" ]; then npm test 2>&1; else echo 'no .ts changes, skipping tests'; fi",
+            "timeout": 60,
+            "statusMessage": "Running tests (.ts changed)..."
+          }
+        ]
+      }
+    ]
+  }
+}
