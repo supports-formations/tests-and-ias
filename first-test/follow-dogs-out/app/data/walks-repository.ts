@@ -8,10 +8,17 @@ export type Walk = NewWalk & {
 
 export function createWalksRepository() {
   let nextId = 1;
+  const walks: Walk[] = [];
 
   return {
     async addWalk(newWalk: NewWalk): Promise<Walk> {
-      return { id: String(nextId++), ...newWalk };
+      const walk = { id: String(nextId++), ...newWalk };
+      walks.push(walk);
+      return walk;
+    },
+
+    async getWalks(): Promise<Walk[]> {
+      return walks;
     },
   };
 }

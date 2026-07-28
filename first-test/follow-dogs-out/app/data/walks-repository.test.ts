@@ -19,3 +19,14 @@ describe("walksRepository.addWalk", () => {
     expect(firstWalk.id).not.toBe(secondWalk.id);
   });
 });
+
+describe("walksRepository.getWalks", () => {
+  it("includes a walk previously added with addWalk", async () => {
+    const repository = createWalksRepository();
+    const addedWalk = await repository.addWalk({ startedAt: new Date() });
+
+    const walks = await repository.getWalks();
+
+    expect(walks).toContainEqual(addedWalk);
+  });
+});
