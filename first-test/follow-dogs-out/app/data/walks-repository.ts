@@ -12,6 +12,10 @@ export function createWalksRepository() {
 
   return {
     async addWalk(newWalk: NewWalk): Promise<Walk> {
+      if (!newWalk.startedAt) {
+        throw new Error("startedAt is required");
+      }
+
       const walk = { id: String(nextId++), ...newWalk };
       walks.push(walk);
       return walk;

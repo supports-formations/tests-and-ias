@@ -30,3 +30,13 @@ describe("walksRepository.getWalks", () => {
     expect(walks).toContainEqual(addedWalk);
   });
 });
+
+describe("walksRepository.addWalk validation", () => {
+  it("rejects a walk without startedAt", async () => {
+    const repository = createWalksRepository();
+
+    await expect(
+      repository.addWalk({ startedAt: undefined as unknown as Date }),
+    ).rejects.toThrow();
+  });
+});
