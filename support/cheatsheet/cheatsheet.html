@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Cheat-sheet — Je teste avec l'IA</title>
+<link rel="stylesheet" href="cheatsheet.css">
+</head>
+<body>
+
+<!-- ================================================================
+     PAGE 1 — FAIRE
+     ================================================================ -->
+
+<div class="masthead">
+  <div>
+    <h1>Je teste avec l'<span class="accent">IA</span> <span style="font-size:9pt;font-weight:normal;color:#5A6472">— aide-mémoire</span></h1>
+    <div class="sub">Angular + .NET Web API · Claude Code · Playwright · xUnit — <b>ce qu'on consulte en travaillant, pas un résumé de cours</b></div>
+  </div>
+  <div class="tag">
+    Formation <b>Test logiciel avec IA générative</b><br>
+    Human Coders · Evan BOISSONNOT<br>
+    <b>Page 1/2 — FAIRE</b> · à jour 07/2026
+  </div>
+</div>
+
+<!-- ---------- DIAGRAMME : LA BOUCLE ---------- -->
+<div class="figure">
+<svg viewBox="0 0 1180 202" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans Condensed, sans-serif">
+  <defs>
+    <marker id="ar" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="#276749"/>
+    </marker>
+    <marker id="arb" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="#9B2C2C"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1180" height="202" fill="#F7F9FB" rx="6"/>
+  <text x="12" y="18" font-size="13" font-weight="bold" fill="#276749" letter-spacing="1.1">LA BOUCLE — 5 ÉTAPES, ET CE QUI DOIT ÊTRE VRAI À CHACUNE</text>
+  <line x1="12" y1="24" x2="1168" y2="24" stroke="#CBD5E0" stroke-width="0.8"/>
+
+  <!-- boucle de retour ANALYSER -> GÉNÉRER (placée sous le titre, au-dessus des étapes) -->
+  <text x="490" y="40" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#9B2C2C">si « test faux » → on régénère, on ne rafistole pas</text>
+  <path d="M686,68 C686,46 294,46 294,68" fill="none" stroke="#9B2C2C" stroke-width="1.4"
+        stroke-dasharray="4,2.5" marker-end="url(#arb)"/>
+
+  <!-- 6 étapes -->
+  <g font-size="11">
+    <!-- 0 CONTEXTE -->
+    <rect x="12" y="70" width="172" height="42" rx="4" fill="#fff" stroke="#276749" stroke-width="1.4"/>
+    <text x="98" y="87" text-anchor="middle" font-size="9" fill="#718096">ÉTAPE 0</text>
+    <text x="98" y="103" text-anchor="middle" font-size="14" font-weight="bold" fill="#1A202C">CONTEXTE</text>
+    <text x="98" y="130" text-anchor="middle" font-size="10.5" fill="#4A5568">La citation exacte de la</text>
+    <text x="98" y="143" text-anchor="middle" font-size="10.5" fill="#4A5568">spec est consignée.</text>
+    <text x="98" y="158" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#9B2C2C">Sinon on s'arrête.</text>
+
+    <!-- 1 GÉNÉRER -->
+    <rect x="208" y="70" width="172" height="42" rx="4" fill="#fff" stroke="#276749" stroke-width="1.4"/>
+    <text x="294" y="87" text-anchor="middle" font-size="9" fill="#718096">ÉTAPE 1</text>
+    <text x="294" y="103" text-anchor="middle" font-size="14" font-weight="bold" fill="#1A202C">GÉNÉRER</text>
+    <text x="294" y="130" text-anchor="middle" font-size="10.5" fill="#4A5568">Le générateur n'a</text>
+    <text x="294" y="143" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1A202C">PAS lu le code</text>
+    <text x="294" y="156" text-anchor="middle" font-size="10.5" fill="#4A5568">sous test.</text>
+
+    <!-- 2 EXÉCUTER -->
+    <rect x="404" y="70" width="172" height="42" rx="4" fill="#fff" stroke="#276749" stroke-width="1.4"/>
+    <text x="490" y="87" text-anchor="middle" font-size="9" fill="#718096">ÉTAPE 2</text>
+    <text x="490" y="103" text-anchor="middle" font-size="14" font-weight="bold" fill="#1A202C">EXÉCUTER</text>
+    <text x="490" y="130" text-anchor="middle" font-size="10.5" fill="#4A5568">La sortie du runner a</text>
+    <text x="490" y="143" text-anchor="middle" font-size="10.5" fill="#4A5568">été <tspan font-weight="bold" fill="#1A202C">lue</tspan>, pas supposée.</text>
+
+    <!-- 3 ANALYSER -->
+    <rect x="600" y="70" width="172" height="42" rx="4" fill="#fff" stroke="#276749" stroke-width="1.4"/>
+    <text x="686" y="87" text-anchor="middle" font-size="9" fill="#718096">ÉTAPE 3</text>
+    <text x="686" y="103" text-anchor="middle" font-size="14" font-weight="bold" fill="#1A202C">ANALYSER</text>
+    <text x="686" y="130" text-anchor="middle" font-size="10.5" fill="#4A5568">Verdict par test :</text>
+    <text x="686" y="143" text-anchor="middle" font-size="10.5" fill="#4A5568">test faux / code faux /</text>
+    <text x="686" y="156" text-anchor="middle" font-size="10.5" fill="#4A5568">spec manquante.</text>
+
+    <!-- 4 CORRIGER -->
+    <rect x="796" y="70" width="172" height="42" rx="4" fill="#fff" stroke="#276749" stroke-width="1.4"/>
+    <text x="882" y="87" text-anchor="middle" font-size="9" fill="#718096">ÉTAPE 4</text>
+    <text x="882" y="103" text-anchor="middle" font-size="14" font-weight="bold" fill="#1A202C">CORRIGER</text>
+    <text x="882" y="130" text-anchor="middle" font-size="10.5" fill="#4A5568">On corrige le test.</text>
+    <text x="882" y="143" text-anchor="middle" font-size="10.5" fill="#4A5568">Le code produit n'est</text>
+    <text x="882" y="156" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#9B2C2C">jamais touché.</text>
+
+    <!-- 5 VÉRIFIER -->
+    <rect x="992" y="70" width="176" height="42" rx="4" fill="#276749" stroke="#276749" stroke-width="1.4"/>
+    <text x="1080" y="87" text-anchor="middle" font-size="9" fill="#9AE6B4">ÉTAPE 5</text>
+    <text x="1080" y="103" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">VÉRIFIER</text>
+    <text x="1080" y="130" text-anchor="middle" font-size="10.5" fill="#4A5568">Compte ≥ baseline,</text>
+    <text x="1080" y="143" text-anchor="middle" font-size="10.5" fill="#4A5568">chaque test cite sa</text>
+    <text x="1080" y="156" text-anchor="middle" font-size="10.5" fill="#4A5568">source, coût consigné.</text>
+  </g>
+
+  <!-- flèches avant -->
+  <g stroke="#276749" stroke-width="1.6" marker-end="url(#ar)">
+    <line x1="186" y1="91" x2="204" y2="91"/>
+    <line x1="382" y1="91" x2="400" y2="91"/>
+    <line x1="578" y1="91" x2="596" y2="91"/>
+    <line x1="774" y1="91" x2="792" y2="91"/>
+    <line x1="970" y1="91" x2="988" y2="91"/>
+  </g>
+
+  <!-- bandeau bas -->
+  <rect x="12" y="168" width="1156" height="24" rx="3" fill="#EDF2F7"/>
+  <text x="20" y="184" font-size="11" fill="#2D3748">
+    <tspan font-weight="bold">Commande imposée à l'étape 2 :</tspan>
+    <tspan font-family="DejaVu Sans Mono, monospace" font-size="10.2"> dotnet test backend/SkyRetail.Tests --minimum-expected-tests 47 --coverage</tspan>
+  </text>
+  <text x="1160" y="184" text-anchor="end" font-size="10.5" font-style="italic" fill="#9B2C2C">Un test vert du premier coup sur du code jamais testé = signal d'alerte.</text>
+</svg>
+</div>
+
+<!-- ---------- 3 COLONNES ---------- -->
+<div class="cols band">
+
+  <!-- ================= COLONNE 1 ================= -->
+  <div class="col">
+
+    <div class="block b-slate">
+      <h2>1 · Setup</h2>
+      <div class="lede">installer la chaîne, une fois pour toutes</div>
+      <dl>
+        <div><dt>npm i -g @anthropic-ai/claude-code</dt><dd>installe Claude Code</dd></div>
+        <div><dt>claude --version</dt><dd>vérifie, puis <code>claude</code> dans le dépôt</dd></div>
+        <div><dt>claude mcp add playwright npx @playwright/mcp@latest</dt><dd>branche Playwright MCP</dd></div>
+        <div><dt>claude mcp list</dt><dd>doit afficher <code>playwright</code></dd></div>
+        <div><dt>npx playwright install --with-deps</dt><dd>installe les navigateurs</dd></div>
+        <div><dt>npm i -D @playwright/test @axe-core/playwright</dt><dd>E2E + accessibilité</dd></div>
+        <div><dt>dotnet add package xunit FluentAssertions NSubstitute</dt><dd>socle de test .NET</dd></div>
+        <div><dt>dotnet tool install -g dotnet-stryker</dt><dd>mutation testing</dd></div>
+        <div><dt>dotnet tool install -g dotnet-coverage</dt><dd>couverture .NET</dd></div>
+        <div><dt>docker compose up -d &amp;&amp; dotnet test</dt><dd>base éphémère, puis la suite</dd></div>
+      </dl>
+    </div>
+
+    <div class="block b-orange">
+      <h2>2 · Claude Code — l'essentiel</h2>
+      <div class="lede">ce qu'on tape vraiment quand on teste</div>
+      <dl>
+        <div><dt>claude</dt><dd>ouvre une session dans le dépôt</dd></div>
+        <div><dt>/status</dt><dd>compte authentifié + répertoire</dd></div>
+        <div><dt>/context</dt><dd>usage du contexte, gains suggérés</dd></div>
+        <div><dt>/clear</dt><dd>après 2 corrections identiques</dd></div>
+        <div><dt>/compact [consignes]</dt><dd>résume, libère du contexte</dd></div>
+        <div><dt>--permission-mode plan</dt><dd>la stratégie <b>avant</b> tout code</dd></div>
+        <div><dt>--permission-mode dontAsk</dt><dd>mode CI verrouillée</dd></div>
+        <div><dt>Ctrl+B</dt><dd>passe <code>dotnet test</code> en arrière-plan</dd></div>
+        <div><dt>Esc Esc</dt><dd>rewind (<code>Alt+M</code> si VT inactif)</dd></div>
+        <div><dt>/agents</dt><dd>ne crée plus : éditer <code>.claude/agents/*.md</code></dd></div>
+        <div><dt>/verify</dt><dd>build, lance l'app et <b>observe</b></dd></div>
+        <div><dt>/code-review [--fix]</dt><dd>revue multi-agents du dépôt</dd></div>
+        <div><dt>/security-review</dt><dd>revue sécurité, sur demande explicite</dd></div>
+        <div><dt>claude -p "…" --output-format json</dt><dd>headless ; rend <code>total_cost_usd</code></dd></div>
+        <div><dt>--bare</dt><dd>ignore hooks, MCP, CLAUDE.md → CI</dd></div>
+        <div><dt>--max-turns N</dt><dd><b>aucune limite par défaut</b> : plafonner</dd></div>
+        <div><dt class="txt">CLAUDE.md racine &lt; 200 lignes</dt><dd>seul fichier qui survit à la compaction</dd></div>
+        <div><dt class="txt">permissions.deny</dt><dd><code>.claudeignore</code> n'existe pas</dd></div>
+      </dl>
+      <div class="note note--warn"><b>Pièges outils.</b> <code>Write(path)</code> et <code>Glob(path)</code> sont acceptées mais <b>jamais appliquées</b> — seules <code>Edit(path)</code> et <code>Read(path)</code> le sont. Checkpoints : 100/session, purge à 30 j, <b>les écritures par bash ne sont pas tracées</b>. Git reste le filet.</div>
+    </div>
+
+  </div>
+
+  <!-- ================= COLONNE 2 ================= -->
+  <div class="col">
+
+    <div class="block b-cyan">
+      <h2>3 · MCP pour la QA</h2>
+      <div class="lede">donner des yeux à l'agent</div>
+      <dl>
+        <div><dt>claude mcp add playwright …</dt><dd>ajoute le serveur</dd></div>
+        <div><dt>claude mcp list · /mcp</dt><dd>liste et état des serveurs</dd></div>
+        <div><dt>--transport http</dt><dd><code>sse</code> est <b>déprécié</b></dd></div>
+        <div><dt>.mcp.json</dt><dd>versionné, relu en PR comme du code</dd></div>
+        <div><dt class="txt">Arbre d'accessibilité</dt><dd>pas de pixels, pas de modèle vision</dd></div>
+        <div><dt class="txt">Snapshot ≈ 200-400 tokens</dt><dd>référence stable par élément (<code>e5</code>)</dd></div>
+        <div><dt class="txt">69 outils <code>browser_*</code></dt><dd><code>generate_locator</code>, <code>route</code>…</dd></div>
+        <div><dt class="txt">Chrome DevTools MCP</dt><dd>45 outils : LCP/INP/CLS, réseau, Lighthouse</dd></div>
+        <div><dt class="txt">GitHub MCP</dt><dd><code>get_job_logs failed_only:true</code></dd></div>
+        <div><dt class="txt">Retirer après génération</dt><dd>69 schémas coûtent du contexte</dd></div>
+      </dl>
+      <div class="note note--warn">La <b>description d'un outil est du prompt injecté</b>, pas de la documentation.</div>
+    </div>
+
+    <div class="block b-violet">
+      <h2>4 · Anatomie d'un prompt de test</h2>
+      <div class="lede">cinq blocs — et <code>&lt;task&gt;</code> toujours en dernier</div>
+      <dl>
+        <div><dt>&lt;role&gt;</dt><dd>fixe le référentiel : ISTQB, xUnit, WCAG</dd></div>
+        <div><dt>&lt;documents&gt;</dt><dd>vérité <b>hors du code</b> — toujours en haut</dd></div>
+        <div><dt>&lt;constraints&gt;</dt><dd>interdictions vérifiables, pas des vœux</dd></div>
+        <div><dt>&lt;output_format&gt;</dt><dd>chemin exact, sortie parsable</dd></div>
+        <div><dt>&lt;examples&gt;</dt><dd>1 = un style · 3 à 5 = une taxonomie</dd></div>
+      </dl>
+<pre class="tpl"><span class="k">&lt;role&gt;</span>Ingénieur QA senior. ISTQB CTFL v4.0.1, xUnit v3 + FluentAssertions.<span class="k">&lt;/role&gt;</span>
+<span class="k">&lt;documents&gt;&lt;document index="1"&gt;&lt;source&gt;</span><span class="v">{{CHEMIN_SPEC}}</span> — <span class="v">{{SECTION}}</span><span class="k">&lt;/source&gt;</span>
+<span class="k">&lt;document_content&gt;</span><span class="v">{{CONTENU_SPEC}}</span><span class="k">&lt;/document_content&gt;&lt;/document&gt;&lt;/documents&gt;</span>
+<span class="k">&lt;constraints&gt;</span>
+<span class="c">- N'ouvre PAS {{FICHIER_SOUS_TEST}}. La vérité est le document 1.
+- Un comportement = un test. Interdit de mocker {{INTERFACE_DOMAINE}}.
+- Chaque [Fact] précédé de // {{REF_SPEC}} : « citation littérale ».
+- Ambiguïté → [Fact(Skip = "ambiguïté {{ID}}")] + question au métier.</span>
+<span class="k">&lt;/constraints&gt;</span>
+<span class="k">&lt;output_format&gt;</span>Un seul fichier, chemin <span class="v">{{CHEMIN_FICHIER_TEST}}</span>.<span class="k">&lt;/output_format&gt;</span>
+<span class="k">&lt;task&gt;</span>Produis la suite de <span class="v">{{CLASSE}}</span> à partir du document 1 seul.<span class="k">&lt;/task&gt;</span></pre>
+      <div class="note note--key">Documents &gt; 20 k tokens <b>en haut</b>, tâche en bas : <b>jusqu'à +30 %</b> de qualité.</div>
+    </div>
+
+  </div>
+
+  <!-- ================= COLONNE 3 ================= -->
+  <div class="col">
+
+    <div class="block b-indigo">
+      <h2>5 · Prompts prêts à l'emploi</h2>
+      <div class="lede">annexe B, condensée — un prompt par ligne</div>
+      <dl>
+        <div><dt class="txt">P-04 unit .NET</dt><dd class="wide">« Produis la suite de <code>{{CLASSE}}</code> depuis le doc 1 seul. N'ouvre pas le code. »</dd></div>
+        <div><dt class="txt">P-08 E2E</dt><dd class="wide">« Écris l'E2E de <code>{{PARCOURS}}</code> : locators lus dans le snapshot, zéro <code>waitForTimeout</code>. »</dd></div>
+        <div><dt class="txt">P-12 Gherkin</dt><dd class="wide">« Génère les scénarios des exigences du doc 1, un par comportement, traçables. »</dd></div>
+        <div><dt class="txt">P-14 données</dt><dd class="wide">« Générateur de <code>{{ENTITE}}</code> : graine constante, domaines <code>.test</code>, partitions couvertes. »</dd></div>
+        <div><dt class="txt">P-17 échec</dt><dd class="wide">« Constitue le dossier de <code>{{TEST}}</code> en 7 sections, sans hypothèse. »</dd></div>
+        <div><dt class="txt">P-19 flakiness</dt><dd class="wide">« Classe les échecs du doc 1 dans la taxonomie, avec discriminant et n/N. »</dd></div>
+        <div><dt class="txt">P-21 revue</dt><dd class="wide">« Révise la suite : 8 points, verdict OK / À CORRIGER / BLOQUANT + preuve citée. »</dd></div>
+        <div><dt class="txt">P-23 charge k6</dt><dd class="wide">« Scénario de <code>{{ENDPOINT}}</code> : arrival-rate seul, seuils p(95)/p(99), exit non nul. »</dd></div>
+        <div><dt class="txt">P-26 a11y</dt><dd class="wide">« Audit de <code>{{COMPOSANT}}</code> : test axe + clavier seul + ce qu'ils ne voient pas. »</dd></div>
+        <div><dt class="txt">P-27 synthèse</dt><dd class="wide">« Rédige la synthèse de <code>{{CAMPAGNE}}</code> depuis les sorties structurées, chiffres sourcés. »</dd></div>
+      </dl>
+      <div class="note note--key"><b>4 règles non négociables :</b> toute valeur attendue cite sa source · interdiction de lire le code testé · au moins un <code>{{PLACEHOLDER}}</code> · aucune sortie n'est réputée exécutée avant lecture du runner.</div>
+    </div>
+
+    <div class="block b-steel">
+      <h2>6 · Commandes de test</h2>
+      <div class="lede">.NET / xUnit · Angular / Playwright · k6</div>
+      <dl>
+        <div><dt>dotnet test</dt><dd>la suite complète</dd></div>
+        <div><dt>--filter "FullyQualifiedName~VatCalculator"</dt><dd>cible une classe</dd></div>
+        <div><dt>--minimum-expected-tests 47</dt><dd><b>code 9</b> si des tests ont disparu</dd></div>
+        <div><dt>--coverage --coverage-output-format cobertura</dt><dd>couverture exploitable</dd></div>
+        <div><dt>dotnet stryker --threshold-break 40</dt><dd>score de mutation</dd></div>
+        <div><dt>dotnet-counters collect --format csv</dt><dd>GC, thread pool côté serveur</dd></div>
+        <div><dt>ng test --no-watch --no-progress</dt><dd>front en CI (Vitest + jsdom)</dd></div>
+        <div><dt>npx playwright test</dt><dd>la suite E2E</dd></div>
+        <div><dt>npx playwright test --ui</dt><dd>mise au point interactive</dd></div>
+        <div><dt>--repeat-each=20 --workers=4 --trace=on</dt><dd>chasse au flaky</dd></div>
+        <div><dt>--workers=1</dt><dd>discriminant « concurrence »</dd></div>
+        <div><dt>--shard=1/4 --reporter=blob</dt><dd>parallélisation en CI</dd></div>
+        <div><dt>npx playwright merge-reports ./all-blob-reports</dt><dd>fusion des shards</dd></div>
+        <div><dt>k6 run perf/search-breakpoint.ts</dt><dd>sortie non nulle si seuil dépassé</dd></div>
+      </dl>
+      <div class="note"><code>TZ=Pacific/Auckland dotnet test</code> — le discriminant le plus rentable. <code>--shard</code> n'équilibre que si <code>fullyParallel: true</code> ; sinon le découpage est au fichier près.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Cheat-sheet « Je teste avec l'IA » · Formation <b>Test logiciel avec IA générative</b> · Human Coders · Evan BOISSONNOT</span>
+  <span>Page 1/2 — FAIRE · v1.0 · 07/2026</span>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================================================================
+     PAGE 2 — VÉRIFIER
+     ================================================================ -->
+
+<div class="masthead masthead--slim">
+  <div>
+    <h1>Je teste avec l'<span class="accent">IA</span> <span style="font-size:8pt;font-weight:normal;color:#5A6472">— vérifier avant de livrer</span></h1>
+  </div>
+  <div class="tag"><b>Page 2/2 — VÉRIFIER</b> · le score ne récompense pas la vitesse, il récompense le jugement</div>
+</div>
+
+<div class="cols">
+
+  <!-- ================= COLONNE 1 ================= -->
+  <div class="col">
+
+    <div class="block b-brick">
+      <h2>7 · Les 6 anti-patterns</h2>
+      <div class="lede">symptôme observable → test de détection</div>
+      <table class="t3">
+        <tr><td>Test tautologique</td><td>100 % vert du 1<sup>er</sup> coup sur du code jamais testé</td><td class="verdict">l'attendu est-il citable dans la spec ?</td></tr>
+        <tr><td>Sélecteur halluciné</td><td>locator plausible, absent du DOM réel</td><td class="verdict"><code>grep</code> du locator dans le snapshot</td></tr>
+        <tr><td>Couverture trompeuse</td><td>couverture en hausse, zéro assertion nouvelle</td><td class="verdict">publier couverture <b>et</b> score de mutation</td></tr>
+        <tr><td>Sur-mock</td><td>le test casse au refactoring, pas au bug</td><td class="verdict">supprimer le mock : le test tient-il ?</td></tr>
+        <tr><td>Paquet halluciné</td><td><code>add package</code> d'un nom inconnu</td><td class="verdict">vérifier sur nuget.org / npmjs.com</td></tr>
+        <tr><td>Retry qui masque</td><td><code>retries: 3</code>, pipeline vert, moral en hausse</td><td class="verdict"><code>--repeat-each=20</code> sur le même code</td></tr>
+      </table>
+    </div>
+
+    <div class="block b-green">
+      <h2>8 · Checklist avant commit</h2>
+      <div class="lede">10 cases opposables — le Copilote les fait cocher</div>
+      <ul class="plain check">
+        <li>Chaque test <b>cite sa source</b> (<code>// CDC v4.0 §x.y : « … »</code>), littéralement.</li>
+        <li>Aucune valeur attendue n'est justifiable uniquement par le code.</li>
+        <li>Au moins un test a été <b>rouge</b> avant d'être vert.</li>
+        <li>La sortie du runner a été lue : générés / compilent / passent.</li>
+        <li>Un comportement = un test ; aucun test à cinq assertions.</li>
+        <li>Zéro <code>waitForTimeout</code>, zéro sélecteur positionnel (<code>grep</code> à l'appui).</li>
+        <li>Aucun test supprimé ni passé en <code>[Skip]</code> pour verdir la CI.</li>
+        <li>Aucune donnée réelle, aucun secret, aucun domaine e-mail existant.</li>
+        <li>Toute dépendance ajoutée vérifiée sur nuget.org / npmjs.com.</li>
+        <li>Couverture <b>et</b> score de mutation publiés ensemble.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- ================= COLONNE 2 ================= -->
+  <div class="col">
+
+    <div class="block b-amber">
+      <h2>9 · Seuils et chiffres à connaître</h2>
+      <div class="lede">les seuls chiffres à citer en réunion</div>
+      <dl class="figures">
+        <div><dt>60 / 75 / 90 %</dt><dd>couverture Google : acceptable, louable, exemplaire</dd></div>
+        <div><dt>35-40 pts</dt><dd>écart attendu couverture ↔ score de mutation</dd></div>
+        <div><dt>~16 % / ~1,5 %</dt><dd>tests flaky / exécutions flaky chez Google</dd></div>
+        <div><dt>~84 %</dt><dd>des passages au rouge sont un flaky, pas une régression</dd></div>
+        <div><dt>~80 %</dt><dd>des échecs de disponibilité disparaissent au retry</dd></div>
+              <div><dt>3 jours / 3 mois</dt><dd>quarantaine max GitLab, puis suppression</dd></div>
+        <div><dt>5,2 % / 21,7 %</dt><dd>paquets hallucinés : commercial / open source</dd></div>
+        <div><dt>~40 % · 45 %</dt><dd>code IA vulnérable · tests Veracode avec faille</dd></div>
+        <div><dt>64 %</dt><dd>des erreurs des tests générés sont d'assertion</dd></div>
+        <div><dt>57,38 % · 16/50</dt><dd>ce qu'axe détecte : problèmes · critères WCAG</dd></div>
+              <div><dt>200-400 tokens</dt><dd>un snapshot d'accessibilité Playwright MCP</dd></div>
+        <div><dt>exit 2 · exit 9</dt><dd>seul code bloquant un hook · <code>--minimum-expected-tests</code></dd></div>
+              </dl>
+      <div class="note note--key"><code>p(95) &lt; 800</code> sur <code>/api/products/search</code> · budget front <b>&lt; 170 Ko / &lt; 5 s TTI</b>. Au-delà de <b>8 blocages consécutifs</b>, un hook <code>Stop</code> est outrepassé : aucun garde-fou logiciel n'est absolu.</div>
+    </div>
+
+    <div class="block b-violet">
+      <h2>10 · IA ou pas IA ?</h2>
+      <div class="lede">la grille de décision, tâche par tâche</div>
+      <table class="t3">
+        <tr><td colspan="2" style="font-weight:normal;color:#5A6472;width:auto">Oracle disponible hors du code (spec, contrat, norme)</td><td class="verdict" style="color:#553C9A">IA + validation contre la source</td></tr>
+        <tr><td colspan="2" style="font-weight:normal;color:#5A6472">Aucun oracle documenté</td><td class="verdict" style="color:#9B2C2C">Humain écrit l'oracle</td></tr>
+        <tr><td colspan="2" style="font-weight:normal;color:#5A6472">Test rejoué des centaines de fois en CI</td><td class="verdict" style="color:#2B6CB0">Script déterministe</td></tr>
+        <tr><td colspan="2" style="font-weight:normal;color:#5A6472">Exploration one-shot d'une IHM inconnue</td><td class="verdict" style="color:#553C9A">IA (agent exploratoire)</td></tr>
+        <tr><td colspan="2" style="font-weight:normal;color:#5A6472">Faux négatif réglementaire ou financier</td><td class="verdict" style="color:#276749">Les deux + mutation testing</td></tr>
+        <tr><td colspan="2" style="font-weight:normal;color:#5A6472">Parsing et clustering de logs</td><td class="verdict" style="color:#2B6CB0">Script (Drain, F-mesure 0,99)</td></tr>
+        <tr><td colspan="2" style="font-weight:normal;color:#5A6472">Écrire des locators depuis le DOM réel</td><td class="verdict" style="color:#276749">Les deux : MCP + IA</td></tr>
+        <tr><td colspan="2" style="font-weight:normal;color:#5A6472">Décision de Go / No-Go</td><td class="verdict" style="color:#9B2C2C">Humain — l'IA informe</td></tr>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- ================= COLONNE 3 ================= -->
+  <div class="col">
+
+    <div class="block b-steel">
+      <h2>11 · Un agent dans le pipeline</h2>
+      <div class="lede">8 règles non négociables</div>
+      <ol class="rules">
+        <li><b>Secrets</b> — jamais en clair ; OIDC de préférence ; <code>show_full_output</code> désactivé.</li>
+        <li><b>Permissions minimales</b> — <code>dontAsk</code>, <code>disallowedTools</code>, jeton à portée réduite.</li>
+        <li><b>Pinning</b> — actions au <b>SHA complet</b>, version de modèle et de SDK épinglées.</li>
+        <li><b>Timeout</b> — <code>timeout-minutes</code> sur chaque job ; le défaut est <b>6 heures</b>.</li>
+        <li><b>Budget</b> — <code>--max-turns</code> explicite ; <code>total_cost_usd</code> relevé à chaque run.</li>
+        <li><b>Artefacts</b> — l'agent consomme JUnit et traces ; il ne relance pas la suite.</li>
+        <li><b>Idempotence</b> — <code>--bare</code> en CI : contexte explicite, jamais hérité du poste.</li>
+        <li><b>PR de fork</b> — jamais <code>pull_request_target</code> + checkout du head, sans secret ni approbation.</li>
+      </ol>
+      <div class="note note--warn">L'agent est en <b>dernier étage</b> du pipeline et <b>ne bloque pas</b>. Le gating reste une règle écrite par la QA : seuils de couverture, seuils k6, violations axe critiques.</div>
+    </div>
+
+    <div class="block b-slate">
+      <h2>12 · Références</h2>
+      <div class="lede">documentation officielle uniquement</div>
+      <dl>
+        <div><dt class="txt">Claude Code</dt><dd>code.claude.com/docs/en/</dd></div>
+        <div><dt class="txt">— bonnes pratiques</dt><dd>…/docs/en/best-practices</dd></div>
+        <div><dt class="txt">— hooks</dt><dd>…/docs/en/hooks</dd></div>
+        <div><dt class="txt">API — prompt caching</dt><dd>platform.claude.com/docs/en/build-with-claude/prompt-caching</dd></div>
+        <div><dt class="txt">Playwright — locators</dt><dd>playwright.dev/docs/locators</dd></div>
+        <div><dt class="txt">— agents · MCP</dt><dd>playwright.dev/docs/test-agents · /mcp/introduction</dd></div>
+        <div><dt class="txt">.NET — dotnet test</dt><dd>learn.microsoft.com/dotnet/core/tools/dotnet-test-mtp</dd></div>
+        <div><dt class="txt">Angular · k6 seuils</dt><dd>angular.dev/guide/testing · grafana.com/docs/k6/latest/using-k6/thresholds/</dd></div>
+      </dl>
+    </div>
+
+  </div>
+</div>
+
+<!-- ---------- DIAGRAMME : DIAGNOSTIQUER UN ÉCHEC ---------- -->
+<div class="figure band">
+<svg viewBox="0 0 1180 212" xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans Condensed, sans-serif">
+  <defs>
+    <marker id="ad" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="#9B2C2C"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1180" height="212" fill="#FDF2F2" rx="6"/>
+  <text x="12" y="17" font-size="12.5" font-weight="bold" fill="#9B2C2C" letter-spacing="1.1">DIAGNOSTIQUER UN ÉCHEC — UN SIGNAL DISCRIMINE CHAQUE BRANCHE</text>
+  <line x1="12" y1="23" x2="1168" y2="23" stroke="#FEB2B2" stroke-width="0.8"/>
+
+  <!-- entrée -->
+  <rect x="12" y="32" width="1156" height="22" rx="3" fill="#fff" stroke="#FEB2B2"/>
+  <text x="20" y="47" font-size="10.6" fill="#2D3748">
+    <tspan font-weight="bold">D'abord le dossier, jamais l'hypothèse :</tspan>
+    erreur brute non reformulée · <tspan font-family="DejaVu Sans Mono, monospace" font-size="10">--repeat-each</tspan> exécuté ·
+    <tspan font-family="DejaVu Sans Mono, monospace" font-size="10">git log -1</tspan> + diff limités au SUT · contexte (workers, TZ, versions).
+  </text>
+
+  <!-- fourche -->
+  <line x1="590" y1="54" x2="590" y2="66" stroke="#9B2C2C" stroke-width="1.4"/>
+  <line x1="152" y1="66" x2="1028" y2="66" stroke="#9B2C2C" stroke-width="1.4"/>
+  <g stroke="#9B2C2C" stroke-width="1.4" marker-end="url(#ad)">
+    <line x1="152"  y1="66" x2="152"  y2="80"/>
+    <line x1="444"  y1="66" x2="444"  y2="80"/>
+    <line x1="736"  y1="66" x2="736"  y2="80"/>
+    <line x1="1028" y1="66" x2="1028" y2="80"/>
+  </g>
+
+  <!-- 4 branches -->
+  <g>
+    <!-- vrai bug -->
+    <rect x="14" y="86" width="276" height="106" rx="4" fill="#fff" stroke="#9B2C2C" stroke-width="1.5"/>
+    <rect x="14" y="86" width="276" height="20" rx="4" fill="#9B2C2C"/>
+    <text x="152" y="100" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">VRAI BUG PRODUIT</text>
+    <text x="26" y="122" font-size="10" font-weight="bold" fill="#718096">SIGNAL</text>
+    <text x="26" y="136" font-size="10.6" fill="#2D3748">Échoue partout, y compris hors CI.</text>
+    <text x="26" y="149" font-size="10.6" fill="#2D3748">Le produit dévie de la spec.</text>
+    <text x="26" y="166" font-size="10" font-weight="bold" fill="#718096">GESTE</text>
+    <text x="26" y="179" font-size="10.6" font-weight="bold" fill="#9B2C2C">Fiche d'anomalie.</text>
+    <text x="26" y="190" font-size="10.6" fill="#2D3748">Ne pas toucher au test.</text>
+
+    <!-- test faux -->
+    <rect x="306" y="86" width="276" height="106" rx="4" fill="#fff" stroke="#B7791F" stroke-width="1.5"/>
+    <rect x="306" y="86" width="276" height="20" rx="4" fill="#B7791F"/>
+    <text x="444" y="100" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">TEST FAUX</text>
+    <text x="318" y="122" font-size="10" font-weight="bold" fill="#718096">SIGNAL</text>
+    <text x="318" y="136" font-size="10.6" fill="#2D3748">L'oracle vient du code.</text>
+    <text x="318" y="149" font-size="10.6" fill="#2D3748"><tspan font-family="DejaVu Sans Mono, monospace" font-size="10">--workers=1</tspan> ne change rien.</text>
+    <text x="318" y="166" font-size="10" font-weight="bold" fill="#718096">GESTE</text>
+    <text x="318" y="179" font-size="10.6" font-weight="bold" fill="#B7791F">Corriger le test.</text>
+    <text x="318" y="190" font-size="10.6" fill="#2D3748">Citer la spec dans l'assertion.</text>
+
+    <!-- flaky -->
+    <rect x="598" y="86" width="276" height="106" rx="4" fill="#fff" stroke="#553C9A" stroke-width="1.5"/>
+    <rect x="598" y="86" width="276" height="20" rx="4" fill="#553C9A"/>
+    <text x="736" y="100" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">FLAKY</text>
+    <text x="610" y="122" font-size="10" font-weight="bold" fill="#718096">SIGNAL</text>
+    <text x="610" y="136" font-size="10.6" fill="#2D3748">n/N varie sur le même code.</text>
+    <text x="610" y="149" font-size="10.6" fill="#2D3748"><tspan font-family="DejaVu Sans Mono, monospace" font-size="10">--repeat-each=20</tspan> le prouve.</text>
+    <text x="610" y="166" font-size="10" font-weight="bold" fill="#718096">GESTE</text>
+    <text x="610" y="179" font-size="10.6" font-weight="bold" fill="#553C9A">Corriger la cause racine.</text>
+    <text x="610" y="190" font-size="10.6" fill="#2D3748">Jamais un retry, jamais un sleep.</text>
+
+    <!-- environnement -->
+    <rect x="890" y="86" width="276" height="106" rx="4" fill="#fff" stroke="#2B6CB0" stroke-width="1.5"/>
+    <rect x="890" y="86" width="276" height="20" rx="4" fill="#2B6CB0"/>
+    <text x="1028" y="100" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">ENVIRONNEMENT</text>
+    <text x="902" y="122" font-size="10" font-weight="bold" fill="#718096">SIGNAL</text>
+    <text x="902" y="136" font-size="10.6" fill="#2D3748">L'échec suit le <tspan font-weight="bold">runner</tspan>, pas le test.</text>
+    <text x="902" y="149" font-size="10.6" fill="#2D3748">Il disparaît sur une autre machine.</text>
+    <text x="902" y="166" font-size="10" font-weight="bold" fill="#718096">GESTE</text>
+    <text x="902" y="179" font-size="10.6" font-weight="bold" fill="#2B6CB0">Corréler runner et échec</text>
+    <text x="902" y="190" font-size="10.6" fill="#2D3748">avant d'accuser l'infra.</text>
+  </g>
+  <text x="590" y="206" text-anchor="middle" font-size="10.6" fill="#742A2A">Un test flaky est <tspan font-weight="bold">un test faux</tspan>, pas une nuisance d'infrastructure — et quand il est le symptôme d'un défaut produit, le classement correct est <tspan font-weight="bold">« vrai bug »</tspan>.</text>
+</svg>
+</div>
+
+<!-- ---------- BANDEAU NE JAMAIS ---------- -->
+<div class="never-band">
+  <h2>Ne jamais</h2>
+  <div class="grid2">
+    <div>
+      <ul class="plain never">
+        <li>Mettre une <b>donnée réelle</b> dans un prompt — même partielle, même « anonymisée ».</li>
+        <li>Commiter un <b>secret</b> : <code style="background:rgba(255,255,255,.16);color:#fff">.env</code>, clé API, jeton OIDC restent hors du dépôt.</li>
+        <li>Mettre un test en <code style="background:rgba(255,255,255,.16);color:#fff">[Skip]</code> ou le supprimer <b>pour faire passer la CI</b>.</li>
+        <li>« Corriger » une flakiness par <code style="background:rgba(255,255,255,.16);color:#fff">waitForTimeout</code>, <code style="background:rgba(255,255,255,.16);color:#fff">Thread.Sleep</code> ou un retry.</li>
+      </ul>
+    </div>
+    <div>
+      <ul class="plain never">
+        <li>Installer une <b>URL, un paquet ou un serveur MCP</b> suggéré sans vérification.</li>
+        <li>Prendre un <b>LLM pour oracle</b> : l'oracle est la spec, le contrat, la norme.</li>
+        <li>Laisser un <b>self-healing</b> sans journal ni revue humaine avant commit.</li>
+        <li>Croire une sortie d'outil sur parole — <b>un outil renvoie « Done » même en échec</b>.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <span>Cheat-sheet « Je teste avec l'IA » · Formation <b>Test logiciel avec IA générative</b> · Human Coders · Evan BOISSONNOT</span>
+  <span>Page 2/2 — VÉRIFIER · v1.0 · 07/2026</span>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,283 @@
+/* ================================================================
+   Cheat-sheet « Je teste avec l'IA » — feuille de style d'impression
+   Cible : WeasyPrint 69 · A4 portrait · 2 pages recto-verso
+   ================================================================ */
+
+@page {
+  size: A4 portrait;
+  margin: 6mm 6mm 5mm 6mm;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-family: "DejaVu Sans Condensed", "DejaVu Sans", sans-serif;
+  font-size: 7.3pt;
+  line-height: 1.3;
+  color: #1A202C;
+}
+
+/* ---------- palette ---------- */
+:root {
+  --slate:  #4A5568;
+  --orange: #C05621;
+  --cyan:   #2C7A7B;
+  --violet: #553C9A;
+  --indigo: #434190;
+  --green:  #276749;
+  --steel:  #2B6CB0;
+  --brick:  #9B2C2C;
+  --amber:  #B7791F;
+  --ink:    #1A202C;
+  --grey:   #5A6472;
+  --hair:   #D8DEE6;
+}
+
+/* ================================================================
+   EN-TÊTE
+   ================================================================ */
+.masthead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  border-bottom: 1.6pt solid var(--ink);
+  padding-bottom: 1.4mm;
+  margin-bottom: 2.2mm;
+}
+.masthead h1 {
+  font-size: 15pt;
+  white-space: nowrap;
+  font-weight: bold;
+  letter-spacing: -0.3pt;
+  line-height: 1;
+}
+.masthead h1 .accent { color: var(--orange); }
+.masthead .sub {
+  font-size: 7.2pt;
+  color: var(--grey);
+  margin-top: 0.8mm;
+  line-height: 1.25;
+}
+.masthead .tag {
+  text-align: right;
+  font-size: 6.7pt;
+  color: var(--grey);
+  line-height: 1.35;
+  white-space: nowrap;
+}
+.masthead .tag b { color: var(--ink); }
+
+.masthead--slim { margin-bottom: 2mm; padding-bottom: 1mm; border-bottom-width: 1.2pt; }
+.masthead--slim h1 { font-size: 12.5pt; white-space: nowrap; }
+
+/* ================================================================
+   GRILLE
+   ================================================================ */
+.cols { display: flex; gap: 3.2mm; align-items: stretch; }
+.col  { flex: 1 1 0; min-width: 0; }
+.band { margin-top: 2.4mm; }
+
+/* ================================================================
+   BLOCS
+   ================================================================ */
+.block { margin-bottom: 2.6mm; break-inside: avoid; }
+.block > h2 {
+  font-size: 8.1pt;
+  font-weight: bold;
+  letter-spacing: 0.35pt;
+  text-transform: uppercase;
+  color: #fff;
+  padding: 0.7mm 1.4mm 0.6mm;
+  border-radius: 0.6mm 0.6mm 0 0;
+}
+.block > .lede {
+  font-size: 6.7pt;
+  font-style: italic;
+  color: var(--grey);
+  padding: 0.5mm 0 0.7mm 0.3mm;
+  border-bottom: 0.4pt solid var(--hair);
+  margin-bottom: 0.8mm;
+}
+
+.b-slate  > h2 { background: var(--slate); }
+.b-orange > h2 { background: var(--orange); }
+.b-cyan   > h2 { background: var(--cyan); }
+.b-violet > h2 { background: var(--violet); }
+.b-indigo > h2 { background: var(--indigo); }
+.b-green  > h2 { background: var(--green); }
+.b-steel  > h2 { background: var(--steel); }
+.b-brick  > h2 { background: var(--brick); }
+.b-amber  > h2 { background: var(--amber); }
+
+/* ================================================================
+   LISTES CLÉ / VALEUR
+   ================================================================ */
+dl { width: 100%; }
+dl > div {
+  display: flex;
+  align-items: baseline;
+  gap: 1.1mm;
+  padding: 0.32mm 0 0.32mm 0.3mm;
+  break-inside: avoid;
+}
+dl > div:nth-child(5n) { border-bottom: 0.3pt solid #EDF0F4; }
+dt {
+  font-family: "DejaVu Sans Mono", monospace;
+  font-size: 6.6pt;
+  font-weight: bold;
+  color: var(--ink);
+  flex: 0 0 auto;
+  max-width: 63%;
+  word-break: break-word;
+}
+dt.txt { font-family: "DejaVu Sans Condensed", sans-serif; font-size: 7.3pt; }
+dd {
+  font-size: 6.9pt;
+  color: var(--grey);
+  flex: 1 1 auto;
+  text-align: right;
+  word-break: break-word;
+}
+dd.wide { text-align: left; }
+
+/* variante : valeur mise en avant (bloc SEUILS) */
+dl.figures dt { font-family: "DejaVu Sans Condensed", sans-serif; font-size: 7.6pt; color: var(--amber); }
+dl.figures dd { color: var(--ink); }
+
+/* ================================================================
+   LISTES SIMPLES
+   ================================================================ */
+ul.plain { list-style: none; }
+ul.plain li {
+  padding: 0.5mm 0 0.5mm 2.8mm;
+  position: relative;
+  font-size: 7.0pt;
+  break-inside: avoid;
+}
+ul.plain li::before {
+  content: "▸";
+  position: absolute;
+  left: 0.2mm;
+  color: var(--grey);
+  font-size: 5.4pt;
+}
+ul.check li::before { content: "☐"; font-size: 7.3pt; color: var(--green); }
+ul.never li::before { content: "✕"; color: #FEB2B2; font-weight: bold; }
+
+ol.rules { list-style: none; counter-reset: r; }
+ol.rules li {
+  counter-increment: r;
+  padding: 0.5mm 0 0.5mm 3.6mm;
+  position: relative;
+  font-size: 7.0pt;
+  break-inside: avoid;
+}
+ol.rules li::before {
+  content: counter(r);
+  position: absolute; left: 0;
+  font-weight: bold;
+  color: var(--steel);
+  font-size: 6.9pt;
+}
+
+b, strong { color: var(--ink); }
+code {
+  font-family: "DejaVu Sans Mono", monospace;
+  font-size: 6.5pt;
+  background: #F1F4F8;
+  padding: 0 0.4mm;
+  border-radius: 0.4mm;
+}
+
+/* ================================================================
+   ENCADRÉS
+   ================================================================ */
+.note {
+  font-size: 6.6pt;
+  line-height: 1.25;
+  padding: 0.9mm 1.2mm;
+  margin-top: 1mm;
+  border-left: 1.4pt solid var(--hair);
+  background: #F7F9FB;
+  color: var(--grey);
+}
+.note--warn { border-left-color: var(--brick); background: #FDF2F2; }
+.note--key  { border-left-color: var(--amber); background: #FFFBF0; }
+
+/* ================================================================
+   GABARIT DE PROMPT
+   ================================================================ */
+pre.tpl {
+  font-family: "DejaVu Sans Mono", monospace;
+  font-size: 5.7pt;
+  line-height: 1.34;
+  background: #1A202C;
+  color: #E2E8F0;
+  padding: 1.3mm 1.5mm;
+  border-radius: 0.7mm;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin-top: 0.8mm;
+}
+pre.tpl .k { color: #90CDF4; }
+pre.tpl .v { color: #F6AD55; }
+pre.tpl .c { color: #9AE6B4; }
+
+/* ================================================================
+   TABLEAUX 3 COLONNES (anti-patterns, diagnostic, décision)
+   ================================================================ */
+table.t3 { width: 100%; border-collapse: collapse; }
+table.t3 td {
+  vertical-align: top;
+  padding: 0.62mm 0.8mm 0.62mm 0;
+  font-size: 6.8pt;
+  border-bottom: 0.3pt solid #EDF0F4;
+}
+table.t3 tr:last-child td { border-bottom: none; }
+table.t3 td:first-child { font-weight: bold; color: var(--ink); width: 30%; }
+table.t3 td:nth-child(2) { color: var(--grey); }
+table.t3 td.verdict { font-weight: bold; text-align: right; width: 38%; }
+
+/* ================================================================
+   BANDEAU « NE JAMAIS »
+   ================================================================ */
+.never-band {
+  background: var(--brick);
+  color: #fff;
+  border-radius: 0.8mm;
+  padding: 1.3mm 2mm 1.5mm;
+  margin-top: 2.4mm;
+}
+.never-band h2 {
+  font-size: 9pt;
+  letter-spacing: 1.2pt;
+  text-transform: uppercase;
+  margin-bottom: 0.9mm;
+  border-bottom: 0.4pt solid rgba(255,255,255,0.35);
+  padding-bottom: 0.7mm;
+}
+.never-band .grid2 { display: flex; gap: 4mm; }
+.never-band .grid2 > div { flex: 1 1 0; }
+.never-band li { color: #FFF5F5; font-size: 6.9pt; }
+.never-band b { color: #fff; }
+
+/* ================================================================
+   DIAGRAMMES
+   ================================================================ */
+.figure { margin-top: 1mm; break-inside: avoid; }
+.figure svg { display: block; width: 100%; height: auto; }
+
+/* ================================================================
+   PIED DE PAGE
+   ================================================================ */
+.footer {
+  margin-top: 2mm;
+  padding-top: 1mm;
+  border-top: 0.5pt solid var(--hair);
+  font-size: 6.1pt;
+  color: #8A93A0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.page-break { break-after: page; }
