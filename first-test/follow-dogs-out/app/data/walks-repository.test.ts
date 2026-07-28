@@ -9,4 +9,13 @@ describe("walksRepository.addWalk", () => {
 
     expect(walk.id).toBeDefined();
   });
+
+  it("generates different ids for two different walks", async () => {
+    const repository = createWalksRepository();
+
+    const firstWalk = await repository.addWalk({ startedAt: new Date() });
+    const secondWalk = await repository.addWalk({ startedAt: new Date() });
+
+    expect(firstWalk.id).not.toBe(secondWalk.id);
+  });
 });
