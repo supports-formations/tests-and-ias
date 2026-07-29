@@ -1,0 +1,12 @@
+interface:
+  display_name: Generate Test Data
+  short_description: Create reproducible test datasets with edge-case coverage
+  default_prompt: Use @generate-test-data to inspect this application and create a
+    reproducible test dataset with documented edge cases.
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

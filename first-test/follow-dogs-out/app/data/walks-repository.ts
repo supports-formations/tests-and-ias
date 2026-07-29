@@ -1,5 +1,6 @@
 export type NewWalk = {
   startedAt: Date;
+  note?: string;
 };
 
 export type Walk = NewWalk & {
