@@ -1,0 +1,22 @@
+flowchart TB
+  subgraph P["LE PROMPT — ordre physique d'ecriture"]
+    direction TB
+    B1["BLOC 1 — ROLE ET CADRE<br/>NestJS · Jest · supertest · npm run test:backend"]
+    B2["BLOC 2 — SOURCE DE VERITE<br/>contrat colle + types + interdiction de lire le code<br/>LE PLUS LONG — EN TETE"]
+    B3["BLOC 3 — EXIGENCES<br/>EX-005 … EX-nnn"]
+    B4["BLOC 4 — STYLE ATTENDU<br/>UN exemple : l'etalon de Z1 · les interdits"]
+    B5["BLOC 5 — CONTRAT DE SORTIE<br/>tracabilite · abstention · couverture<br/>LA DEMANDE — EN QUEUE"]
+    B1 --> B2 --> B3 --> B4 --> B5
+  end
+  B1 -. "absent" .-> D1["Stack inventee<br/>chemins plausibles inexistants"]
+  B2 -. "absent" .-> D2["L'oracle devient le code<br/>TEST TAUTOLOGIQUE"]
+  B3 -. "absent" .-> D3["Chemin nominal seul<br/>couverture indeterminable"]
+  B4 -. "absent" .-> D4["Imitation du voisin le plus proche<br/>journeys.update.spec.ts — LE SUR-MOCK SE PROPAGE"]
+  B5 -. "absent" .-> D5["Silences combles sans marqueur<br/>rien n'est mesurable"]
+  B5 --> S["SORTIE VERIFIABLE<br/>it('EX-nnn') · // SILENCE: · // COUVERTURE"]
+  classDef bloc fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef panne fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class B1,B2,B3,B4,B5 bloc;
+  class D1,D2,D3,D4,D5 panne;
+  class S ok;

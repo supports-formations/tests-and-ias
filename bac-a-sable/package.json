@@ -10,7 +10,8 @@
     "dev:frontend": "npm run dev --workspace frontend",
     "test:backend": "npm run test --workspace backend",
     "test:backend:e2e": "npm run test:e2e --workspace backend",
-    "e2e": "playwright test --config e2e/playwright.config.ts"
+    "e2e": "playwright test --config e2e/playwright.config.ts",
+    "test:smoke": "playwright test --config tests/smoke/playwright.config.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.47.0"

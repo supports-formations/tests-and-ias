@@ -1,0 +1,29 @@
+flowchart TB
+  T["CARTE DES RISQUES — 16 fonctionnalites au 4e jour<br/>probabilite x impact · couverture · decision"]
+  T --> QI["QUADRANT I — proba FORTE x impact FORT<br/>NO-GO ou condition bloquante"]
+  T --> QII["QUADRANT II — proba FORTE x impact MODERE<br/>GO conditionnel"]
+  T --> QIII["QUADRANT III — proba FAIBLE x impact FORT<br/>GO — surveiller"]
+  T --> QIV["QUADRANT IV — proba FAIBLE x impact MODERE<br/>GO — dette assumee"]
+  QI --> F7["#7 Modification d'une journey<br/>defaut ouvert · perte de donnees silencieuse<br/>PREUVE : test reecrit, ROUGE"]
+  QI --> F16["#16 Carte — itineraire<br/>defaut ouvert · lat,lng vers OSRM<br/>PREUVE : assertion sur l'URL construite"]
+  QI --> F9["#9 Modification d'une etape<br/>defaut ouvert · endDate ignoree<br/>PREUVE : relecture de la reponse"]
+  QII --> F14["#14 Commentaires d'etape<br/>defaut ouvert · authorId null<br/>PREUVE : le type partage"]
+  QII --> F11["#11 Recherche de lieu<br/>aucun defaut · dependance tierce<br/>PARADE : double + test de contrat"]
+  QII --> F3["#3 Recuperation de mot de passe<br/>aucun defaut · effet de bord data/mails/"]
+  QIII --> F6["#6 Creation d'une journey<br/>CORRIGE au col J3 · test rouge d'abord"]
+  QIII --> F8["#8 Ajout d'une etape<br/>CORRIGE au col J3 · TU + E2E"]
+  QIII --> F2["#1 #2 #4 — Z1 et liste<br/>etalons · restent verts"]
+  QIV --> F15["#15 Carte — visualisation<br/>non couvert · barriere clavier constatee"]
+  QIV --> FR["#5 #10 #12 #13<br/>terrains vierges · dette declaree"]
+  QI ==> D["DECISION<br/>GO CONDITIONNEL sur Z1 et Z2<br/>NO-GO sur la carte : #15 et #16"]
+  QIV -.-> R["RISQUE RESIDUEL ASSUME<br/>section 7 du carnet de route"]
+  classDef q1 fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef q2 fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef q3 fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef q4 fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef dec fill:#f3d9f7,stroke:#7b3f8c,color:#3d1f45;
+  class QI,F7,F16,F9 q1;
+  class QII,F14,F11,F3 q2;
+  class QIII,F6,F8,F2 q3;
+  class QIV,F15,FR q4;
+  class D,R,T dec;

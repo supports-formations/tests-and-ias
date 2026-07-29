@@ -1,0 +1,37 @@
+flowchart LR
+  subgraph AVEUGLE["① SANS SERVEUR D'OBSERVATION"]
+    direction TB
+    A1["L'agent lit le code source du front"] --> A2["Il DEDUIT une structure<br/>plausible"]
+    A2 --> A3["Selecteur invente<br/>plausible, jamais verifie"]
+    A3 --> A4["Test ecrit · compte dans la couverture<br/>NE PILOTE RIEN — malus 30 PR"]
+  end
+  subgraph VOYANT["② AVEC SERVEUR D'OBSERVATION"]
+    direction TB
+    B1["Le front tourne pour de vrai"] --> B2["Instantane d'ACCESSIBILITE<br/>roles · noms · references<br/>200 a 400 tokens"]
+    B2 --> B3["L'agent CITE une reference lue"]
+    B3 --> B4["Test executable contre le vrai DOM"]
+  end
+  A2 -. "aucune confrontation au produit" .-> V{"CE QUI DISTINGUE<br/>LES DEUX BRANCHES :<br/>la structure a-t-elle ete LUE<br/>ou DEDUITE ?"}
+  B2 --> V
+  subgraph COUT["③ CE QUE COUTE LA PERCEPTION"]
+    direction TB
+    C1["Instantane d'accessibilite<br/>200 a 400 tokens"]
+    C2["DOM complet<br/>des milliers de tokens"]
+    C3["Capture d'ecran<br/>des milliers + modele de vision"]
+  end
+  B2 --> C1
+  subgraph RISQUE["④ CE QUE COUTE LA CONFIANCE"]
+    direction TB
+    D1["La description d'un outil<br/>ENTRE dans le contexte"]
+    D2["Empoisonnement d'outil<br/>injection · memoire · interference"]
+    D1 --> D2
+  end
+  B3 -. "un serveur tiers non relu" .-> D1
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef neutre fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef alerte fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class A2,A3,A4 ko;
+  class B2,B3,B4,C1 ok;
+  class V neutre;
+  class C2,C3,D1,D2 alerte;

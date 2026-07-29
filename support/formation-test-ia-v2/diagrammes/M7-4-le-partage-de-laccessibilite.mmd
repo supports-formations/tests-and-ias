@@ -1,0 +1,18 @@
+flowchart TB
+  P["Une barriere d'accessibilite<br/>sur la carte Leaflet ou PlaceSearchInput"] --> Q1{"Le defaut est-il present<br/>DANS LA STRUCTURE<br/>au moment du scan ?"}
+  Q1 -- "OUI" --> A["DETECTE AUTOMATIQUEMENT<br/>nom accessible · contraste de TEXTE<br/>alternative d'image · etiquette<br/>taille de cible — SEULE regle WCAG 2.2<br/>cartes 1 · 2 · 3 · 4 · 9"]
+  Q1 -- "NON" --> Q2{"Le defaut est-il un<br/>COMPORTEMENT, une SEQUENCE<br/>ou une PERCEPTION ?"}
+  Q2 -- "OUI" --> H["EXIGE UN TEST HUMAIN<br/>clavier seul · ordre de focus 2.4.3<br/>focus visible 2.4.7 · contraste NON textuel 1.4.11<br/>annonce au lecteur d'ecran · etat ARIA qui ment<br/>cartes 5 · 6 · 7 · 8 · 10 · 11 · 12"]
+  Q2 -- "NON" --> D["DECISION DE CONCEPTION<br/>que doit-on OFFRIR ?<br/>aucun outil, aucun test ne la rend<br/>cartes 13 · 14"]
+  A --> M1["57 % des PROBLEMES"]
+  H --> M2["mais seulement 16 criteres<br/>sur 50 sont touches — env. 32 %"]
+  M1 --- U{"DEUX UNITES<br/>problemes vs criteres<br/>toujours dire l'unite"}
+  M2 --- U
+  classDef auto fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef hum fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef dec fill:#f3d9f7,stroke:#7b3f8c,color:#3d1f45;
+  classDef mes fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  class A,M1 auto;
+  class H,M2 hum;
+  class D dec;
+  class U mes;

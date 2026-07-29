@@ -1,0 +1,31 @@
+flowchart TB
+  subgraph REEL["① CE QUE FAIT LE PRODUIT"]
+    direction TB
+    A1["PATCH .../steps/:stepId<br/>{ endDate: '2026-08-12' }"] --> A2["steps.service.ts<br/>fusion des champs"]
+    A2 --> A3["BUG #9<br/>endDate IGNOREE"]
+    A3 --> A4["Reponse 200<br/>aucune exception<br/>aucun journal"]
+  end
+  subgraph TEST["② CE QUE L'AGENT ECRIT SPONTANEMENT"]
+    direction TB
+    B1["Appel de la route"] --> B2["expect(res.status).toBe(200)"]
+    B2 --> B3["LA SUITE EST VERTE"]
+  end
+  A4 --> B2
+  A4 --- V{"Verdict de la suite : VERT<br/>Verdict du produit : donnee perdue"}
+  B3 --- V
+  subgraph PARADE["③ LA PARADE — LE CORPS RELU"]
+    direction TB
+    C1["1. On envoie<br/>corps = { endDate }"] --> C2["2. On RELIT<br/>GET /api/journeys/:id"]
+    C2 --> C3["3. On COMPARE<br/>envoye vs relu"]
+    C3 --> C4["ROUGE<br/>envoye 2026-08-12<br/>relu null"]
+  end
+  V -. "ce qu'il fallait ecrire" .-> C1
+  D["L'AUTRE TRICHERIE :<br/>L'ASSERTION AFFAIBLIE"] -. "invisible dans le fichier final" .-> E["se detecte UNIQUEMENT<br/>dans git diff<br/>malus 60 PR au col J2"]
+  classDef bug fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef faible fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef alert fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  class A3,A4,C4 bug;
+  class B2,B3,D,E faible;
+  class C1,C2,C3 ok;
+  class V alert;

@@ -1,0 +1,30 @@
+flowchart TB
+  subgraph BUD["LE BUDGET DE CONTEXTE D'UNE SESSION"]
+    direction TB
+    Z1["docs/API-CONTRACT.md — section utile<br/>SIGNAL TRES ELEVE"]
+    Z2["docs/stats.md<br/>SIGNAL TRES ELEVE"]
+    Z3["UN exemple de test etalon<br/>SIGNAL ELEVE"]
+    Z4["Le fichier de service sous test<br/>SIGNAL NUL — et ORACLE INTERDIT"]
+    Z5["Toute l'arborescence backend/src<br/>SIGNAL FAIBLE · COUT ELEVE"]
+    Z6["node_modules · dist · build<br/>SIGNAL NUL · COUT MAXIMAL"]
+  end
+  Z1 --> G2
+  Z2 --> G2
+  Z3 --> G2
+  Z4 -. "refuse" .-> X["Ce qu'on n'ouvre pas"]
+  Z5 -. "delegue" .-> G3
+  Z6 -. "jamais demande" .-> X
+  G1["GESTE 1 — MESURER<br/>avant et apres"] --> G2["GESTE 2 — CHOISIR<br/>3 fichiers, pas 300"]
+  G2 --> G3["GESTE 3 — DELEGUER<br/>le sous-agent explore<br/>et ne rend qu'un constat"]
+  G3 --> G4["GESTE 4 — PURGER<br/>entre deux zones · regle des 2 corrections"]
+  G4 --> R["Contexte utile<br/>petit · a fort signal · defendable"]
+  W["Contexte plein<br/>des 32 000 tokens :<br/>11 modeles sur 13 sous 50 %<br/>de leur performance de reference"]
+  Z5 -. "si on ne delegue pas" .-> W
+  classDef fort fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef faible fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef nul fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef geste fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  class Z1,Z2,Z3,R fort;
+  class Z5 faible;
+  class Z4,Z6,W,X nul;
+  class G1,G2,G3,G4 geste;

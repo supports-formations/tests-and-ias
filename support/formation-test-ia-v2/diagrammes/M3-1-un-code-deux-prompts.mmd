@@ -1,0 +1,21 @@
+flowchart TB
+  C["UN SEUL CODE<br/>feature #12 — rating sur PATCH /api/journeys/:id<br/>aucun bug · aucun test"]
+  C --> A["PROMPT A — nu<br/>« ecris les tests de la notation »"]
+  C --> B["PROMPT B — contractuel<br/>contrat + EX-014 + style + clause d'abstention"]
+  A --> A1["compile ✓"] --> A2["passe au vert ✓"] --> A3["7 cas de test"]
+  A3 --> AX["expect(400) sur rating = 6<br/>EXIGENCE HALLUCINEE"]
+  B --> B1["compile ✓"] --> B2["passe au vert ✓"] --> B3["4 cas de test"]
+  B3 --> BX["// SILENCE: rating est-il borne ?<br/>SILENCE SIGNALE"]
+  AX --> V{"Les deux suites franchissent<br/>les trois filtres du benchmark"}
+  BX --> V
+  V --> D["Le seul ecart mesurable :<br/>D'OU VIENT L'ATTENDU"]
+  R1["2e execution du prompt A"] -. "sortie differente — variabilite native" .-> A3
+  classDef code fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef neutre fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class C code;
+  class AX ko;
+  class BX,D ok;
+  class A1,A2,A3,B1,B2,B3,V neutre;
+  class R1 ko;

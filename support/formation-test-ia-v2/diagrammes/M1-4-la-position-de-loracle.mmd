@@ -1,0 +1,26 @@
+flowchart LR
+  subgraph OK["Oracles admissibles — exterieurs au code"]
+    direction TB
+    O1["docs/API-CONTRACT.md"]
+    O2["Types partages<br/>Journey · Step"]
+    O3["Documentation du tiers<br/>Nominatim · OSRM"]
+    O4["Regle metier ecrite"]
+    O5["Version de reference validee"]
+  end
+  subgraph KO["Oracles interdits — issus du systeme teste"]
+    direction TB
+    X1["Le code de production"]
+    X2["La sortie observee aujourd'hui"]
+    X3["Ce que le LLM juge probable"]
+  end
+  OK ==> T["Assertion du test"]
+  KO -. "produit un test tautologique" .-> T
+  T --> V{"Verdict"}
+  V -- "ROUGE" --> R["Le code devie du contrat<br/>on corrige le CODE<br/>journeys.create-validation.spec.ts"]
+  V -- "VERT" --> G["Le code respecte le contrat<br/>… seulement si l'oracle est admissible<br/>journeys.update.spec.ts est vert pour rien"]
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef neutre fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  class O1,O2,O3,O4,O5,R ok;
+  class X1,X2,X3 ko;
+  class T,V,G neutre;

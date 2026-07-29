@@ -1,0 +1,24 @@
+flowchart LR
+  W["1. Redaction<br/>gabarit a 5 blocs — M3.2"] --> J["2. Jeu de cas FIGE<br/>2 exigences ordinaires<br/>+ 1 bug connu<br/>+ 1 silence connu"]
+  J --> N["3. n generations<br/>n >= 3 — la variabilite est native"]
+  N --> M{"4. Mesure"}
+  M --> C1["C1 — Executabilite"]
+  M --> C2["C2 — Tracabilite"]
+  M --> C3["C3 — CAPACITE DE DETECTION<br/>le critere qui decide"]
+  M --> C4["C4 — Abstention"]
+  C1 --> D{"5. C3 regresse-t-il ?"}
+  C2 --> D
+  C3 --> D
+  C4 --> D
+  D -- "NON — et C1/C2/C4 ne baissent pas" --> A["6. Demande de fusion<br/>sortie avant/apres jointe<br/>version incrementee"]
+  D -- "OUI" --> R["REFUS<br/>meme si tout le reste progresse"]
+  A --> P["7. Adoption<br/>en-tete : version + modele valide"]
+  P -. "le modele change<br/>deprecation · nouveau tokenizer" .-> J
+  classDef etape fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef cle fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class W,J,N,A,P etape;
+  class C1,C2,C4 cle;
+  class C3 ok;
+  class R ko;

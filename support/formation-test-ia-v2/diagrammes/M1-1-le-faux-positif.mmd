@@ -1,0 +1,24 @@
+flowchart TB
+  subgraph REEL["① Ce que fait le produit en vrai"]
+    direction TB
+    A["PATCH /api/journeys/:id<br/>{ title: 'Islande 2026' }"] --> B["journeys.service.ts<br/>logique de merge"]
+    B --> C["BUG #7<br/>steps[] ecrase"]
+    C --> D["Magasin .md<br/>Le voyage n'a plus d'etapes"]
+  end
+  subgraph TST["② Ce que fait journeys.update.spec.ts"]
+    direction TB
+    E["Appel du service"] --> F["Double de sauvegarde<br/>mock complet"]
+    F --> G["Attendu fabrique<br/>steps[] d'origine reinjectes"]
+    G --> H["Le test est VERT"]
+  end
+  F -. "court-circuite la ligne buguee" .-> C
+  D --- V{"Verdict de la suite : VERT<br/>Verdict du produit : donnees perdues"}
+  H --- V
+  classDef bug fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef mock fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef alert fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  class C,D bug;
+  class F,G mock;
+  class H ok;
+  class V alert;

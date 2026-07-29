@@ -1,0 +1,24 @@
+flowchart TB
+  subgraph PROP["Les 3 proprietes ecrites dans le contrat — feature #3"]
+    direction LR
+    S1["S1 · toujours 200<br/>non-divulgation du compte"]
+    S2["S2 · jeton expirant<br/>a 1 heure"]
+    S3["S3 · effet de bord fichier<br/>data/mails/ + console"]
+  end
+  PROP --> CH{"Quel outil peut le PROUVER ?"}
+  CH --> O1["SAST — analyse statique<br/>voit les motifs du code<br/>AVEUGLE a l'execution"]
+  CH --> O2["SCA — dependances<br/>voit ce qui est PUBLIE<br/>AVEUGLE a votre logique"]
+  CH --> O3["DAST — application qui tourne<br/>voit le comportement<br/>AVEUGLE au pourquoi"]
+  CH --> O4["REVUE PAR LLM<br/>propose des hypotheses<br/>NE GARANTIT RIEN"]
+  CH ==> O5["TEST DE PROPRIETE<br/>Jest + supertest<br/>execute et PROUVE"]
+  O4 -. "alimente" .-> O5
+  O5 --> V(["La seule ligne qu'on met<br/>dans le carnet de route"])
+  X["POURQUOI le LLM ne garantit pas :<br/>1 non-determinisme<br/>2 pas de source externe<br/>3 pas de contre-preuve"] -.-> O4
+  classDef prop fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef outil fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef llm fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef preuve fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class S1,S2,S3 prop;
+  class O1,O2,O3 outil;
+  class O4,X llm;
+  class O5,V preuve;

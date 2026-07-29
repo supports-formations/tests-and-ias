@@ -1,0 +1,27 @@
+flowchart TB
+  D["UN DEFAUT SUSPECTE"] --> Q{"Ou est la source<br/>qui dit ce qui devrait se passer ?"}
+  Q -- "Dans la suite de tests<br/>elle existe deja" --> M1["METHODE 1 — EXECUTER<br/>bugs 6 et 8<br/>sortie de runner"]
+  Q -- "Dans le contrat<br/>docs/API-CONTRACT.md" --> M2["METHODE 2 — LIRE LE CONTRAT<br/>bug 6<br/>citation + section"]
+  Q -- "Dans le comportement<br/>il faut DEUX operations" --> M3["METHODE 3 — DOUBLE INSERTION<br/>bug 8<br/>l'ordre n'existe qu'a partir de 2"]
+  Q -- "Dans ce qu'on vient d'envoyer" --> M4["METHODE 4 — RELIRE LA REPONSE<br/>bugs 9 et 7<br/>corps envoye vs corps relu"]
+  Q -- "Dans les types partages" --> M5["METHODE 5 — CONTROLER LE TYPE<br/>bug 14<br/>string, PAS string ou null"]
+  Q -- "HORS DU DEPOT" --> X["AUCUNE METHODE DISPONIBLE<br/>bug 16 — inversion des coordonnees"]
+  M1 --> P(["PREUVE OPPOSABLE"])
+  M2 --> P
+  M3 --> P
+  M4 --> P
+  M5 --> P
+  X --> Y["Il faut la documentation du tiers<br/>l'API repond 200 avec une polyline valide<br/>rien, en interne, ne signale l'erreur"]
+  Y --> Z(["ANGLE MORT — repris en M7.1"])
+  A["CE QUE L'AGENT RAMENE SEUL"] -. "presque toujours" .-> M1
+  A -. "presque jamais" .-> M4
+  A -. "presque jamais" .-> M5
+  A -. "jamais" .-> X
+  classDef methode fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef trou fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef neutre fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef agent fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class M1,M2,M3,M4,M5,P methode;
+  class X,Y,Z trou;
+  class Q,D neutre;
+  class A agent;

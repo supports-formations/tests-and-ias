@@ -1,0 +1,23 @@
+flowchart LR
+  C["CLAUDE.md<br/>la memoire projet<br/>3 interdits · l'oracle · les runners"] --> S
+  E["docs/API-CONTRACT.md<br/>L'EXIGENCE — la seule source"] --> S["SKILL exigence-vers-test<br/>① lire ② generer ③ EXECUTER ④ classer"]
+  S --> G["Tests *.spec.ts<br/>crees, jamais modifies"]
+  G --> H1{"HOOK garde-assertions<br/>PreToolUse sur Edit et Write"}
+  H1 -- "test preexistant<br/>ou code de production" --> KO["exit 2 — REFUSE"]
+  H1 -- "fichier neuf" --> X["npm run test:backend<br/>EXECUTION REELLE"]
+  X --> O["Sortie brute du runner<br/>collee, jamais reformulee"]
+  O --> V["SUBAGENT verificateur-de-tests<br/>fenetre de contexte SEPAREE<br/>lecture seule · 6 questions"]
+  V -- "REFUSE" --> S
+  V -- "ACCEPTE" --> H2{"HOOK magasin-propre<br/>Stop — git status"}
+  H2 -- "residus dans data/ ou uploads/" --> KO2["exit 2 — l'agent ne rend pas la main"]
+  H2 -- "propre" --> R(["carnet/j2-rapport-agent.md<br/>lisible par un chef de projet"])
+  T["LA TRICHE<br/>assertion affaiblie<br/>apres un echec"] -. "barree par le hook" .-> KO
+  T -. "si elle passe : git diff<br/>MALUS 60 PR" .-> R
+  classDef source fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef brique fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef garde fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  class E,C,O,R source;
+  class S,G,X,V brique;
+  class H1,H2 garde;
+  class KO,KO2,T ko;

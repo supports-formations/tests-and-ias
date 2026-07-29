@@ -1,0 +1,21 @@
+flowchart TD
+  S["Un artefact de la suite<br/>rouge OU vert"] --> Q0{"Je relance N fois<br/>sur le MEME code.<br/>Le verdict varie-t-il ?"}
+  Q0 -- "OUI, il varie" --> Q1{"La variation suit-elle<br/>la disponibilite d'un tiers ?<br/>je coupe le reseau"}
+  Q1 -- "OUI" --> F4["EXTERIEUR<br/>Nominatim · OSRM<br/>Geste : DOUBLE + test de contrat rare<br/>e2e/tests/place-search.spec.ts"]
+  Q1 -- "NON" --> Q2{"La variation suit-elle<br/>l'ORDRE d'execution<br/>ou un fichier laisse ?"}
+  Q2 -- "OUI" --> F5["MAGASIN<br/>Geste : un repertoire par execution<br/>preuve : git status apres coup"]
+  Q2 -- "NON" --> F3["INSTABLE<br/>Geste : supprimer la cause<br/>JAMAIS un retry"]
+  Q0 -- "NON, il est stable" --> Q3{"D'ou vient l'attendu ?"}
+  Q3 -- "D'une source EXTERIEURE<br/>contrat, type, doc du tiers" --> F1["VRAI BUG PRODUIT<br/>Geste : prouver, documenter,<br/>corriger le CODE<br/>create-validation · add-order"]
+  Q3 -- "DU CODE lui-meme" --> F2["TEST FAUX<br/>Geste : reecrire le double et l'assertion<br/>le test DOIT devenir rouge<br/>journeys.update.spec.ts"]
+  F2 -. "une fois reecrit, il rejoint" .-> F1
+  classDef bug fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef faux fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef inst fill:#e0e7ff,stroke:#3b4fa8,color:#1a2260;
+  classDef ext fill:#d6f0f5,stroke:#1c6d80,color:#0d3a45;
+  classDef mag fill:#f3d9f7,stroke:#7b3f8c,color:#3d1f45;
+  class F1 bug;
+  class F2 faux;
+  class F3 inst;
+  class F4 ext;
+  class F5 mag;

@@ -1,0 +1,30 @@
+flowchart TB
+  Q0{"Quelle case de la chaine<br/>ce produit occupe-t-il ?"}
+  Q0 -- "CONCEVOIR" --> K1["Analyse d'exigences,<br/>plans de test, cas de test"]
+  Q0 -- "GENERER" --> K2["Ecriture de fichiers de test"]
+  Q0 -- "EXECUTER" --> K3["Runners : Jest · Vitest · Playwright"]
+  Q0 -- "REPARER" --> K4["Auto-reparation de selecteurs"]
+  K1 --> Q1{"C1 — LE LIVRABLE<br/>si j'arrete demain,<br/>que reste-t-il dans mon depot ?"}
+  K2 --> Q1
+  K3 --> Q1
+  K4 --> Q1
+  Q1 -- "Du code executable<br/>par MA CI" --> A["CANDIDAT RECEVABLE<br/>on passe aux 6 autres criteres"]
+  Q1 -- "Rien, ou un export partiel" --> B["DEPENDANCE<br/>a chiffrer explicitement<br/>ce n'est pas disqualifiant,<br/>c'est un cout a assumer"]
+  A --> C2["C2 couverture technique<br/>mon langage, mon runner"]
+  C2 --> C4["C4 determinisme<br/>deux executions,<br/>le meme artefact ?"]
+  C4 --> C5{"C5 — LA PREUVE<br/>mesure comment,<br/>sur quoi, contre quoi ?"}
+  C5 -- "Methodologie publiee" --> P1["FAIT"]
+  C5 -- "Page produit" --> P2["REVENDICATION EDITEUR<br/>se cite comme telle"]
+  P1 --> C6["C6 cout total<br/>licence + tokens<br/>+ RELECTURE HUMAINE"]
+  P2 --> C6
+  C6 --> C7["C7 gouvernance et perennite<br/>qui maintient, depuis quand,<br/>sous quelle licence ?"]
+  C7 --> R(["RECOMMANDATION SIGNEE<br/>ponderation ecrite<br/>et defendue"])
+  B --> C6
+  classDef question fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef alerte fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef fin fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  class Q0,Q1,C5 question;
+  class A,P1,R ok;
+  class B,P2 alerte;
+  class K1,K2,K3,K4,C2,C4,C6,C7 fin;

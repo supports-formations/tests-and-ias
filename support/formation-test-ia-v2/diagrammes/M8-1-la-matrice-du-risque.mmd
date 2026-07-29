@@ -1,0 +1,22 @@
+flowchart TB
+  T["Ou mettre l'effort de test ?<br/>Deux axes, jamais un seul"]
+  T --> Q1["QUADRANT I — probabilite FORTE x impact FORT<br/>TEST APPROFONDI<br/>plusieurs niveaux, cas limites, oracle externe explicite<br/>lots 7 · 16 · 9 · 8"]
+  T --> Q3["QUADRANT III — probabilite FAIBLE x impact FORT<br/>TEST CIBLE<br/>le chemin critique seul, tenu dans la duree<br/>lots 2 · 1 · 4 · 15"]
+  T --> Q2["QUADRANT II — probabilite FORTE x impact MODERE<br/>TEST LARGE ET PEU PROFOND<br/>un cas nominal, un cas d'erreur, automatise<br/>lots 6 · 14 · 11 · 3"]
+  T --> Q4["QUADRANT IV — probabilite FAIBLE x impact MODERE<br/>EFFORT MINIMAL<br/>reevalue a chaque changement de code<br/>lots 5 · 10 · 12 · 13"]
+  P["PROBABILITE — risque technique<br/>defaut connu · absence de test · churn<br/>nombre d'auteurs · dependance a un tiers"] -.-> T
+  I["IMPACT — risque metier<br/>perte de donnees silencieuse · non-conformite<br/>blocage de mise en ligne · population touchee"] -.-> T
+  Q1 --> R["RISQUE RESIDUEL DECLARE<br/>ce qu'on renonce a couvrir, et pourquoi<br/>section 7 du carnet de route"]
+  Q4 --> R
+  classDef q1 fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef q2 fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef q3 fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef q4 fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef axe fill:#eeeeee,stroke:#777777,color:#333333;
+  classDef res fill:#f3d9f7,stroke:#7b3f8c,color:#3d1f45;
+  class Q1 q1;
+  class Q2 q2;
+  class Q3 q3;
+  class Q4 q4;
+  class P,I,T axe;
+  class R res;

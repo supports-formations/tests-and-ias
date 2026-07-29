@@ -1,0 +1,17 @@
+flowchart TD
+  Q1{"Est-ce que je connais la sortie attendue<br/>a l'avance, exactement ?"}
+  Q1 -- "OUI" --> Q2{"Faut-il piloter le produit<br/>navigateur, serveur HTTP, module ?"}
+  Q1 -- "NON" --> Q3{"Existe-t-il une source de verite<br/>que je peux fournir ?"}
+  Q2 -- "OUI" --> F3["FRAMEWORK CLASSIQUE<br/>Jest + supertest · Vitest + RTL · Playwright<br/>cartes 3 · 8 · 10 · 14"]
+  Q2 -- "NON" --> F2["SCRIPT DETERMINISTE<br/>nettoyage, relances, donnees a graine fixee<br/>cartes 1 · 6 · 9 · 11 · 15"]
+  Q3 -- "OUI" --> F1["IA GENERATIVE + RELECTURE HUMAINE<br/>exigences, cas limites, hypotheses, rapports<br/>cartes 2 · 4 · 5 · 12"]
+  Q3 -- "NON" --> F0["DECISION HUMAINE<br/>carte 13"]
+  F1 -. "ne rend jamais le verdict" .-> F3
+  classDef fw fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef sc fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef ia fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef hu fill:#f3d9f7,stroke:#7b3f8c,color:#3d1f45;
+  class F3 fw;
+  class F2 sc;
+  class F1 ia;
+  class F0 hu;

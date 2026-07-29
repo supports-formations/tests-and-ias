@@ -1,0 +1,26 @@
+flowchart TB
+  U["UNE EXIGENCE D'EQUIPE"] --> Q{"Que voulez-vous<br/>obtenir exactement ?"}
+  Q -- "Qu'on le SACHE" --> B0["CLAUDE.md<br/>la memoire projet, versionnee<br/>sous 200 lignes"]
+  Q -- "Qu'on le FASSE<br/>dans le bon ordre" --> B1["SKILL<br/>nom = nom du dossier, 64 car.<br/>description 1024 car.<br/>corps sous 500 lignes"]
+  Q -- "Qu'on le JUGE<br/>independamment" --> B2["SUBAGENT<br/>fenetre de contexte SEPAREE<br/>outils de LECTURE seulement"]
+  Q -- "Que ce soit REFUSE" --> B3["HOOK<br/>sur evenement<br/>exit 2 = BLOQUE<br/>exit 1 = ne bloque PAS"]
+  B0 -. "se lit et se pondere" .-> P["PROBABILISTE"]
+  B1 -. "se lit et se pondere" .-> P
+  B2 -. "juge, mais reste un modele" .-> P
+  B3 --> D["DETERMINISTE"]
+  P --> R{"Le comportement<br/>est-il GARANTI ?"}
+  D --> R
+  R -- "NON — recommande" --> N["Convention<br/>utile, jamais suffisante"]
+  R -- "OUI — refuse" --> G["Garde-fou<br/>⚠️ outrepasse apres<br/>plusieurs blocages consecutifs"]
+  B1 --> EX["LA SKILL DOIT DIRE<br/>quoi faire quand c'est ROUGE<br/>sinon le verdict par defaut sera<br/>« le test est faux »"]
+  B2 --> IN["LE SUBAGENT NE DOIT PAS ECRIRE<br/>un relecteur qui corrige<br/>redevient l'auteur"]
+  classDef brique fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef det fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef prob fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef alerte fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef neutre fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  class B0,B1,B2,B3 brique;
+  class D,G det;
+  class P,N prob;
+  class EX,IN alerte;
+  class Q,R,U neutre;

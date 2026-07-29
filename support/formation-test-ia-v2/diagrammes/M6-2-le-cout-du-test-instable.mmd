@@ -1,0 +1,20 @@
+flowchart LR
+  T["e2e/tests/place-search.spec.ts<br/>appelle le VRAI Nominatim<br/>feature #11 — AUCUN bug"] --> E{"Echec dans le pipeline"}
+  E --> C1["COUT MACHINE<br/>une relance automatique<br/>fractions de centime"]
+  E --> C2["COUT HUMAIN<br/>une investigation manuelle<br/>ordre de grandeur : 5,67 $"]
+  E --> C3["COUT DE CONFIANCE<br/>l'equipe cesse de lire les rouges<br/>~84 % des pass vers fail sont instables"]
+  C1 --> R{"La reponse facile :<br/>retries: 2"}
+  R -. "ne change ni le taux<br/>ni la cause" .-> C2
+  R -. "AUGMENTE le cout de confiance" .-> C3
+  C2 --> P["LA PARADE"]
+  C3 --> P
+  P --> P1["1. DOUBLE dans la suite courante<br/>a chaque execution<br/>verdict independant du tiers"]
+  P --> P2["2. TEST DE CONTRAT separe et RARE<br/>hebdomadaire<br/>n'arrete jamais une contribution"]
+  classDef terrain fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef cout fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef piege fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef parade fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class T terrain;
+  class C1,C2,C3 cout;
+  class R piege;
+  class P,P1,P2 parade;

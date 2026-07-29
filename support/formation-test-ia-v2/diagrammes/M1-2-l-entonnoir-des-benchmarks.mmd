@@ -1,0 +1,16 @@
+flowchart TB
+  A["100 tests unitaires generes par le LLM"] --> B["Filtre 1 — 75 % compilent"]
+  B --> C["Filtre 2 — 57 % passent de facon fiable"]
+  C --> D["Filtre 3 — 25 % augmentent la couverture"]
+  D --> E["Filtre 4 — 73 % des recommandations acceptees en revue"]
+  E --> F(["CE QUE LE BENCHMARK PUBLIE"])
+  C -. "aucun des quatre filtres ne pose la question" .-> G["Ce test attrape-t-il un defaut<br/>quand il y en a un ?"]
+  G --> H(["L'ORACLE GAP<br/>mesurable seulement par mutation — J3"])
+  I["journeys.update.spec.ts<br/>compile, passe, couvre"] --> F
+  I -. "et ne detecte rien" .-> H
+  classDef mesure fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef trou fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef terrain fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class B,C,D,E,F mesure;
+  class G,H trou;
+  class I terrain;

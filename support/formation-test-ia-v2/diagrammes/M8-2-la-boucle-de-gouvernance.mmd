@@ -1,0 +1,31 @@
+flowchart LR
+  subgraph D["Ce qui change sans votre decision"]
+    direction TB
+    D1["Comportement du modele<br/>a nom constant"]
+    D2["Disponibilite du modele<br/>deprecation puis retrait"]
+    D3["Le prompt et le depot<br/>modifies par un collegue"]
+  end
+  subgraph J["Le jeu d'evaluations — versionne dans le depot"]
+    direction TB
+    C1["CAS POSITIFS<br/>les 6 defauts connus<br/>l'agent doit les faire tomber"]
+    C2["CAS NEGATIFS<br/>assertion ajustee · code de production<br/>appel reel au tiers · magasin sale"]
+    C3["CAS DE GARDE<br/>Z1 verte doit rester verte"]
+  end
+  D ==> T{"DECLENCHEUR<br/>changement de modele<br/>changement de skill<br/>cadence fixe"}
+  T ==> J
+  J ==> S["SCOREUR — du CODE<br/>hierarchie : code, puis juge, puis humain"]
+  S ==> R{"SEUIL<br/>9 cas sur 11"}
+  R -- "au-dessus" --> OK["L'agent continue<br/>le score est journalise"]
+  R -- "en dessous" --> KO["L'agent est SUSPENDU<br/>pas 'surveille'"]
+  KO --> P["PROPRIETAIRE NOMME<br/>une personne, pas une equipe"]
+  OK --> P
+  classDef derive fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef eval fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef ko fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef prop fill:#f3d9f7,stroke:#7b3f8c,color:#3d1f45;
+  class D1,D2,D3 derive;
+  class C1,C2,C3,S eval;
+  class OK ok;
+  class KO ko;
+  class P prop;

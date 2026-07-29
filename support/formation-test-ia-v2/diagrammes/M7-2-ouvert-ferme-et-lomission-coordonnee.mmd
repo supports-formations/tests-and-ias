@@ -1,0 +1,23 @@
+flowchart TB
+  subgraph FERME["MODELE FERME — 'N utilisateurs virtuels'"]
+    direction LR
+    A1["10 clients<br/>en boucle"] --> A2["Le serveur ralentit<br/>200 ms devient 800 ms"]
+    A2 --> A3["Les clients attendent<br/>donc ils repartent moins souvent"]
+    A3 --> A4["Le debit d'arrivee BAISSE<br/>tout seul"]
+    A4 --> A5(["La degradation est MASQUEE<br/>omission coordonnee"])
+  end
+  subgraph OUVERT["MODELE OUVERT — 'taux d'arrivee impose'"]
+    direction LR
+    B1["50 requetes / seconde<br/>quoi qu'il arrive"] --> B2["Le serveur ralentit<br/>200 ms devient 800 ms"]
+    B2 --> B3["Les requetes continuent<br/>d'arriver au meme rythme"]
+    B3 --> B4["La file s'allonge<br/>le p95 explose"]
+    B4 --> B5(["La degradation est VISIBLE<br/>et le seuil tombe"])
+  end
+  Z["Z4 — le magasin de fichiers .md<br/>le cout croit avec le NOMBRE DE FICHIERS"] -. "la variable qu'on oublie<br/>dans les deux modeles" .-> A2
+  Z -. " " .-> B2
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef var fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class A1,A2,A3,A4,A5 ko;
+  class B1,B2,B3,B4,B5 ok;
+  class Z var;

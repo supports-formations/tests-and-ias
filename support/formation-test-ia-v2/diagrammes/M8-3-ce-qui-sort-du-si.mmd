@@ -1,0 +1,25 @@
+flowchart LR
+  subgraph SI["Votre systeme d'information — le depot Carnet de voyage"]
+    direction TB
+    G1["Z1 — comptes<br/>magasin .md<br/>data/mails/ horodatage-adresse .md"]
+    G2["Z3 · Z4 — contenus utilisateur<br/>/uploads/ · les commentaires des .md"]
+    G3["Z2 — voyages et etapes<br/>titres, dates, destinations"]
+    CODE["Le code et les tests"]
+  end
+  S1{{"SORTIE APPLICATIVE<br/>permanente · anterieure a l'IA<br/>a chaque geocodage"}}
+  S2{{"SORTIE DE DEVELOPPEMENT<br/>nouvelle · configurable<br/>a chaque requete a l'assistant"}}
+  G1 --> S2
+  G2 --> S2
+  CODE --> S2
+  G3 --> S1
+  S1 --> N["Service tiers public et gratuit<br/>Nominatim · OSRM<br/>aucun contrat, aucune maitrise"]
+  S2 --> F["Fournisseur de modele<br/>contrat de sous-traitance<br/>retention CONFIGUREE, pas presumee"]
+  S2 -. "ce qu'on retire du contexte" .-> X["permissions.deny<br/>dans .claude/settings.json<br/>PAS de .claudeignore : il n'existe pas"]
+  classDef gisement fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef sortie1 fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef sortie2 fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef garde fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class G1,G2,G3,CODE gisement;
+  class S1,N sortie1;
+  class S2,F sortie2;
+  class X garde;

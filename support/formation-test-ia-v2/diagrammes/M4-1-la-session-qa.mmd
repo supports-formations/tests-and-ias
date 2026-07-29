@@ -1,0 +1,26 @@
+flowchart TB
+  S(["OUVERTURE DE SESSION"]) --> M1["GESTE 2 — MESURER<br/>on note le chiffre de depart"]
+  M1 --> C["CADRER<br/>geste 6 CLAUDE.md<br/>geste 7 refus de lecture"]
+  C --> P["GESTE 5 — MODE PLAN<br/>la strategie avant le premier fichier"]
+  P --> G["GENERATION<br/>un seul test"]
+  G --> E["GESTE 9 — EXECUTION<br/>la suite tourne, en arriere-plan"]
+  E --> V{"LA PREUVE EXISTE-T-ELLE ?<br/>sortie de runner collee<br/>effet de bord constate"}
+  V -- "NON" --> W["AFFIRMATION<br/>ne vaut rien"]
+  V -- "OUI" --> R["RESULTAT<br/>opposable"]
+  R --> M2["GESTE 2 — MESURER<br/>le cout de ce qu'on vient de faire"]
+  M2 --> D{"On change de zone<br/>ou on a corrige 2 fois<br/>le meme point ?"}
+  D -- "OUI" --> CL["GESTE 3 — PURGER<br/>on repart a vide"]
+  D -- "NON" --> CP["GESTE 4 — RESUMER<br/>avec consigne de focalisation"]
+  CL --> S
+  CP --> P
+  R --> H["GESTE 8 — MODE NON INTERACTIF<br/>la meme chose, sans humain<br/>sortie machine-lisible"]
+  H --> CI(["VERS LA CI — module M6.3"])
+  RW["GESTE 10 — RETOUR ARRIERE<br/>protege ce que l'agent a ecrit"] -. "ne protege PAS<br/>ce que l'execution a ecrit" .-> E
+  classDef geste fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef alerte fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class M1,C,P,M2,CL,CP,H geste;
+  class R,CI ok;
+  class W ko;
+  class RW,V alerte;

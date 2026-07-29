@@ -1,0 +1,1997 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<title>Diagrammes — Formation Test logiciel avec IA générative V2</title>
+<style>
+ *{box-sizing:border-box;margin:0;padding:0}
+ body{font:14px/1.5 -apple-system,"Segoe UI",Roboto,sans-serif;color:#1A202C;background:#F7F9FB}
+ .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+ h1{font-size:24px;letter-spacing:-.3px}
+ .lede{color:#5A6472;margin:6px 0 20px;max-width:70ch}
+ .toc{background:#fff;border:1px solid #E2E8F0;border-radius:8px;padding:14px 16px;margin-bottom:26px}
+ .toc h3{font-size:12px;text-transform:uppercase;letter-spacing:.8px;color:#5A6472;margin-bottom:8px}
+ .toc a{display:inline-block;font-size:12px;color:#2B6CB0;text-decoration:none;
+        background:#EDF2F7;border-radius:4px;padding:3px 7px;margin:0 4px 4px 0}
+ .toc a:hover{background:#2B6CB0;color:#fff}
+ .card{background:#fff;border:1px solid #E2E8F0;border-radius:8px;margin-bottom:22px;overflow:hidden}
+ .card header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;
+        padding:12px 16px;border-bottom:1px solid #EDF2F7;background:#FCFDFE}
+ .card h2{font-size:14px;font-family:ui-monospace,Menlo,Consolas,monospace;color:#276749}
+ .ctx{font-size:12px;color:#5A6472;margin-top:2px}
+ .src{color:#A0AEC0}
+ .acts{display:flex;gap:6px;flex-shrink:0}
+ button{font:600 11px/1 inherit;padding:6px 10px;border:1px solid #2B6CB0;background:#2B6CB0;
+        color:#fff;border-radius:5px;cursor:pointer}
+ button:hover{opacity:.85}
+ button.ghost{background:#fff;color:#5A6472;border-color:#CBD5E0}
+ .render{padding:20px;overflow-x:auto;text-align:center}
+ .code{margin:0 16px 16px;padding:12px;background:#1A202C;color:#E2E8F0;border-radius:6px;
+       font:11px/1.5 ui-monospace,Menlo,Consolas,monospace;overflow-x:auto;white-space:pre-wrap}
+ .err{color:#9B2C2C;font-size:12px;padding:10px}
+ @media print{.acts,.toc{display:none}.card{break-inside:avoid;border:none}}
+</style></head><body><div class="wrap">
+<h1>Diagrammes du support — <span style="color:#C05621">V2</span></h1>
+<p class="lede">30 diagrammes des 8 modules et des cols. Chacun est exportable en SVG (vectoriel,
+imprimable) ou en PNG. La notice de dévoilement de chaque diagramme — ordre d'affichage, phrase à
+dire, erreur d'interprétation à prévenir — se trouve dans le module correspondant.</p>
+<div class="toc"><h3>Aller à</h3><a href="#c0">M1-1-le-faux-positif</a>
+<a href="#c1">M1-2-l-entonnoir-des-benchmarks</a>
+<a href="#c2">M1-3-larbre-des-trois-familles</a>
+<a href="#c3">M1-4-la-position-de-loracle</a>
+<a href="#c4">M2-1-de-la-ligne-a-l-assertion</a>
+<a href="#c5">M2-2-les-deux-verrous-et-les-six-mesures</a>
+<a href="#c6">M2-3-les-trois-natures-d-un-trou</a>
+<a href="#c7">M3-1-un-code-deux-prompts</a>
+<a href="#c8">M3-2-les-cinq-blocs</a>
+<a href="#c9">M3-3-le-budget-de-contexte</a>
+<a href="#c10">M3-4-le-cycle-de-vie-d-un-prompt</a>
+<a href="#c11">M4-1-la-session-qa</a>
+<a href="#c12">M4-2-les-yeux-de-l-agent</a>
+<a href="#c13">M4-3-la-grille-de-choix</a>
+<a href="#c14">M5-1-cinq-methodes-un-angle-mort</a>
+<a href="#c15">M5-2-la-boucle-et-ses-conditions</a>
+<a href="#c16">M5-3-les-trois-briques</a>
+<a href="#c17">M5-4-l-assertion-qui-ne-peut-pas-tomber</a>
+<a href="#c18">M6-1-larbre-de-classement-des-echecs</a>
+<a href="#c19">M6-2-le-cout-du-test-instable</a>
+<a href="#c20">M6-3-les-six-blocs-et-les-fuites</a>
+<a href="#c21">M7-1-le-savoir-qui-manque</a>
+<a href="#c22">M7-2-ouvert-ferme-et-lomission-coordonnee</a>
+<a href="#c23">M7-3-la-chaine-de-securite-et-ses-angles-morts</a>
+<a href="#c24">M7-4-le-partage-de-laccessibilite</a>
+<a href="#c25">M8-1-la-matrice-du-risque</a>
+<a href="#c26">M8-2-la-boucle-de-gouvernance</a>
+<a href="#c27">M8-3-ce-qui-sort-du-si</a>
+<a href="#c28">BOSS-J2-l-eclaireur</a>
+<a href="#c29">BOSS-J4-la-carte-des-risques</a></div>
+
+<section class="card" id="c0">
+  <header>
+    <div>
+      <h2>M1-1-le-faux-positif</h2>
+      <p class="ctx">Notion M1.1 — « Le test qui ne peut pas échouer » <span class="src">· module-M1-le-test-qui-ment.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(0,'M1-1-le-faux-positif')">SVG</button>
+      <button onclick="dlPng(0,'M1-1-le-faux-positif')">PNG</button>
+      <button class="ghost" onclick="toggleCode(0)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r0"><pre class="mermaid">flowchart TB
+  subgraph REEL[&quot;① Ce que fait le produit en vrai&quot;]
+    direction TB
+    A[&quot;PATCH /api/journeys/:id&lt;br/&gt;{ title: &#x27;Islande 2026&#x27; }&quot;] --&gt; B[&quot;journeys.service.ts&lt;br/&gt;logique de merge&quot;]
+    B --&gt; C[&quot;BUG #7&lt;br/&gt;steps[] ecrase&quot;]
+    C --&gt; D[&quot;Magasin .md&lt;br/&gt;Le voyage n&#x27;a plus d&#x27;etapes&quot;]
+  end
+  subgraph TST[&quot;② Ce que fait journeys.update.spec.ts&quot;]
+    direction TB
+    E[&quot;Appel du service&quot;] --&gt; F[&quot;Double de sauvegarde&lt;br/&gt;mock complet&quot;]
+    F --&gt; G[&quot;Attendu fabrique&lt;br/&gt;steps[] d&#x27;origine reinjectes&quot;]
+    G --&gt; H[&quot;Le test est VERT&quot;]
+  end
+  F -. &quot;court-circuite la ligne buguee&quot; .-&gt; C
+  D --- V{&quot;Verdict de la suite : VERT&lt;br/&gt;Verdict du produit : donnees perdues&quot;}
+  H --- V
+  classDef bug fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef mock fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef alert fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  class C,D bug;
+  class F,G mock;
+  class H ok;
+  class V alert;</pre></div>
+  <pre class="code" id="k0" hidden>flowchart TB
+  subgraph REEL[&quot;① Ce que fait le produit en vrai&quot;]
+    direction TB
+    A[&quot;PATCH /api/journeys/:id&lt;br/&gt;{ title: &#x27;Islande 2026&#x27; }&quot;] --&gt; B[&quot;journeys.service.ts&lt;br/&gt;logique de merge&quot;]
+    B --&gt; C[&quot;BUG #7&lt;br/&gt;steps[] ecrase&quot;]
+    C --&gt; D[&quot;Magasin .md&lt;br/&gt;Le voyage n&#x27;a plus d&#x27;etapes&quot;]
+  end
+  subgraph TST[&quot;② Ce que fait journeys.update.spec.ts&quot;]
+    direction TB
+    E[&quot;Appel du service&quot;] --&gt; F[&quot;Double de sauvegarde&lt;br/&gt;mock complet&quot;]
+    F --&gt; G[&quot;Attendu fabrique&lt;br/&gt;steps[] d&#x27;origine reinjectes&quot;]
+    G --&gt; H[&quot;Le test est VERT&quot;]
+  end
+  F -. &quot;court-circuite la ligne buguee&quot; .-&gt; C
+  D --- V{&quot;Verdict de la suite : VERT&lt;br/&gt;Verdict du produit : donnees perdues&quot;}
+  H --- V
+  classDef bug fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef mock fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef alert fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  class C,D bug;
+  class F,G mock;
+  class H ok;
+  class V alert;</pre>
+</section>
+
+<section class="card" id="c1">
+  <header>
+    <div>
+      <h2>M1-2-l-entonnoir-des-benchmarks</h2>
+      <p class="ctx">Notion M1.2 — « Ce que mesurent — et ne mesurent pas — les benchmarks » <span class="src">· module-M1-le-test-qui-ment.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(1,'M1-2-l-entonnoir-des-benchmarks')">SVG</button>
+      <button onclick="dlPng(1,'M1-2-l-entonnoir-des-benchmarks')">PNG</button>
+      <button class="ghost" onclick="toggleCode(1)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r1"><pre class="mermaid">flowchart TB
+  A[&quot;100 tests unitaires generes par le LLM&quot;] --&gt; B[&quot;Filtre 1 — 75 % compilent&quot;]
+  B --&gt; C[&quot;Filtre 2 — 57 % passent de facon fiable&quot;]
+  C --&gt; D[&quot;Filtre 3 — 25 % augmentent la couverture&quot;]
+  D --&gt; E[&quot;Filtre 4 — 73 % des recommandations acceptees en revue&quot;]
+  E --&gt; F([&quot;CE QUE LE BENCHMARK PUBLIE&quot;])
+  C -. &quot;aucun des quatre filtres ne pose la question&quot; .-&gt; G[&quot;Ce test attrape-t-il un defaut&lt;br/&gt;quand il y en a un ?&quot;]
+  G --&gt; H([&quot;L&#x27;ORACLE GAP&lt;br/&gt;mesurable seulement par mutation — J3&quot;])
+  I[&quot;journeys.update.spec.ts&lt;br/&gt;compile, passe, couvre&quot;] --&gt; F
+  I -. &quot;et ne detecte rien&quot; .-&gt; H
+  classDef mesure fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef trou fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef terrain fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class B,C,D,E,F mesure;
+  class G,H trou;
+  class I terrain;</pre></div>
+  <pre class="code" id="k1" hidden>flowchart TB
+  A[&quot;100 tests unitaires generes par le LLM&quot;] --&gt; B[&quot;Filtre 1 — 75 % compilent&quot;]
+  B --&gt; C[&quot;Filtre 2 — 57 % passent de facon fiable&quot;]
+  C --&gt; D[&quot;Filtre 3 — 25 % augmentent la couverture&quot;]
+  D --&gt; E[&quot;Filtre 4 — 73 % des recommandations acceptees en revue&quot;]
+  E --&gt; F([&quot;CE QUE LE BENCHMARK PUBLIE&quot;])
+  C -. &quot;aucun des quatre filtres ne pose la question&quot; .-&gt; G[&quot;Ce test attrape-t-il un defaut&lt;br/&gt;quand il y en a un ?&quot;]
+  G --&gt; H([&quot;L&#x27;ORACLE GAP&lt;br/&gt;mesurable seulement par mutation — J3&quot;])
+  I[&quot;journeys.update.spec.ts&lt;br/&gt;compile, passe, couvre&quot;] --&gt; F
+  I -. &quot;et ne detecte rien&quot; .-&gt; H
+  classDef mesure fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef trou fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef terrain fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class B,C,D,E,F mesure;
+  class G,H trou;
+  class I terrain;</pre>
+</section>
+
+<section class="card" id="c2">
+  <header>
+    <div>
+      <h2>M1-3-larbre-des-trois-familles</h2>
+      <p class="ctx">Notion M1.3 — « Trois familles d&#x27;automatisation : qui fait quoi » <span class="src">· module-M1-le-test-qui-ment.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(2,'M1-3-larbre-des-trois-familles')">SVG</button>
+      <button onclick="dlPng(2,'M1-3-larbre-des-trois-familles')">PNG</button>
+      <button class="ghost" onclick="toggleCode(2)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r2"><pre class="mermaid">flowchart TD
+  Q1{&quot;Est-ce que je connais la sortie attendue&lt;br/&gt;a l&#x27;avance, exactement ?&quot;}
+  Q1 -- &quot;OUI&quot; --&gt; Q2{&quot;Faut-il piloter le produit&lt;br/&gt;navigateur, serveur HTTP, module ?&quot;}
+  Q1 -- &quot;NON&quot; --&gt; Q3{&quot;Existe-t-il une source de verite&lt;br/&gt;que je peux fournir ?&quot;}
+  Q2 -- &quot;OUI&quot; --&gt; F3[&quot;FRAMEWORK CLASSIQUE&lt;br/&gt;Jest + supertest · Vitest + RTL · Playwright&lt;br/&gt;cartes 3 · 8 · 10 · 14&quot;]
+  Q2 -- &quot;NON&quot; --&gt; F2[&quot;SCRIPT DETERMINISTE&lt;br/&gt;nettoyage, relances, donnees a graine fixee&lt;br/&gt;cartes 1 · 6 · 9 · 11 · 15&quot;]
+  Q3 -- &quot;OUI&quot; --&gt; F1[&quot;IA GENERATIVE + RELECTURE HUMAINE&lt;br/&gt;exigences, cas limites, hypotheses, rapports&lt;br/&gt;cartes 2 · 4 · 5 · 12&quot;]
+  Q3 -- &quot;NON&quot; --&gt; F0[&quot;DECISION HUMAINE&lt;br/&gt;carte 13&quot;]
+  F1 -. &quot;ne rend jamais le verdict&quot; .-&gt; F3
+  classDef fw fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef sc fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef ia fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef hu fill:#f3d9f7,stroke:#7b3f8c,color:#3d1f45;
+  class F3 fw;
+  class F2 sc;
+  class F1 ia;
+  class F0 hu;</pre></div>
+  <pre class="code" id="k2" hidden>flowchart TD
+  Q1{&quot;Est-ce que je connais la sortie attendue&lt;br/&gt;a l&#x27;avance, exactement ?&quot;}
+  Q1 -- &quot;OUI&quot; --&gt; Q2{&quot;Faut-il piloter le produit&lt;br/&gt;navigateur, serveur HTTP, module ?&quot;}
+  Q1 -- &quot;NON&quot; --&gt; Q3{&quot;Existe-t-il une source de verite&lt;br/&gt;que je peux fournir ?&quot;}
+  Q2 -- &quot;OUI&quot; --&gt; F3[&quot;FRAMEWORK CLASSIQUE&lt;br/&gt;Jest + supertest · Vitest + RTL · Playwright&lt;br/&gt;cartes 3 · 8 · 10 · 14&quot;]
+  Q2 -- &quot;NON&quot; --&gt; F2[&quot;SCRIPT DETERMINISTE&lt;br/&gt;nettoyage, relances, donnees a graine fixee&lt;br/&gt;cartes 1 · 6 · 9 · 11 · 15&quot;]
+  Q3 -- &quot;OUI&quot; --&gt; F1[&quot;IA GENERATIVE + RELECTURE HUMAINE&lt;br/&gt;exigences, cas limites, hypotheses, rapports&lt;br/&gt;cartes 2 · 4 · 5 · 12&quot;]
+  Q3 -- &quot;NON&quot; --&gt; F0[&quot;DECISION HUMAINE&lt;br/&gt;carte 13&quot;]
+  F1 -. &quot;ne rend jamais le verdict&quot; .-&gt; F3
+  classDef fw fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef sc fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef ia fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef hu fill:#f3d9f7,stroke:#7b3f8c,color:#3d1f45;
+  class F3 fw;
+  class F2 sc;
+  class F1 ia;
+  class F0 hu;</pre>
+</section>
+
+<section class="card" id="c3">
+  <header>
+    <div>
+      <h2>M1-4-la-position-de-loracle</h2>
+      <p class="ctx">Notion M1.4 — « L&#x27;oracle : le contrat, pas le code » <span class="src">· module-M1-le-test-qui-ment.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(3,'M1-4-la-position-de-loracle')">SVG</button>
+      <button onclick="dlPng(3,'M1-4-la-position-de-loracle')">PNG</button>
+      <button class="ghost" onclick="toggleCode(3)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r3"><pre class="mermaid">flowchart LR
+  subgraph OK[&quot;Oracles admissibles — exterieurs au code&quot;]
+    direction TB
+    O1[&quot;docs/API-CONTRACT.md&quot;]
+    O2[&quot;Types partages&lt;br/&gt;Journey · Step&quot;]
+    O3[&quot;Documentation du tiers&lt;br/&gt;Nominatim · OSRM&quot;]
+    O4[&quot;Regle metier ecrite&quot;]
+    O5[&quot;Version de reference validee&quot;]
+  end
+  subgraph KO[&quot;Oracles interdits — issus du systeme teste&quot;]
+    direction TB
+    X1[&quot;Le code de production&quot;]
+    X2[&quot;La sortie observee aujourd&#x27;hui&quot;]
+    X3[&quot;Ce que le LLM juge probable&quot;]
+  end
+  OK ==&gt; T[&quot;Assertion du test&quot;]
+  KO -. &quot;produit un test tautologique&quot; .-&gt; T
+  T --&gt; V{&quot;Verdict&quot;}
+  V -- &quot;ROUGE&quot; --&gt; R[&quot;Le code devie du contrat&lt;br/&gt;on corrige le CODE&lt;br/&gt;journeys.create-validation.spec.ts&quot;]
+  V -- &quot;VERT&quot; --&gt; G[&quot;Le code respecte le contrat&lt;br/&gt;… seulement si l&#x27;oracle est admissible&lt;br/&gt;journeys.update.spec.ts est vert pour rien&quot;]
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef neutre fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  class O1,O2,O3,O4,O5,R ok;
+  class X1,X2,X3 ko;
+  class T,V,G neutre;</pre></div>
+  <pre class="code" id="k3" hidden>flowchart LR
+  subgraph OK[&quot;Oracles admissibles — exterieurs au code&quot;]
+    direction TB
+    O1[&quot;docs/API-CONTRACT.md&quot;]
+    O2[&quot;Types partages&lt;br/&gt;Journey · Step&quot;]
+    O3[&quot;Documentation du tiers&lt;br/&gt;Nominatim · OSRM&quot;]
+    O4[&quot;Regle metier ecrite&quot;]
+    O5[&quot;Version de reference validee&quot;]
+  end
+  subgraph KO[&quot;Oracles interdits — issus du systeme teste&quot;]
+    direction TB
+    X1[&quot;Le code de production&quot;]
+    X2[&quot;La sortie observee aujourd&#x27;hui&quot;]
+    X3[&quot;Ce que le LLM juge probable&quot;]
+  end
+  OK ==&gt; T[&quot;Assertion du test&quot;]
+  KO -. &quot;produit un test tautologique&quot; .-&gt; T
+  T --&gt; V{&quot;Verdict&quot;}
+  V -- &quot;ROUGE&quot; --&gt; R[&quot;Le code devie du contrat&lt;br/&gt;on corrige le CODE&lt;br/&gt;journeys.create-validation.spec.ts&quot;]
+  V -- &quot;VERT&quot; --&gt; G[&quot;Le code respecte le contrat&lt;br/&gt;… seulement si l&#x27;oracle est admissible&lt;br/&gt;journeys.update.spec.ts est vert pour rien&quot;]
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef neutre fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  class O1,O2,O3,O4,O5,R ok;
+  class X1,X2,X3 ko;
+  class T,V,G neutre;</pre>
+</section>
+
+<section class="card" id="c4">
+  <header>
+    <div>
+      <h2>M2-1-de-la-ligne-a-l-assertion</h2>
+      <p class="ctx">Notion M2.1 — « Extraire des exigences testables de `docs/API-CONTRACT.md` » <span class="src">· module-M2-de-l-exigence-au-test.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(4,'M2-1-de-la-ligne-a-l-assertion')">SVG</button>
+      <button onclick="dlPng(4,'M2-1-de-la-ligne-a-l-assertion')">PNG</button>
+      <button class="ghost" onclick="toggleCode(4)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r4"><pre class="mermaid">flowchart LR
+  subgraph SRC[&quot;① La source — docs/API-CONTRACT.md&quot;]
+    direction TB
+    L1[&quot;Routes&lt;br/&gt;POST /api/journeys&quot;]
+    L2[&quot;Types partages&lt;br/&gt;Journey · Step&quot;]
+    L3[&quot;Preambule&lt;br/&gt;dates ISO · Bearer&quot;]
+  end
+  SRC --&gt; AT{&quot;② Atomisation&lt;br/&gt;un seul attendu par ligne ?&quot;}
+  AT -- &quot;NON — deux attendus&quot; --&gt; AT
+  AT -- &quot;OUI&quot; --&gt; T{&quot;③ Les 4 criteres&lt;br/&gt;T1 observable · T2 univoque&lt;br/&gt;T3 isolable · T4 falsifiable&quot;}
+  T -- &quot;4 sur 4&quot; --&gt; E1[&quot;EX-nnn — TESTABLE&lt;br/&gt;type de test · priorite&quot;]
+  T -- &quot;3 sur 4&quot; --&gt; E2[&quot;EX-nnn — TESTABLE PARTIELLEMENT&lt;br/&gt;la partie couverte est nommee&quot;]
+  T -- &quot;2 sur 4 ou moins&quot; --&gt; E3[&quot;EX-nnn — NON TESTABLE EN L&#x27;ETAT&lt;br/&gt;+ la question au metier&quot;]
+  E1 --&gt; A[&quot;④ Assertion&lt;br/&gt;expect(...).toBe(400)&quot;]
+  E2 --&gt; A
+  E3 -. &quot;ne produit AUCUNE assertion&quot; .-&gt; S[&quot;Fiche de silence — M2.3&quot;]
+  X[&quot;Le code de production&quot;] -. &quot;oracle interdit — M1.4&quot; .-&gt; A
+  classDef src fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef part fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  class L1,L2,L3 src;
+  class E1,A ok;
+  class E2 part;
+  class E3,S,X ko;</pre></div>
+  <pre class="code" id="k4" hidden>flowchart LR
+  subgraph SRC[&quot;① La source — docs/API-CONTRACT.md&quot;]
+    direction TB
+    L1[&quot;Routes&lt;br/&gt;POST /api/journeys&quot;]
+    L2[&quot;Types partages&lt;br/&gt;Journey · Step&quot;]
+    L3[&quot;Preambule&lt;br/&gt;dates ISO · Bearer&quot;]
+  end
+  SRC --&gt; AT{&quot;② Atomisation&lt;br/&gt;un seul attendu par ligne ?&quot;}
+  AT -- &quot;NON — deux attendus&quot; --&gt; AT
+  AT -- &quot;OUI&quot; --&gt; T{&quot;③ Les 4 criteres&lt;br/&gt;T1 observable · T2 univoque&lt;br/&gt;T3 isolable · T4 falsifiable&quot;}
+  T -- &quot;4 sur 4&quot; --&gt; E1[&quot;EX-nnn — TESTABLE&lt;br/&gt;type de test · priorite&quot;]
+  T -- &quot;3 sur 4&quot; --&gt; E2[&quot;EX-nnn — TESTABLE PARTIELLEMENT&lt;br/&gt;la partie couverte est nommee&quot;]
+  T -- &quot;2 sur 4 ou moins&quot; --&gt; E3[&quot;EX-nnn — NON TESTABLE EN L&#x27;ETAT&lt;br/&gt;+ la question au metier&quot;]
+  E1 --&gt; A[&quot;④ Assertion&lt;br/&gt;expect(...).toBe(400)&quot;]
+  E2 --&gt; A
+  E3 -. &quot;ne produit AUCUNE assertion&quot; .-&gt; S[&quot;Fiche de silence — M2.3&quot;]
+  X[&quot;Le code de production&quot;] -. &quot;oracle interdit — M1.4&quot; .-&gt; A
+  classDef src fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef part fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  class L1,L2,L3 src;
+  class E1,A ok;
+  class E2 part;
+  class E3,S,X ko;</pre>
+</section>
+
+<section class="card" id="c5">
+  <header>
+    <div>
+      <h2>M2-2-les-deux-verrous-et-les-six-mesures</h2>
+      <p class="ctx">Notion M2.2 — « La revue en 8 points d&#x27;une suite générée » <span class="src">· module-M2-de-l-exigence-au-test.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(5,'M2-2-les-deux-verrous-et-les-six-mesures')">SVG</button>
+      <button onclick="dlPng(5,'M2-2-les-deux-verrous-et-les-six-mesures')">PNG</button>
+      <button class="ghost" onclick="toggleCode(5)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r5"><pre class="mermaid">flowchart TB
+  S[&quot;Une suite de tests&lt;br/&gt;qu&#x27;on n&#x27;a pas ecrite&quot;] --&gt; R1{&quot;R1 — L&#x27;ORACLE&lt;br/&gt;d&#x27;ou vient la valeur attendue ?&quot;}
+  R1 -- &quot;d&#x27;une source exterieure au code&quot; --&gt; R2{&quot;R2 — LA CAPACITE D&#x27;ECHEC&lt;br/&gt;quelle modification la ferait tomber ?&quot;}
+  R1 -- &quot;du code, d&#x27;un double,&lt;br/&gt;de la sortie du jour&quot; --&gt; KO[&quot;REFUSEE&lt;br/&gt;la revue s&#x27;arrete ici&quot;]
+  R2 -- &quot;on nomme la ligne&quot; --&gt; R3
+  R2 -- &quot;aucune&quot; --&gt; KO
+  subgraph B[&quot;Six mesures — cotees de 0 a 2&quot;]
+    direction TB
+    R3[&quot;R3 — Placement des doubles&quot;]
+    R4[&quot;R4 — Force des assertions&quot;]
+    R5[&quot;R5 — Tracabilite aux EX-nnn&quot;]
+    R6[&quot;R6 — Cas limites et d&#x27;erreur&quot;]
+    R7[&quot;R7 — Isolation et reproductibilite&quot;]
+    R8[&quot;R8 — Lisibilite et nommage&quot;]
+  end
+  R8 --&gt; V{&quot;Score sur 16&quot;}
+  V -- &quot;13 a 16&quot; --&gt; OK[&quot;ACCEPTEE&quot;]
+  V -- &quot;9 a 12&quot; --&gt; MID[&quot;A REPRENDRE&lt;br/&gt;les lignes a 0 ou 1 sont listees&quot;]
+  V -- &quot;0 a 8&quot; --&gt; KO2[&quot;REFUSEE&quot;]
+  T7[&quot;journeys.update.spec.ts&lt;br/&gt;feature #7 — VERTE&quot;] -. &quot;R1 = 0 et R2 = 0&quot; .-&gt; KO
+  T2[&quot;Suite du login&lt;br/&gt;feature #2 — VERTE&quot;] -. &quot;R1 = 2 et R2 = 2&quot; .-&gt; R2
+  classDef veto fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef mesure fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef mid fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class KO,KO2,T7 veto;
+  class R3,R4,R5,R6,R7,R8 mesure;
+  class OK,T2 ok;
+  class MID mid;</pre></div>
+  <pre class="code" id="k5" hidden>flowchart TB
+  S[&quot;Une suite de tests&lt;br/&gt;qu&#x27;on n&#x27;a pas ecrite&quot;] --&gt; R1{&quot;R1 — L&#x27;ORACLE&lt;br/&gt;d&#x27;ou vient la valeur attendue ?&quot;}
+  R1 -- &quot;d&#x27;une source exterieure au code&quot; --&gt; R2{&quot;R2 — LA CAPACITE D&#x27;ECHEC&lt;br/&gt;quelle modification la ferait tomber ?&quot;}
+  R1 -- &quot;du code, d&#x27;un double,&lt;br/&gt;de la sortie du jour&quot; --&gt; KO[&quot;REFUSEE&lt;br/&gt;la revue s&#x27;arrete ici&quot;]
+  R2 -- &quot;on nomme la ligne&quot; --&gt; R3
+  R2 -- &quot;aucune&quot; --&gt; KO
+  subgraph B[&quot;Six mesures — cotees de 0 a 2&quot;]
+    direction TB
+    R3[&quot;R3 — Placement des doubles&quot;]
+    R4[&quot;R4 — Force des assertions&quot;]
+    R5[&quot;R5 — Tracabilite aux EX-nnn&quot;]
+    R6[&quot;R6 — Cas limites et d&#x27;erreur&quot;]
+    R7[&quot;R7 — Isolation et reproductibilite&quot;]
+    R8[&quot;R8 — Lisibilite et nommage&quot;]
+  end
+  R8 --&gt; V{&quot;Score sur 16&quot;}
+  V -- &quot;13 a 16&quot; --&gt; OK[&quot;ACCEPTEE&quot;]
+  V -- &quot;9 a 12&quot; --&gt; MID[&quot;A REPRENDRE&lt;br/&gt;les lignes a 0 ou 1 sont listees&quot;]
+  V -- &quot;0 a 8&quot; --&gt; KO2[&quot;REFUSEE&quot;]
+  T7[&quot;journeys.update.spec.ts&lt;br/&gt;feature #7 — VERTE&quot;] -. &quot;R1 = 0 et R2 = 0&quot; .-&gt; KO
+  T2[&quot;Suite du login&lt;br/&gt;feature #2 — VERTE&quot;] -. &quot;R1 = 2 et R2 = 2&quot; .-&gt; R2
+  classDef veto fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef mesure fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef mid fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class KO,KO2,T7 veto;
+  class R3,R4,R5,R6,R7,R8 mesure;
+  class OK,T2 ok;
+  class MID mid;</pre>
+</section>
+
+<section class="card" id="c6">
+  <header>
+    <div>
+      <h2>M2-3-les-trois-natures-d-un-trou</h2>
+      <p class="ctx">Notion M2.3 — « Ambiguïtés, silences, contradictions : ce que l&#x27;IA comble seule » <span class="src">· module-M2-de-l-exigence-au-test.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(6,'M2-3-les-trois-natures-d-un-trou')">SVG</button>
+      <button onclick="dlPng(6,'M2-3-les-trois-natures-d-un-trou')">PNG</button>
+      <button class="ghost" onclick="toggleCode(6)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r6"><pre class="mermaid">flowchart TB
+  F[&quot;Une fiche : « le contrat ne dit pas ... »&quot;] --&gt; Q1{&quot;La reponse est-elle ecrite&lt;br/&gt;DANS UNE SECTION DE ROUTE ?&quot;}
+  Q1 -- &quot;OUI&quot; --&gt; FX[&quot;FAUX SILENCE&lt;br/&gt;on relit, et on note ou etait la reponse&quot;]
+  Q1 -- &quot;NON&quot; --&gt; Q2{&quot;Est-elle ecrite&lt;br/&gt;DANS LE PREAMBULE&lt;br/&gt;ou dans le bloc des TYPES PARTAGES ?&quot;}
+  Q2 -- &quot;OUI&quot; --&gt; FX
+  Q2 -- &quot;NON&quot; --&gt; Q3{&quot;La question posee est-elle&lt;br/&gt;LA BONNE QUESTION ?&quot;}
+  Q3 -- &quot;NON&quot; --&gt; MF[&quot;SILENCE MAL FORMULE&lt;br/&gt;on reformule — la vraie question&lt;br/&gt;est presque toujours plus couteuse&quot;]
+  MF --&gt; Q1
+  Q3 -- &quot;OUI&quot; --&gt; Q4{&quot;La question est-elle FERMEE ?&lt;br/&gt;appelle-t-elle une decision ?&quot;}
+  Q4 -- &quot;NON&quot; --&gt; MF
+  Q4 -- &quot;OUI&quot; --&gt; SR[&quot;SILENCE REEL&lt;br/&gt;question au metier + cout d&#x27;erreur&lt;br/&gt;AUCUNE assertion tant qu&#x27;il n&#x27;est pas tranche&quot;]
+  SR --&gt; IA[&quot;Si on ne le leve pas :&lt;br/&gt;LE MODELE TRANCHERA&lt;br/&gt;sans auteur, sans date, sans recours&quot;]
+  classDef faux fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef mal fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef reel fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef alerte fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  class FX faux;
+  class MF mal;
+  class SR reel;
+  class IA alerte;</pre></div>
+  <pre class="code" id="k6" hidden>flowchart TB
+  F[&quot;Une fiche : « le contrat ne dit pas ... »&quot;] --&gt; Q1{&quot;La reponse est-elle ecrite&lt;br/&gt;DANS UNE SECTION DE ROUTE ?&quot;}
+  Q1 -- &quot;OUI&quot; --&gt; FX[&quot;FAUX SILENCE&lt;br/&gt;on relit, et on note ou etait la reponse&quot;]
+  Q1 -- &quot;NON&quot; --&gt; Q2{&quot;Est-elle ecrite&lt;br/&gt;DANS LE PREAMBULE&lt;br/&gt;ou dans le bloc des TYPES PARTAGES ?&quot;}
+  Q2 -- &quot;OUI&quot; --&gt; FX
+  Q2 -- &quot;NON&quot; --&gt; Q3{&quot;La question posee est-elle&lt;br/&gt;LA BONNE QUESTION ?&quot;}
+  Q3 -- &quot;NON&quot; --&gt; MF[&quot;SILENCE MAL FORMULE&lt;br/&gt;on reformule — la vraie question&lt;br/&gt;est presque toujours plus couteuse&quot;]
+  MF --&gt; Q1
+  Q3 -- &quot;OUI&quot; --&gt; Q4{&quot;La question est-elle FERMEE ?&lt;br/&gt;appelle-t-elle une decision ?&quot;}
+  Q4 -- &quot;NON&quot; --&gt; MF
+  Q4 -- &quot;OUI&quot; --&gt; SR[&quot;SILENCE REEL&lt;br/&gt;question au metier + cout d&#x27;erreur&lt;br/&gt;AUCUNE assertion tant qu&#x27;il n&#x27;est pas tranche&quot;]
+  SR --&gt; IA[&quot;Si on ne le leve pas :&lt;br/&gt;LE MODELE TRANCHERA&lt;br/&gt;sans auteur, sans date, sans recours&quot;]
+  classDef faux fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef mal fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef reel fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef alerte fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  class FX faux;
+  class MF mal;
+  class SR reel;
+  class IA alerte;</pre>
+</section>
+
+<section class="card" id="c7">
+  <header>
+    <div>
+      <h2>M3-1-un-code-deux-prompts</h2>
+      <p class="ctx">Notion M3.1 — « Le pari : deux prompts, un même code » <span class="src">· module-M3-parler-a-la-machine.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(7,'M3-1-un-code-deux-prompts')">SVG</button>
+      <button onclick="dlPng(7,'M3-1-un-code-deux-prompts')">PNG</button>
+      <button class="ghost" onclick="toggleCode(7)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r7"><pre class="mermaid">flowchart TB
+  C[&quot;UN SEUL CODE&lt;br/&gt;feature #12 — rating sur PATCH /api/journeys/:id&lt;br/&gt;aucun bug · aucun test&quot;]
+  C --&gt; A[&quot;PROMPT A — nu&lt;br/&gt;« ecris les tests de la notation »&quot;]
+  C --&gt; B[&quot;PROMPT B — contractuel&lt;br/&gt;contrat + EX-014 + style + clause d&#x27;abstention&quot;]
+  A --&gt; A1[&quot;compile ✓&quot;] --&gt; A2[&quot;passe au vert ✓&quot;] --&gt; A3[&quot;7 cas de test&quot;]
+  A3 --&gt; AX[&quot;expect(400) sur rating = 6&lt;br/&gt;EXIGENCE HALLUCINEE&quot;]
+  B --&gt; B1[&quot;compile ✓&quot;] --&gt; B2[&quot;passe au vert ✓&quot;] --&gt; B3[&quot;4 cas de test&quot;]
+  B3 --&gt; BX[&quot;// SILENCE: rating est-il borne ?&lt;br/&gt;SILENCE SIGNALE&quot;]
+  AX --&gt; V{&quot;Les deux suites franchissent&lt;br/&gt;les trois filtres du benchmark&quot;}
+  BX --&gt; V
+  V --&gt; D[&quot;Le seul ecart mesurable :&lt;br/&gt;D&#x27;OU VIENT L&#x27;ATTENDU&quot;]
+  R1[&quot;2e execution du prompt A&quot;] -. &quot;sortie differente — variabilite native&quot; .-&gt; A3
+  classDef code fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef neutre fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class C code;
+  class AX ko;
+  class BX,D ok;
+  class A1,A2,A3,B1,B2,B3,V neutre;
+  class R1 ko;</pre></div>
+  <pre class="code" id="k7" hidden>flowchart TB
+  C[&quot;UN SEUL CODE&lt;br/&gt;feature #12 — rating sur PATCH /api/journeys/:id&lt;br/&gt;aucun bug · aucun test&quot;]
+  C --&gt; A[&quot;PROMPT A — nu&lt;br/&gt;« ecris les tests de la notation »&quot;]
+  C --&gt; B[&quot;PROMPT B — contractuel&lt;br/&gt;contrat + EX-014 + style + clause d&#x27;abstention&quot;]
+  A --&gt; A1[&quot;compile ✓&quot;] --&gt; A2[&quot;passe au vert ✓&quot;] --&gt; A3[&quot;7 cas de test&quot;]
+  A3 --&gt; AX[&quot;expect(400) sur rating = 6&lt;br/&gt;EXIGENCE HALLUCINEE&quot;]
+  B --&gt; B1[&quot;compile ✓&quot;] --&gt; B2[&quot;passe au vert ✓&quot;] --&gt; B3[&quot;4 cas de test&quot;]
+  B3 --&gt; BX[&quot;// SILENCE: rating est-il borne ?&lt;br/&gt;SILENCE SIGNALE&quot;]
+  AX --&gt; V{&quot;Les deux suites franchissent&lt;br/&gt;les trois filtres du benchmark&quot;}
+  BX --&gt; V
+  V --&gt; D[&quot;Le seul ecart mesurable :&lt;br/&gt;D&#x27;OU VIENT L&#x27;ATTENDU&quot;]
+  R1[&quot;2e execution du prompt A&quot;] -. &quot;sortie differente — variabilite native&quot; .-&gt; A3
+  classDef code fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef neutre fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class C code;
+  class AX ko;
+  class BX,D ok;
+  class A1,A2,A3,B1,B2,B3,V neutre;
+  class R1 ko;</pre>
+</section>
+
+<section class="card" id="c8">
+  <header>
+    <div>
+      <h2>M3-2-les-cinq-blocs</h2>
+      <p class="ctx">Notion M3.2 — « Anatomie d&#x27;un prompt de test : les cinq blocs » <span class="src">· module-M3-parler-a-la-machine.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(8,'M3-2-les-cinq-blocs')">SVG</button>
+      <button onclick="dlPng(8,'M3-2-les-cinq-blocs')">PNG</button>
+      <button class="ghost" onclick="toggleCode(8)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r8"><pre class="mermaid">flowchart TB
+  subgraph P[&quot;LE PROMPT — ordre physique d&#x27;ecriture&quot;]
+    direction TB
+    B1[&quot;BLOC 1 — ROLE ET CADRE&lt;br/&gt;NestJS · Jest · supertest · npm run test:backend&quot;]
+    B2[&quot;BLOC 2 — SOURCE DE VERITE&lt;br/&gt;contrat colle + types + interdiction de lire le code&lt;br/&gt;LE PLUS LONG — EN TETE&quot;]
+    B3[&quot;BLOC 3 — EXIGENCES&lt;br/&gt;EX-005 … EX-nnn&quot;]
+    B4[&quot;BLOC 4 — STYLE ATTENDU&lt;br/&gt;UN exemple : l&#x27;etalon de Z1 · les interdits&quot;]
+    B5[&quot;BLOC 5 — CONTRAT DE SORTIE&lt;br/&gt;tracabilite · abstention · couverture&lt;br/&gt;LA DEMANDE — EN QUEUE&quot;]
+    B1 --&gt; B2 --&gt; B3 --&gt; B4 --&gt; B5
+  end
+  B1 -. &quot;absent&quot; .-&gt; D1[&quot;Stack inventee&lt;br/&gt;chemins plausibles inexistants&quot;]
+  B2 -. &quot;absent&quot; .-&gt; D2[&quot;L&#x27;oracle devient le code&lt;br/&gt;TEST TAUTOLOGIQUE&quot;]
+  B3 -. &quot;absent&quot; .-&gt; D3[&quot;Chemin nominal seul&lt;br/&gt;couverture indeterminable&quot;]
+  B4 -. &quot;absent&quot; .-&gt; D4[&quot;Imitation du voisin le plus proche&lt;br/&gt;journeys.update.spec.ts — LE SUR-MOCK SE PROPAGE&quot;]
+  B5 -. &quot;absent&quot; .-&gt; D5[&quot;Silences combles sans marqueur&lt;br/&gt;rien n&#x27;est mesurable&quot;]
+  B5 --&gt; S[&quot;SORTIE VERIFIABLE&lt;br/&gt;it(&#x27;EX-nnn&#x27;) · // SILENCE: · // COUVERTURE&quot;]
+  classDef bloc fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef panne fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class B1,B2,B3,B4,B5 bloc;
+  class D1,D2,D3,D4,D5 panne;
+  class S ok;</pre></div>
+  <pre class="code" id="k8" hidden>flowchart TB
+  subgraph P[&quot;LE PROMPT — ordre physique d&#x27;ecriture&quot;]
+    direction TB
+    B1[&quot;BLOC 1 — ROLE ET CADRE&lt;br/&gt;NestJS · Jest · supertest · npm run test:backend&quot;]
+    B2[&quot;BLOC 2 — SOURCE DE VERITE&lt;br/&gt;contrat colle + types + interdiction de lire le code&lt;br/&gt;LE PLUS LONG — EN TETE&quot;]
+    B3[&quot;BLOC 3 — EXIGENCES&lt;br/&gt;EX-005 … EX-nnn&quot;]
+    B4[&quot;BLOC 4 — STYLE ATTENDU&lt;br/&gt;UN exemple : l&#x27;etalon de Z1 · les interdits&quot;]
+    B5[&quot;BLOC 5 — CONTRAT DE SORTIE&lt;br/&gt;tracabilite · abstention · couverture&lt;br/&gt;LA DEMANDE — EN QUEUE&quot;]
+    B1 --&gt; B2 --&gt; B3 --&gt; B4 --&gt; B5
+  end
+  B1 -. &quot;absent&quot; .-&gt; D1[&quot;Stack inventee&lt;br/&gt;chemins plausibles inexistants&quot;]
+  B2 -. &quot;absent&quot; .-&gt; D2[&quot;L&#x27;oracle devient le code&lt;br/&gt;TEST TAUTOLOGIQUE&quot;]
+  B3 -. &quot;absent&quot; .-&gt; D3[&quot;Chemin nominal seul&lt;br/&gt;couverture indeterminable&quot;]
+  B4 -. &quot;absent&quot; .-&gt; D4[&quot;Imitation du voisin le plus proche&lt;br/&gt;journeys.update.spec.ts — LE SUR-MOCK SE PROPAGE&quot;]
+  B5 -. &quot;absent&quot; .-&gt; D5[&quot;Silences combles sans marqueur&lt;br/&gt;rien n&#x27;est mesurable&quot;]
+  B5 --&gt; S[&quot;SORTIE VERIFIABLE&lt;br/&gt;it(&#x27;EX-nnn&#x27;) · // SILENCE: · // COUVERTURE&quot;]
+  classDef bloc fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef panne fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class B1,B2,B3,B4,B5 bloc;
+  class D1,D2,D3,D4,D5 panne;
+  class S ok;</pre>
+</section>
+
+<section class="card" id="c9">
+  <header>
+    <div>
+      <h2>M3-3-le-budget-de-contexte</h2>
+      <p class="ctx">Notion M3.3 — « Explorer le monorepo sans le charger en entier » <span class="src">· module-M3-parler-a-la-machine.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(9,'M3-3-le-budget-de-contexte')">SVG</button>
+      <button onclick="dlPng(9,'M3-3-le-budget-de-contexte')">PNG</button>
+      <button class="ghost" onclick="toggleCode(9)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r9"><pre class="mermaid">flowchart TB
+  subgraph BUD[&quot;LE BUDGET DE CONTEXTE D&#x27;UNE SESSION&quot;]
+    direction TB
+    Z1[&quot;docs/API-CONTRACT.md — section utile&lt;br/&gt;SIGNAL TRES ELEVE&quot;]
+    Z2[&quot;docs/stats.md&lt;br/&gt;SIGNAL TRES ELEVE&quot;]
+    Z3[&quot;UN exemple de test etalon&lt;br/&gt;SIGNAL ELEVE&quot;]
+    Z4[&quot;Le fichier de service sous test&lt;br/&gt;SIGNAL NUL — et ORACLE INTERDIT&quot;]
+    Z5[&quot;Toute l&#x27;arborescence backend/src&lt;br/&gt;SIGNAL FAIBLE · COUT ELEVE&quot;]
+    Z6[&quot;node_modules · dist · build&lt;br/&gt;SIGNAL NUL · COUT MAXIMAL&quot;]
+  end
+  Z1 --&gt; G2
+  Z2 --&gt; G2
+  Z3 --&gt; G2
+  Z4 -. &quot;refuse&quot; .-&gt; X[&quot;Ce qu&#x27;on n&#x27;ouvre pas&quot;]
+  Z5 -. &quot;delegue&quot; .-&gt; G3
+  Z6 -. &quot;jamais demande&quot; .-&gt; X
+  G1[&quot;GESTE 1 — MESURER&lt;br/&gt;avant et apres&quot;] --&gt; G2[&quot;GESTE 2 — CHOISIR&lt;br/&gt;3 fichiers, pas 300&quot;]
+  G2 --&gt; G3[&quot;GESTE 3 — DELEGUER&lt;br/&gt;le sous-agent explore&lt;br/&gt;et ne rend qu&#x27;un constat&quot;]
+  G3 --&gt; G4[&quot;GESTE 4 — PURGER&lt;br/&gt;entre deux zones · regle des 2 corrections&quot;]
+  G4 --&gt; R[&quot;Contexte utile&lt;br/&gt;petit · a fort signal · defendable&quot;]
+  W[&quot;Contexte plein&lt;br/&gt;des 32 000 tokens :&lt;br/&gt;11 modeles sur 13 sous 50 %&lt;br/&gt;de leur performance de reference&quot;]
+  Z5 -. &quot;si on ne delegue pas&quot; .-&gt; W
+  classDef fort fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef faible fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef nul fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef geste fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  class Z1,Z2,Z3,R fort;
+  class Z5 faible;
+  class Z4,Z6,W,X nul;
+  class G1,G2,G3,G4 geste;</pre></div>
+  <pre class="code" id="k9" hidden>flowchart TB
+  subgraph BUD[&quot;LE BUDGET DE CONTEXTE D&#x27;UNE SESSION&quot;]
+    direction TB
+    Z1[&quot;docs/API-CONTRACT.md — section utile&lt;br/&gt;SIGNAL TRES ELEVE&quot;]
+    Z2[&quot;docs/stats.md&lt;br/&gt;SIGNAL TRES ELEVE&quot;]
+    Z3[&quot;UN exemple de test etalon&lt;br/&gt;SIGNAL ELEVE&quot;]
+    Z4[&quot;Le fichier de service sous test&lt;br/&gt;SIGNAL NUL — et ORACLE INTERDIT&quot;]
+    Z5[&quot;Toute l&#x27;arborescence backend/src&lt;br/&gt;SIGNAL FAIBLE · COUT ELEVE&quot;]
+    Z6[&quot;node_modules · dist · build&lt;br/&gt;SIGNAL NUL · COUT MAXIMAL&quot;]
+  end
+  Z1 --&gt; G2
+  Z2 --&gt; G2
+  Z3 --&gt; G2
+  Z4 -. &quot;refuse&quot; .-&gt; X[&quot;Ce qu&#x27;on n&#x27;ouvre pas&quot;]
+  Z5 -. &quot;delegue&quot; .-&gt; G3
+  Z6 -. &quot;jamais demande&quot; .-&gt; X
+  G1[&quot;GESTE 1 — MESURER&lt;br/&gt;avant et apres&quot;] --&gt; G2[&quot;GESTE 2 — CHOISIR&lt;br/&gt;3 fichiers, pas 300&quot;]
+  G2 --&gt; G3[&quot;GESTE 3 — DELEGUER&lt;br/&gt;le sous-agent explore&lt;br/&gt;et ne rend qu&#x27;un constat&quot;]
+  G3 --&gt; G4[&quot;GESTE 4 — PURGER&lt;br/&gt;entre deux zones · regle des 2 corrections&quot;]
+  G4 --&gt; R[&quot;Contexte utile&lt;br/&gt;petit · a fort signal · defendable&quot;]
+  W[&quot;Contexte plein&lt;br/&gt;des 32 000 tokens :&lt;br/&gt;11 modeles sur 13 sous 50 %&lt;br/&gt;de leur performance de reference&quot;]
+  Z5 -. &quot;si on ne delegue pas&quot; .-&gt; W
+  classDef fort fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef faible fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef nul fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef geste fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  class Z1,Z2,Z3,R fort;
+  class Z5 faible;
+  class Z4,Z6,W,X nul;
+  class G1,G2,G3,G4 geste;</pre>
+</section>
+
+<section class="card" id="c10">
+  <header>
+    <div>
+      <h2>M3-4-le-cycle-de-vie-d-un-prompt</h2>
+      <p class="ctx">Notion M3.4 — « Versionner un prompt comme du code » <span class="src">· module-M3-parler-a-la-machine.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(10,'M3-4-le-cycle-de-vie-d-un-prompt')">SVG</button>
+      <button onclick="dlPng(10,'M3-4-le-cycle-de-vie-d-un-prompt')">PNG</button>
+      <button class="ghost" onclick="toggleCode(10)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r10"><pre class="mermaid">flowchart LR
+  W[&quot;1. Redaction&lt;br/&gt;gabarit a 5 blocs — M3.2&quot;] --&gt; J[&quot;2. Jeu de cas FIGE&lt;br/&gt;2 exigences ordinaires&lt;br/&gt;+ 1 bug connu&lt;br/&gt;+ 1 silence connu&quot;]
+  J --&gt; N[&quot;3. n generations&lt;br/&gt;n &gt;= 3 — la variabilite est native&quot;]
+  N --&gt; M{&quot;4. Mesure&quot;}
+  M --&gt; C1[&quot;C1 — Executabilite&quot;]
+  M --&gt; C2[&quot;C2 — Tracabilite&quot;]
+  M --&gt; C3[&quot;C3 — CAPACITE DE DETECTION&lt;br/&gt;le critere qui decide&quot;]
+  M --&gt; C4[&quot;C4 — Abstention&quot;]
+  C1 --&gt; D{&quot;5. C3 regresse-t-il ?&quot;}
+  C2 --&gt; D
+  C3 --&gt; D
+  C4 --&gt; D
+  D -- &quot;NON — et C1/C2/C4 ne baissent pas&quot; --&gt; A[&quot;6. Demande de fusion&lt;br/&gt;sortie avant/apres jointe&lt;br/&gt;version incrementee&quot;]
+  D -- &quot;OUI&quot; --&gt; R[&quot;REFUS&lt;br/&gt;meme si tout le reste progresse&quot;]
+  A --&gt; P[&quot;7. Adoption&lt;br/&gt;en-tete : version + modele valide&quot;]
+  P -. &quot;le modele change&lt;br/&gt;deprecation · nouveau tokenizer&quot; .-&gt; J
+  classDef etape fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef cle fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class W,J,N,A,P etape;
+  class C1,C2,C4 cle;
+  class C3 ok;
+  class R ko;</pre></div>
+  <pre class="code" id="k10" hidden>flowchart LR
+  W[&quot;1. Redaction&lt;br/&gt;gabarit a 5 blocs — M3.2&quot;] --&gt; J[&quot;2. Jeu de cas FIGE&lt;br/&gt;2 exigences ordinaires&lt;br/&gt;+ 1 bug connu&lt;br/&gt;+ 1 silence connu&quot;]
+  J --&gt; N[&quot;3. n generations&lt;br/&gt;n &gt;= 3 — la variabilite est native&quot;]
+  N --&gt; M{&quot;4. Mesure&quot;}
+  M --&gt; C1[&quot;C1 — Executabilite&quot;]
+  M --&gt; C2[&quot;C2 — Tracabilite&quot;]
+  M --&gt; C3[&quot;C3 — CAPACITE DE DETECTION&lt;br/&gt;le critere qui decide&quot;]
+  M --&gt; C4[&quot;C4 — Abstention&quot;]
+  C1 --&gt; D{&quot;5. C3 regresse-t-il ?&quot;}
+  C2 --&gt; D
+  C3 --&gt; D
+  C4 --&gt; D
+  D -- &quot;NON — et C1/C2/C4 ne baissent pas&quot; --&gt; A[&quot;6. Demande de fusion&lt;br/&gt;sortie avant/apres jointe&lt;br/&gt;version incrementee&quot;]
+  D -- &quot;OUI&quot; --&gt; R[&quot;REFUS&lt;br/&gt;meme si tout le reste progresse&quot;]
+  A --&gt; P[&quot;7. Adoption&lt;br/&gt;en-tete : version + modele valide&quot;]
+  P -. &quot;le modele change&lt;br/&gt;deprecation · nouveau tokenizer&quot; .-&gt; J
+  classDef etape fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef cle fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class W,J,N,A,P etape;
+  class C1,C2,C4 cle;
+  class C3 ok;
+  class R ko;</pre>
+</section>
+
+<section class="card" id="c11">
+  <header>
+    <div>
+      <h2>M4-1-la-session-qa</h2>
+      <p class="ctx">Notion M4.1 — « Claude Code : les dix gestes qui servent en QA » <span class="src">· module-M4-l-atelier.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(11,'M4-1-la-session-qa')">SVG</button>
+      <button onclick="dlPng(11,'M4-1-la-session-qa')">PNG</button>
+      <button class="ghost" onclick="toggleCode(11)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r11"><pre class="mermaid">flowchart TB
+  S([&quot;OUVERTURE DE SESSION&quot;]) --&gt; M1[&quot;GESTE 2 — MESURER&lt;br/&gt;on note le chiffre de depart&quot;]
+  M1 --&gt; C[&quot;CADRER&lt;br/&gt;geste 6 CLAUDE.md&lt;br/&gt;geste 7 refus de lecture&quot;]
+  C --&gt; P[&quot;GESTE 5 — MODE PLAN&lt;br/&gt;la strategie avant le premier fichier&quot;]
+  P --&gt; G[&quot;GENERATION&lt;br/&gt;un seul test&quot;]
+  G --&gt; E[&quot;GESTE 9 — EXECUTION&lt;br/&gt;la suite tourne, en arriere-plan&quot;]
+  E --&gt; V{&quot;LA PREUVE EXISTE-T-ELLE ?&lt;br/&gt;sortie de runner collee&lt;br/&gt;effet de bord constate&quot;}
+  V -- &quot;NON&quot; --&gt; W[&quot;AFFIRMATION&lt;br/&gt;ne vaut rien&quot;]
+  V -- &quot;OUI&quot; --&gt; R[&quot;RESULTAT&lt;br/&gt;opposable&quot;]
+  R --&gt; M2[&quot;GESTE 2 — MESURER&lt;br/&gt;le cout de ce qu&#x27;on vient de faire&quot;]
+  M2 --&gt; D{&quot;On change de zone&lt;br/&gt;ou on a corrige 2 fois&lt;br/&gt;le meme point ?&quot;}
+  D -- &quot;OUI&quot; --&gt; CL[&quot;GESTE 3 — PURGER&lt;br/&gt;on repart a vide&quot;]
+  D -- &quot;NON&quot; --&gt; CP[&quot;GESTE 4 — RESUMER&lt;br/&gt;avec consigne de focalisation&quot;]
+  CL --&gt; S
+  CP --&gt; P
+  R --&gt; H[&quot;GESTE 8 — MODE NON INTERACTIF&lt;br/&gt;la meme chose, sans humain&lt;br/&gt;sortie machine-lisible&quot;]
+  H --&gt; CI([&quot;VERS LA CI — module M6.3&quot;])
+  RW[&quot;GESTE 10 — RETOUR ARRIERE&lt;br/&gt;protege ce que l&#x27;agent a ecrit&quot;] -. &quot;ne protege PAS&lt;br/&gt;ce que l&#x27;execution a ecrit&quot; .-&gt; E
+  classDef geste fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef alerte fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class M1,C,P,M2,CL,CP,H geste;
+  class R,CI ok;
+  class W ko;
+  class RW,V alerte;</pre></div>
+  <pre class="code" id="k11" hidden>flowchart TB
+  S([&quot;OUVERTURE DE SESSION&quot;]) --&gt; M1[&quot;GESTE 2 — MESURER&lt;br/&gt;on note le chiffre de depart&quot;]
+  M1 --&gt; C[&quot;CADRER&lt;br/&gt;geste 6 CLAUDE.md&lt;br/&gt;geste 7 refus de lecture&quot;]
+  C --&gt; P[&quot;GESTE 5 — MODE PLAN&lt;br/&gt;la strategie avant le premier fichier&quot;]
+  P --&gt; G[&quot;GENERATION&lt;br/&gt;un seul test&quot;]
+  G --&gt; E[&quot;GESTE 9 — EXECUTION&lt;br/&gt;la suite tourne, en arriere-plan&quot;]
+  E --&gt; V{&quot;LA PREUVE EXISTE-T-ELLE ?&lt;br/&gt;sortie de runner collee&lt;br/&gt;effet de bord constate&quot;}
+  V -- &quot;NON&quot; --&gt; W[&quot;AFFIRMATION&lt;br/&gt;ne vaut rien&quot;]
+  V -- &quot;OUI&quot; --&gt; R[&quot;RESULTAT&lt;br/&gt;opposable&quot;]
+  R --&gt; M2[&quot;GESTE 2 — MESURER&lt;br/&gt;le cout de ce qu&#x27;on vient de faire&quot;]
+  M2 --&gt; D{&quot;On change de zone&lt;br/&gt;ou on a corrige 2 fois&lt;br/&gt;le meme point ?&quot;}
+  D -- &quot;OUI&quot; --&gt; CL[&quot;GESTE 3 — PURGER&lt;br/&gt;on repart a vide&quot;]
+  D -- &quot;NON&quot; --&gt; CP[&quot;GESTE 4 — RESUMER&lt;br/&gt;avec consigne de focalisation&quot;]
+  CL --&gt; S
+  CP --&gt; P
+  R --&gt; H[&quot;GESTE 8 — MODE NON INTERACTIF&lt;br/&gt;la meme chose, sans humain&lt;br/&gt;sortie machine-lisible&quot;]
+  H --&gt; CI([&quot;VERS LA CI — module M6.3&quot;])
+  RW[&quot;GESTE 10 — RETOUR ARRIERE&lt;br/&gt;protege ce que l&#x27;agent a ecrit&quot;] -. &quot;ne protege PAS&lt;br/&gt;ce que l&#x27;execution a ecrit&quot; .-&gt; E
+  classDef geste fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef alerte fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class M1,C,P,M2,CL,CP,H geste;
+  class R,CI ok;
+  class W ko;
+  class RW,V alerte;</pre>
+</section>
+
+<section class="card" id="c12">
+  <header>
+    <div>
+      <h2>M4-2-les-yeux-de-l-agent</h2>
+      <p class="ctx">Notion M4.2 — « MCP : donner des yeux à l&#x27;agent » <span class="src">· module-M4-l-atelier.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(12,'M4-2-les-yeux-de-l-agent')">SVG</button>
+      <button onclick="dlPng(12,'M4-2-les-yeux-de-l-agent')">PNG</button>
+      <button class="ghost" onclick="toggleCode(12)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r12"><pre class="mermaid">flowchart LR
+  subgraph AVEUGLE[&quot;① SANS SERVEUR D&#x27;OBSERVATION&quot;]
+    direction TB
+    A1[&quot;L&#x27;agent lit le code source du front&quot;] --&gt; A2[&quot;Il DEDUIT une structure&lt;br/&gt;plausible&quot;]
+    A2 --&gt; A3[&quot;Selecteur invente&lt;br/&gt;plausible, jamais verifie&quot;]
+    A3 --&gt; A4[&quot;Test ecrit · compte dans la couverture&lt;br/&gt;NE PILOTE RIEN — malus 30 PR&quot;]
+  end
+  subgraph VOYANT[&quot;② AVEC SERVEUR D&#x27;OBSERVATION&quot;]
+    direction TB
+    B1[&quot;Le front tourne pour de vrai&quot;] --&gt; B2[&quot;Instantane d&#x27;ACCESSIBILITE&lt;br/&gt;roles · noms · references&lt;br/&gt;200 a 400 tokens&quot;]
+    B2 --&gt; B3[&quot;L&#x27;agent CITE une reference lue&quot;]
+    B3 --&gt; B4[&quot;Test executable contre le vrai DOM&quot;]
+  end
+  A2 -. &quot;aucune confrontation au produit&quot; .-&gt; V{&quot;CE QUI DISTINGUE&lt;br/&gt;LES DEUX BRANCHES :&lt;br/&gt;la structure a-t-elle ete LUE&lt;br/&gt;ou DEDUITE ?&quot;}
+  B2 --&gt; V
+  subgraph COUT[&quot;③ CE QUE COUTE LA PERCEPTION&quot;]
+    direction TB
+    C1[&quot;Instantane d&#x27;accessibilite&lt;br/&gt;200 a 400 tokens&quot;]
+    C2[&quot;DOM complet&lt;br/&gt;des milliers de tokens&quot;]
+    C3[&quot;Capture d&#x27;ecran&lt;br/&gt;des milliers + modele de vision&quot;]
+  end
+  B2 --&gt; C1
+  subgraph RISQUE[&quot;④ CE QUE COUTE LA CONFIANCE&quot;]
+    direction TB
+    D1[&quot;La description d&#x27;un outil&lt;br/&gt;ENTRE dans le contexte&quot;]
+    D2[&quot;Empoisonnement d&#x27;outil&lt;br/&gt;injection · memoire · interference&quot;]
+    D1 --&gt; D2
+  end
+  B3 -. &quot;un serveur tiers non relu&quot; .-&gt; D1
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef neutre fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef alerte fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class A2,A3,A4 ko;
+  class B2,B3,B4,C1 ok;
+  class V neutre;
+  class C2,C3,D1,D2 alerte;</pre></div>
+  <pre class="code" id="k12" hidden>flowchart LR
+  subgraph AVEUGLE[&quot;① SANS SERVEUR D&#x27;OBSERVATION&quot;]
+    direction TB
+    A1[&quot;L&#x27;agent lit le code source du front&quot;] --&gt; A2[&quot;Il DEDUIT une structure&lt;br/&gt;plausible&quot;]
+    A2 --&gt; A3[&quot;Selecteur invente&lt;br/&gt;plausible, jamais verifie&quot;]
+    A3 --&gt; A4[&quot;Test ecrit · compte dans la couverture&lt;br/&gt;NE PILOTE RIEN — malus 30 PR&quot;]
+  end
+  subgraph VOYANT[&quot;② AVEC SERVEUR D&#x27;OBSERVATION&quot;]
+    direction TB
+    B1[&quot;Le front tourne pour de vrai&quot;] --&gt; B2[&quot;Instantane d&#x27;ACCESSIBILITE&lt;br/&gt;roles · noms · references&lt;br/&gt;200 a 400 tokens&quot;]
+    B2 --&gt; B3[&quot;L&#x27;agent CITE une reference lue&quot;]
+    B3 --&gt; B4[&quot;Test executable contre le vrai DOM&quot;]
+  end
+  A2 -. &quot;aucune confrontation au produit&quot; .-&gt; V{&quot;CE QUI DISTINGUE&lt;br/&gt;LES DEUX BRANCHES :&lt;br/&gt;la structure a-t-elle ete LUE&lt;br/&gt;ou DEDUITE ?&quot;}
+  B2 --&gt; V
+  subgraph COUT[&quot;③ CE QUE COUTE LA PERCEPTION&quot;]
+    direction TB
+    C1[&quot;Instantane d&#x27;accessibilite&lt;br/&gt;200 a 400 tokens&quot;]
+    C2[&quot;DOM complet&lt;br/&gt;des milliers de tokens&quot;]
+    C3[&quot;Capture d&#x27;ecran&lt;br/&gt;des milliers + modele de vision&quot;]
+  end
+  B2 --&gt; C1
+  subgraph RISQUE[&quot;④ CE QUE COUTE LA CONFIANCE&quot;]
+    direction TB
+    D1[&quot;La description d&#x27;un outil&lt;br/&gt;ENTRE dans le contexte&quot;]
+    D2[&quot;Empoisonnement d&#x27;outil&lt;br/&gt;injection · memoire · interference&quot;]
+    D1 --&gt; D2
+  end
+  B3 -. &quot;un serveur tiers non relu&quot; .-&gt; D1
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef neutre fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef alerte fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class A2,A3,A4 ko;
+  class B2,B3,B4,C1 ok;
+  class V neutre;
+  class C2,C3,D1,D2 alerte;</pre>
+</section>
+
+<section class="card" id="c13">
+  <header>
+    <div>
+      <h2>M4-3-la-grille-de-choix</h2>
+      <p class="ctx">Notion M4.3 — « Choisir son outil : panorama et critères » <span class="src">· module-M4-l-atelier.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(13,'M4-3-la-grille-de-choix')">SVG</button>
+      <button onclick="dlPng(13,'M4-3-la-grille-de-choix')">PNG</button>
+      <button class="ghost" onclick="toggleCode(13)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r13"><pre class="mermaid">flowchart TB
+  Q0{&quot;Quelle case de la chaine&lt;br/&gt;ce produit occupe-t-il ?&quot;}
+  Q0 -- &quot;CONCEVOIR&quot; --&gt; K1[&quot;Analyse d&#x27;exigences,&lt;br/&gt;plans de test, cas de test&quot;]
+  Q0 -- &quot;GENERER&quot; --&gt; K2[&quot;Ecriture de fichiers de test&quot;]
+  Q0 -- &quot;EXECUTER&quot; --&gt; K3[&quot;Runners : Jest · Vitest · Playwright&quot;]
+  Q0 -- &quot;REPARER&quot; --&gt; K4[&quot;Auto-reparation de selecteurs&quot;]
+  K1 --&gt; Q1{&quot;C1 — LE LIVRABLE&lt;br/&gt;si j&#x27;arrete demain,&lt;br/&gt;que reste-t-il dans mon depot ?&quot;}
+  K2 --&gt; Q1
+  K3 --&gt; Q1
+  K4 --&gt; Q1
+  Q1 -- &quot;Du code executable&lt;br/&gt;par MA CI&quot; --&gt; A[&quot;CANDIDAT RECEVABLE&lt;br/&gt;on passe aux 6 autres criteres&quot;]
+  Q1 -- &quot;Rien, ou un export partiel&quot; --&gt; B[&quot;DEPENDANCE&lt;br/&gt;a chiffrer explicitement&lt;br/&gt;ce n&#x27;est pas disqualifiant,&lt;br/&gt;c&#x27;est un cout a assumer&quot;]
+  A --&gt; C2[&quot;C2 couverture technique&lt;br/&gt;mon langage, mon runner&quot;]
+  C2 --&gt; C4[&quot;C4 determinisme&lt;br/&gt;deux executions,&lt;br/&gt;le meme artefact ?&quot;]
+  C4 --&gt; C5{&quot;C5 — LA PREUVE&lt;br/&gt;mesure comment,&lt;br/&gt;sur quoi, contre quoi ?&quot;}
+  C5 -- &quot;Methodologie publiee&quot; --&gt; P1[&quot;FAIT&quot;]
+  C5 -- &quot;Page produit&quot; --&gt; P2[&quot;REVENDICATION EDITEUR&lt;br/&gt;se cite comme telle&quot;]
+  P1 --&gt; C6[&quot;C6 cout total&lt;br/&gt;licence + tokens&lt;br/&gt;+ RELECTURE HUMAINE&quot;]
+  P2 --&gt; C6
+  C6 --&gt; C7[&quot;C7 gouvernance et perennite&lt;br/&gt;qui maintient, depuis quand,&lt;br/&gt;sous quelle licence ?&quot;]
+  C7 --&gt; R([&quot;RECOMMANDATION SIGNEE&lt;br/&gt;ponderation ecrite&lt;br/&gt;et defendue&quot;])
+  B --&gt; C6
+  classDef question fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef alerte fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef fin fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  class Q0,Q1,C5 question;
+  class A,P1,R ok;
+  class B,P2 alerte;
+  class K1,K2,K3,K4,C2,C4,C6,C7 fin;</pre></div>
+  <pre class="code" id="k13" hidden>flowchart TB
+  Q0{&quot;Quelle case de la chaine&lt;br/&gt;ce produit occupe-t-il ?&quot;}
+  Q0 -- &quot;CONCEVOIR&quot; --&gt; K1[&quot;Analyse d&#x27;exigences,&lt;br/&gt;plans de test, cas de test&quot;]
+  Q0 -- &quot;GENERER&quot; --&gt; K2[&quot;Ecriture de fichiers de test&quot;]
+  Q0 -- &quot;EXECUTER&quot; --&gt; K3[&quot;Runners : Jest · Vitest · Playwright&quot;]
+  Q0 -- &quot;REPARER&quot; --&gt; K4[&quot;Auto-reparation de selecteurs&quot;]
+  K1 --&gt; Q1{&quot;C1 — LE LIVRABLE&lt;br/&gt;si j&#x27;arrete demain,&lt;br/&gt;que reste-t-il dans mon depot ?&quot;}
+  K2 --&gt; Q1
+  K3 --&gt; Q1
+  K4 --&gt; Q1
+  Q1 -- &quot;Du code executable&lt;br/&gt;par MA CI&quot; --&gt; A[&quot;CANDIDAT RECEVABLE&lt;br/&gt;on passe aux 6 autres criteres&quot;]
+  Q1 -- &quot;Rien, ou un export partiel&quot; --&gt; B[&quot;DEPENDANCE&lt;br/&gt;a chiffrer explicitement&lt;br/&gt;ce n&#x27;est pas disqualifiant,&lt;br/&gt;c&#x27;est un cout a assumer&quot;]
+  A --&gt; C2[&quot;C2 couverture technique&lt;br/&gt;mon langage, mon runner&quot;]
+  C2 --&gt; C4[&quot;C4 determinisme&lt;br/&gt;deux executions,&lt;br/&gt;le meme artefact ?&quot;]
+  C4 --&gt; C5{&quot;C5 — LA PREUVE&lt;br/&gt;mesure comment,&lt;br/&gt;sur quoi, contre quoi ?&quot;}
+  C5 -- &quot;Methodologie publiee&quot; --&gt; P1[&quot;FAIT&quot;]
+  C5 -- &quot;Page produit&quot; --&gt; P2[&quot;REVENDICATION EDITEUR&lt;br/&gt;se cite comme telle&quot;]
+  P1 --&gt; C6[&quot;C6 cout total&lt;br/&gt;licence + tokens&lt;br/&gt;+ RELECTURE HUMAINE&quot;]
+  P2 --&gt; C6
+  C6 --&gt; C7[&quot;C7 gouvernance et perennite&lt;br/&gt;qui maintient, depuis quand,&lt;br/&gt;sous quelle licence ?&quot;]
+  C7 --&gt; R([&quot;RECOMMANDATION SIGNEE&lt;br/&gt;ponderation ecrite&lt;br/&gt;et defendue&quot;])
+  B --&gt; C6
+  classDef question fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef alerte fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef fin fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  class Q0,Q1,C5 question;
+  class A,P1,R ok;
+  class B,P2 alerte;
+  class K1,K2,K3,K4,C2,C4,C6,C7 fin;</pre>
+</section>
+
+<section class="card" id="c14">
+  <header>
+    <div>
+      <h2>M5-1-cinq-methodes-un-angle-mort</h2>
+      <p class="ctx">Notion M5.1 — « La chasse : cinq défauts cachés en quinze minutes » <span class="src">· module-M5-l-agent-qui-travaille-seul.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(14,'M5-1-cinq-methodes-un-angle-mort')">SVG</button>
+      <button onclick="dlPng(14,'M5-1-cinq-methodes-un-angle-mort')">PNG</button>
+      <button class="ghost" onclick="toggleCode(14)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r14"><pre class="mermaid">flowchart TB
+  D[&quot;UN DEFAUT SUSPECTE&quot;] --&gt; Q{&quot;Ou est la source&lt;br/&gt;qui dit ce qui devrait se passer ?&quot;}
+  Q -- &quot;Dans la suite de tests&lt;br/&gt;elle existe deja&quot; --&gt; M1[&quot;METHODE 1 — EXECUTER&lt;br/&gt;bugs 6 et 8&lt;br/&gt;sortie de runner&quot;]
+  Q -- &quot;Dans le contrat&lt;br/&gt;docs/API-CONTRACT.md&quot; --&gt; M2[&quot;METHODE 2 — LIRE LE CONTRAT&lt;br/&gt;bug 6&lt;br/&gt;citation + section&quot;]
+  Q -- &quot;Dans le comportement&lt;br/&gt;il faut DEUX operations&quot; --&gt; M3[&quot;METHODE 3 — DOUBLE INSERTION&lt;br/&gt;bug 8&lt;br/&gt;l&#x27;ordre n&#x27;existe qu&#x27;a partir de 2&quot;]
+  Q -- &quot;Dans ce qu&#x27;on vient d&#x27;envoyer&quot; --&gt; M4[&quot;METHODE 4 — RELIRE LA REPONSE&lt;br/&gt;bugs 9 et 7&lt;br/&gt;corps envoye vs corps relu&quot;]
+  Q -- &quot;Dans les types partages&quot; --&gt; M5[&quot;METHODE 5 — CONTROLER LE TYPE&lt;br/&gt;bug 14&lt;br/&gt;string, PAS string ou null&quot;]
+  Q -- &quot;HORS DU DEPOT&quot; --&gt; X[&quot;AUCUNE METHODE DISPONIBLE&lt;br/&gt;bug 16 — inversion des coordonnees&quot;]
+  M1 --&gt; P([&quot;PREUVE OPPOSABLE&quot;])
+  M2 --&gt; P
+  M3 --&gt; P
+  M4 --&gt; P
+  M5 --&gt; P
+  X --&gt; Y[&quot;Il faut la documentation du tiers&lt;br/&gt;l&#x27;API repond 200 avec une polyline valide&lt;br/&gt;rien, en interne, ne signale l&#x27;erreur&quot;]
+  Y --&gt; Z([&quot;ANGLE MORT — repris en M7.1&quot;])
+  A[&quot;CE QUE L&#x27;AGENT RAMENE SEUL&quot;] -. &quot;presque toujours&quot; .-&gt; M1
+  A -. &quot;presque jamais&quot; .-&gt; M4
+  A -. &quot;presque jamais&quot; .-&gt; M5
+  A -. &quot;jamais&quot; .-&gt; X
+  classDef methode fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef trou fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef neutre fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef agent fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class M1,M2,M3,M4,M5,P methode;
+  class X,Y,Z trou;
+  class Q,D neutre;
+  class A agent;</pre></div>
+  <pre class="code" id="k14" hidden>flowchart TB
+  D[&quot;UN DEFAUT SUSPECTE&quot;] --&gt; Q{&quot;Ou est la source&lt;br/&gt;qui dit ce qui devrait se passer ?&quot;}
+  Q -- &quot;Dans la suite de tests&lt;br/&gt;elle existe deja&quot; --&gt; M1[&quot;METHODE 1 — EXECUTER&lt;br/&gt;bugs 6 et 8&lt;br/&gt;sortie de runner&quot;]
+  Q -- &quot;Dans le contrat&lt;br/&gt;docs/API-CONTRACT.md&quot; --&gt; M2[&quot;METHODE 2 — LIRE LE CONTRAT&lt;br/&gt;bug 6&lt;br/&gt;citation + section&quot;]
+  Q -- &quot;Dans le comportement&lt;br/&gt;il faut DEUX operations&quot; --&gt; M3[&quot;METHODE 3 — DOUBLE INSERTION&lt;br/&gt;bug 8&lt;br/&gt;l&#x27;ordre n&#x27;existe qu&#x27;a partir de 2&quot;]
+  Q -- &quot;Dans ce qu&#x27;on vient d&#x27;envoyer&quot; --&gt; M4[&quot;METHODE 4 — RELIRE LA REPONSE&lt;br/&gt;bugs 9 et 7&lt;br/&gt;corps envoye vs corps relu&quot;]
+  Q -- &quot;Dans les types partages&quot; --&gt; M5[&quot;METHODE 5 — CONTROLER LE TYPE&lt;br/&gt;bug 14&lt;br/&gt;string, PAS string ou null&quot;]
+  Q -- &quot;HORS DU DEPOT&quot; --&gt; X[&quot;AUCUNE METHODE DISPONIBLE&lt;br/&gt;bug 16 — inversion des coordonnees&quot;]
+  M1 --&gt; P([&quot;PREUVE OPPOSABLE&quot;])
+  M2 --&gt; P
+  M3 --&gt; P
+  M4 --&gt; P
+  M5 --&gt; P
+  X --&gt; Y[&quot;Il faut la documentation du tiers&lt;br/&gt;l&#x27;API repond 200 avec une polyline valide&lt;br/&gt;rien, en interne, ne signale l&#x27;erreur&quot;]
+  Y --&gt; Z([&quot;ANGLE MORT — repris en M7.1&quot;])
+  A[&quot;CE QUE L&#x27;AGENT RAMENE SEUL&quot;] -. &quot;presque toujours&quot; .-&gt; M1
+  A -. &quot;presque jamais&quot; .-&gt; M4
+  A -. &quot;presque jamais&quot; .-&gt; M5
+  A -. &quot;jamais&quot; .-&gt; X
+  classDef methode fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef trou fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef neutre fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef agent fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class M1,M2,M3,M4,M5,P methode;
+  class X,Y,Z trou;
+  class Q,D neutre;
+  class A agent;</pre>
+</section>
+
+<section class="card" id="c15">
+  <header>
+    <div>
+      <h2>M5-2-la-boucle-et-ses-conditions</h2>
+      <p class="ctx">Notion M5.2 — « La boucle : générer → exécuter → analyser → corriger » <span class="src">· module-M5-l-agent-qui-travaille-seul.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(15,'M5-2-la-boucle-et-ses-conditions')">SVG</button>
+      <button onclick="dlPng(15,'M5-2-la-boucle-et-ses-conditions')">PNG</button>
+      <button class="ghost" onclick="toggleCode(15)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r15"><pre class="mermaid">flowchart LR
+  E[&quot;EXIGENCE&lt;br/&gt;docs/API-CONTRACT.md&lt;br/&gt;ou type partage&quot;] --&gt; G[&quot;① GENERER&lt;br/&gt;fichiers *.spec.ts&quot;]
+  G --&gt; C1{&quot;CONDITION 1&lt;br/&gt;l&#x27;attendu vient-il&lt;br/&gt;d&#x27;une source EXTERIEURE&lt;br/&gt;au code ?&quot;}
+  C1 -- &quot;NON&quot; --&gt; F1[&quot;TEST TAUTOLOGIQUE&lt;br/&gt;aucune modification du code&lt;br/&gt;ne le ferait tomber&quot;]
+  C1 -- &quot;OUI&quot; --&gt; X[&quot;② EXECUTER&lt;br/&gt;npm run test:backend&quot;]
+  X --&gt; C2{&quot;CONDITION 2&lt;br/&gt;la suite a-t-elle&lt;br/&gt;REELLEMENT tourne ?&quot;}
+  C2 -- &quot;NON — l&#x27;agent DECLARE&quot; --&gt; F2[&quot;POINT DE RUPTURE N°1&lt;br/&gt;le rapport est un recit&quot;]
+  C2 -- &quot;OUI — sortie brute conservee&quot; --&gt; A[&quot;③ ANALYSER&lt;br/&gt;d&#x27;ou vient l&#x27;attendu ?&quot;]
+  A --&gt; C3{&quot;CONDITION 3&lt;br/&gt;l&#x27;oracle est-il NOMME&lt;br/&gt;et cite ?&quot;}
+  C3 -- &quot;NON&quot; --&gt; F3[&quot;VERDICT PAR DEFAUT :&lt;br/&gt;« le test est faux »&lt;br/&gt;c&#x27;est le moins cher a corriger&quot;]
+  C3 -- &quot;OUI&quot; --&gt; V[&quot;VERDICT&lt;br/&gt;test faux / code faux / indetermine&quot;]
+  V --&gt; R[&quot;④ CORRIGER&lt;br/&gt;le TEST, jamais le code&quot;]
+  R --&gt; C4{&quot;CONDITION 4&lt;br/&gt;l&#x27;assertion a-t-elle&lt;br/&gt;ete AFFAIBLIE ?&quot;}
+  C4 -- &quot;OUI&quot; --&gt; F4[&quot;POINT DE RUPTURE N°2&lt;br/&gt;vert ET defaut intact&lt;br/&gt;notion M5.4&quot;]
+  C4 -- &quot;NON&quot; --&gt; OK([&quot;TOUR SUIVANT&lt;br/&gt;ou fin, avec preuve&quot;])
+  OK -.-&gt; G
+  H[&quot;GARDE-FOU NIVEAU 3&lt;br/&gt;hook deterministe&quot;] -. &quot;bloque&quot; .-&gt; F4
+  S[&quot;GARDE-FOU NIVEAU 4&lt;br/&gt;subagent adversarial&lt;br/&gt;contexte separe&quot;] -. &quot;refuse&quot; .-&gt; F1
+  classDef etape fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef cond fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef garde fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class G,X,A,R,E etape;
+  class C1,C2,C3,C4,V cond;
+  class F1,F2,F3,F4 ko;
+  class OK ok;
+  class H,S garde;</pre></div>
+  <pre class="code" id="k15" hidden>flowchart LR
+  E[&quot;EXIGENCE&lt;br/&gt;docs/API-CONTRACT.md&lt;br/&gt;ou type partage&quot;] --&gt; G[&quot;① GENERER&lt;br/&gt;fichiers *.spec.ts&quot;]
+  G --&gt; C1{&quot;CONDITION 1&lt;br/&gt;l&#x27;attendu vient-il&lt;br/&gt;d&#x27;une source EXTERIEURE&lt;br/&gt;au code ?&quot;}
+  C1 -- &quot;NON&quot; --&gt; F1[&quot;TEST TAUTOLOGIQUE&lt;br/&gt;aucune modification du code&lt;br/&gt;ne le ferait tomber&quot;]
+  C1 -- &quot;OUI&quot; --&gt; X[&quot;② EXECUTER&lt;br/&gt;npm run test:backend&quot;]
+  X --&gt; C2{&quot;CONDITION 2&lt;br/&gt;la suite a-t-elle&lt;br/&gt;REELLEMENT tourne ?&quot;}
+  C2 -- &quot;NON — l&#x27;agent DECLARE&quot; --&gt; F2[&quot;POINT DE RUPTURE N°1&lt;br/&gt;le rapport est un recit&quot;]
+  C2 -- &quot;OUI — sortie brute conservee&quot; --&gt; A[&quot;③ ANALYSER&lt;br/&gt;d&#x27;ou vient l&#x27;attendu ?&quot;]
+  A --&gt; C3{&quot;CONDITION 3&lt;br/&gt;l&#x27;oracle est-il NOMME&lt;br/&gt;et cite ?&quot;}
+  C3 -- &quot;NON&quot; --&gt; F3[&quot;VERDICT PAR DEFAUT :&lt;br/&gt;« le test est faux »&lt;br/&gt;c&#x27;est le moins cher a corriger&quot;]
+  C3 -- &quot;OUI&quot; --&gt; V[&quot;VERDICT&lt;br/&gt;test faux / code faux / indetermine&quot;]
+  V --&gt; R[&quot;④ CORRIGER&lt;br/&gt;le TEST, jamais le code&quot;]
+  R --&gt; C4{&quot;CONDITION 4&lt;br/&gt;l&#x27;assertion a-t-elle&lt;br/&gt;ete AFFAIBLIE ?&quot;}
+  C4 -- &quot;OUI&quot; --&gt; F4[&quot;POINT DE RUPTURE N°2&lt;br/&gt;vert ET defaut intact&lt;br/&gt;notion M5.4&quot;]
+  C4 -- &quot;NON&quot; --&gt; OK([&quot;TOUR SUIVANT&lt;br/&gt;ou fin, avec preuve&quot;])
+  OK -.-&gt; G
+  H[&quot;GARDE-FOU NIVEAU 3&lt;br/&gt;hook deterministe&quot;] -. &quot;bloque&quot; .-&gt; F4
+  S[&quot;GARDE-FOU NIVEAU 4&lt;br/&gt;subagent adversarial&lt;br/&gt;contexte separe&quot;] -. &quot;refuse&quot; .-&gt; F1
+  classDef etape fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef cond fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef garde fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class G,X,A,R,E etape;
+  class C1,C2,C3,C4,V cond;
+  class F1,F2,F3,F4 ko;
+  class OK ok;
+  class H,S garde;</pre>
+</section>
+
+<section class="card" id="c16">
+  <header>
+    <div>
+      <h2>M5-3-les-trois-briques</h2>
+      <p class="ctx">Notion M5.3 — « Construire l&#x27;agent : skill, subagent, hook » <span class="src">· module-M5-l-agent-qui-travaille-seul.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(16,'M5-3-les-trois-briques')">SVG</button>
+      <button onclick="dlPng(16,'M5-3-les-trois-briques')">PNG</button>
+      <button class="ghost" onclick="toggleCode(16)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r16"><pre class="mermaid">flowchart TB
+  U[&quot;UNE EXIGENCE D&#x27;EQUIPE&quot;] --&gt; Q{&quot;Que voulez-vous&lt;br/&gt;obtenir exactement ?&quot;}
+  Q -- &quot;Qu&#x27;on le SACHE&quot; --&gt; B0[&quot;CLAUDE.md&lt;br/&gt;la memoire projet, versionnee&lt;br/&gt;sous 200 lignes&quot;]
+  Q -- &quot;Qu&#x27;on le FASSE&lt;br/&gt;dans le bon ordre&quot; --&gt; B1[&quot;SKILL&lt;br/&gt;nom = nom du dossier, 64 car.&lt;br/&gt;description 1024 car.&lt;br/&gt;corps sous 500 lignes&quot;]
+  Q -- &quot;Qu&#x27;on le JUGE&lt;br/&gt;independamment&quot; --&gt; B2[&quot;SUBAGENT&lt;br/&gt;fenetre de contexte SEPAREE&lt;br/&gt;outils de LECTURE seulement&quot;]
+  Q -- &quot;Que ce soit REFUSE&quot; --&gt; B3[&quot;HOOK&lt;br/&gt;sur evenement&lt;br/&gt;exit 2 = BLOQUE&lt;br/&gt;exit 1 = ne bloque PAS&quot;]
+  B0 -. &quot;se lit et se pondere&quot; .-&gt; P[&quot;PROBABILISTE&quot;]
+  B1 -. &quot;se lit et se pondere&quot; .-&gt; P
+  B2 -. &quot;juge, mais reste un modele&quot; .-&gt; P
+  B3 --&gt; D[&quot;DETERMINISTE&quot;]
+  P --&gt; R{&quot;Le comportement&lt;br/&gt;est-il GARANTI ?&quot;}
+  D --&gt; R
+  R -- &quot;NON — recommande&quot; --&gt; N[&quot;Convention&lt;br/&gt;utile, jamais suffisante&quot;]
+  R -- &quot;OUI — refuse&quot; --&gt; G[&quot;Garde-fou&lt;br/&gt;⚠️ outrepasse apres&lt;br/&gt;plusieurs blocages consecutifs&quot;]
+  B1 --&gt; EX[&quot;LA SKILL DOIT DIRE&lt;br/&gt;quoi faire quand c&#x27;est ROUGE&lt;br/&gt;sinon le verdict par defaut sera&lt;br/&gt;« le test est faux »&quot;]
+  B2 --&gt; IN[&quot;LE SUBAGENT NE DOIT PAS ECRIRE&lt;br/&gt;un relecteur qui corrige&lt;br/&gt;redevient l&#x27;auteur&quot;]
+  classDef brique fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef det fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef prob fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef alerte fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef neutre fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  class B0,B1,B2,B3 brique;
+  class D,G det;
+  class P,N prob;
+  class EX,IN alerte;
+  class Q,R,U neutre;</pre></div>
+  <pre class="code" id="k16" hidden>flowchart TB
+  U[&quot;UNE EXIGENCE D&#x27;EQUIPE&quot;] --&gt; Q{&quot;Que voulez-vous&lt;br/&gt;obtenir exactement ?&quot;}
+  Q -- &quot;Qu&#x27;on le SACHE&quot; --&gt; B0[&quot;CLAUDE.md&lt;br/&gt;la memoire projet, versionnee&lt;br/&gt;sous 200 lignes&quot;]
+  Q -- &quot;Qu&#x27;on le FASSE&lt;br/&gt;dans le bon ordre&quot; --&gt; B1[&quot;SKILL&lt;br/&gt;nom = nom du dossier, 64 car.&lt;br/&gt;description 1024 car.&lt;br/&gt;corps sous 500 lignes&quot;]
+  Q -- &quot;Qu&#x27;on le JUGE&lt;br/&gt;independamment&quot; --&gt; B2[&quot;SUBAGENT&lt;br/&gt;fenetre de contexte SEPAREE&lt;br/&gt;outils de LECTURE seulement&quot;]
+  Q -- &quot;Que ce soit REFUSE&quot; --&gt; B3[&quot;HOOK&lt;br/&gt;sur evenement&lt;br/&gt;exit 2 = BLOQUE&lt;br/&gt;exit 1 = ne bloque PAS&quot;]
+  B0 -. &quot;se lit et se pondere&quot; .-&gt; P[&quot;PROBABILISTE&quot;]
+  B1 -. &quot;se lit et se pondere&quot; .-&gt; P
+  B2 -. &quot;juge, mais reste un modele&quot; .-&gt; P
+  B3 --&gt; D[&quot;DETERMINISTE&quot;]
+  P --&gt; R{&quot;Le comportement&lt;br/&gt;est-il GARANTI ?&quot;}
+  D --&gt; R
+  R -- &quot;NON — recommande&quot; --&gt; N[&quot;Convention&lt;br/&gt;utile, jamais suffisante&quot;]
+  R -- &quot;OUI — refuse&quot; --&gt; G[&quot;Garde-fou&lt;br/&gt;⚠️ outrepasse apres&lt;br/&gt;plusieurs blocages consecutifs&quot;]
+  B1 --&gt; EX[&quot;LA SKILL DOIT DIRE&lt;br/&gt;quoi faire quand c&#x27;est ROUGE&lt;br/&gt;sinon le verdict par defaut sera&lt;br/&gt;« le test est faux »&quot;]
+  B2 --&gt; IN[&quot;LE SUBAGENT NE DOIT PAS ECRIRE&lt;br/&gt;un relecteur qui corrige&lt;br/&gt;redevient l&#x27;auteur&quot;]
+  classDef brique fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef det fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef prob fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef alerte fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef neutre fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  class B0,B1,B2,B3 brique;
+  class D,G det;
+  class P,N prob;
+  class EX,IN alerte;
+  class Q,R,U neutre;</pre>
+</section>
+
+<section class="card" id="c17">
+  <header>
+    <div>
+      <h2>M5-4-l-assertion-qui-ne-peut-pas-tomber</h2>
+      <p class="ctx">Notion M5.4 — « L&#x27;agent qui triche : garde-fous et vérification » <span class="src">· module-M5-l-agent-qui-travaille-seul.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(17,'M5-4-l-assertion-qui-ne-peut-pas-tomber')">SVG</button>
+      <button onclick="dlPng(17,'M5-4-l-assertion-qui-ne-peut-pas-tomber')">PNG</button>
+      <button class="ghost" onclick="toggleCode(17)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r17"><pre class="mermaid">flowchart TB
+  subgraph REEL[&quot;① CE QUE FAIT LE PRODUIT&quot;]
+    direction TB
+    A1[&quot;PATCH .../steps/:stepId&lt;br/&gt;{ endDate: &#x27;2026-08-12&#x27; }&quot;] --&gt; A2[&quot;steps.service.ts&lt;br/&gt;fusion des champs&quot;]
+    A2 --&gt; A3[&quot;BUG #9&lt;br/&gt;endDate IGNOREE&quot;]
+    A3 --&gt; A4[&quot;Reponse 200&lt;br/&gt;aucune exception&lt;br/&gt;aucun journal&quot;]
+  end
+  subgraph TEST[&quot;② CE QUE L&#x27;AGENT ECRIT SPONTANEMENT&quot;]
+    direction TB
+    B1[&quot;Appel de la route&quot;] --&gt; B2[&quot;expect(res.status).toBe(200)&quot;]
+    B2 --&gt; B3[&quot;LA SUITE EST VERTE&quot;]
+  end
+  A4 --&gt; B2
+  A4 --- V{&quot;Verdict de la suite : VERT&lt;br/&gt;Verdict du produit : donnee perdue&quot;}
+  B3 --- V
+  subgraph PARADE[&quot;③ LA PARADE — LE CORPS RELU&quot;]
+    direction TB
+    C1[&quot;1. On envoie&lt;br/&gt;corps = { endDate }&quot;] --&gt; C2[&quot;2. On RELIT&lt;br/&gt;GET /api/journeys/:id&quot;]
+    C2 --&gt; C3[&quot;3. On COMPARE&lt;br/&gt;envoye vs relu&quot;]
+    C3 --&gt; C4[&quot;ROUGE&lt;br/&gt;envoye 2026-08-12&lt;br/&gt;relu null&quot;]
+  end
+  V -. &quot;ce qu&#x27;il fallait ecrire&quot; .-&gt; C1
+  D[&quot;L&#x27;AUTRE TRICHERIE :&lt;br/&gt;L&#x27;ASSERTION AFFAIBLIE&quot;] -. &quot;invisible dans le fichier final&quot; .-&gt; E[&quot;se detecte UNIQUEMENT&lt;br/&gt;dans git diff&lt;br/&gt;malus 60 PR au col J2&quot;]
+  classDef bug fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef faible fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef alert fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  class A3,A4,C4 bug;
+  class B2,B3,D,E faible;
+  class C1,C2,C3 ok;
+  class V alert;</pre></div>
+  <pre class="code" id="k17" hidden>flowchart TB
+  subgraph REEL[&quot;① CE QUE FAIT LE PRODUIT&quot;]
+    direction TB
+    A1[&quot;PATCH .../steps/:stepId&lt;br/&gt;{ endDate: &#x27;2026-08-12&#x27; }&quot;] --&gt; A2[&quot;steps.service.ts&lt;br/&gt;fusion des champs&quot;]
+    A2 --&gt; A3[&quot;BUG #9&lt;br/&gt;endDate IGNOREE&quot;]
+    A3 --&gt; A4[&quot;Reponse 200&lt;br/&gt;aucune exception&lt;br/&gt;aucun journal&quot;]
+  end
+  subgraph TEST[&quot;② CE QUE L&#x27;AGENT ECRIT SPONTANEMENT&quot;]
+    direction TB
+    B1[&quot;Appel de la route&quot;] --&gt; B2[&quot;expect(res.status).toBe(200)&quot;]
+    B2 --&gt; B3[&quot;LA SUITE EST VERTE&quot;]
+  end
+  A4 --&gt; B2
+  A4 --- V{&quot;Verdict de la suite : VERT&lt;br/&gt;Verdict du produit : donnee perdue&quot;}
+  B3 --- V
+  subgraph PARADE[&quot;③ LA PARADE — LE CORPS RELU&quot;]
+    direction TB
+    C1[&quot;1. On envoie&lt;br/&gt;corps = { endDate }&quot;] --&gt; C2[&quot;2. On RELIT&lt;br/&gt;GET /api/journeys/:id&quot;]
+    C2 --&gt; C3[&quot;3. On COMPARE&lt;br/&gt;envoye vs relu&quot;]
+    C3 --&gt; C4[&quot;ROUGE&lt;br/&gt;envoye 2026-08-12&lt;br/&gt;relu null&quot;]
+  end
+  V -. &quot;ce qu&#x27;il fallait ecrire&quot; .-&gt; C1
+  D[&quot;L&#x27;AUTRE TRICHERIE :&lt;br/&gt;L&#x27;ASSERTION AFFAIBLIE&quot;] -. &quot;invisible dans le fichier final&quot; .-&gt; E[&quot;se detecte UNIQUEMENT&lt;br/&gt;dans git diff&lt;br/&gt;malus 60 PR au col J2&quot;]
+  classDef bug fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef faible fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef alert fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  class A3,A4,C4 bug;
+  class B2,B3,D,E faible;
+  class C1,C2,C3 ok;
+  class V alert;</pre>
+</section>
+
+<section class="card" id="c18">
+  <header>
+    <div>
+      <h2>M6-1-larbre-de-classement-des-echecs</h2>
+      <p class="ctx">Notion M6.1 — « Quatre causes, quatre gestes : classer un échec » <span class="src">· module-M6-dans-le-pipeline.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(18,'M6-1-larbre-de-classement-des-echecs')">SVG</button>
+      <button onclick="dlPng(18,'M6-1-larbre-de-classement-des-echecs')">PNG</button>
+      <button class="ghost" onclick="toggleCode(18)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r18"><pre class="mermaid">flowchart TD
+  S[&quot;Un artefact de la suite&lt;br/&gt;rouge OU vert&quot;] --&gt; Q0{&quot;Je relance N fois&lt;br/&gt;sur le MEME code.&lt;br/&gt;Le verdict varie-t-il ?&quot;}
+  Q0 -- &quot;OUI, il varie&quot; --&gt; Q1{&quot;La variation suit-elle&lt;br/&gt;la disponibilite d&#x27;un tiers ?&lt;br/&gt;je coupe le reseau&quot;}
+  Q1 -- &quot;OUI&quot; --&gt; F4[&quot;EXTERIEUR&lt;br/&gt;Nominatim · OSRM&lt;br/&gt;Geste : DOUBLE + test de contrat rare&lt;br/&gt;e2e/tests/place-search.spec.ts&quot;]
+  Q1 -- &quot;NON&quot; --&gt; Q2{&quot;La variation suit-elle&lt;br/&gt;l&#x27;ORDRE d&#x27;execution&lt;br/&gt;ou un fichier laisse ?&quot;}
+  Q2 -- &quot;OUI&quot; --&gt; F5[&quot;MAGASIN&lt;br/&gt;Geste : un repertoire par execution&lt;br/&gt;preuve : git status apres coup&quot;]
+  Q2 -- &quot;NON&quot; --&gt; F3[&quot;INSTABLE&lt;br/&gt;Geste : supprimer la cause&lt;br/&gt;JAMAIS un retry&quot;]
+  Q0 -- &quot;NON, il est stable&quot; --&gt; Q3{&quot;D&#x27;ou vient l&#x27;attendu ?&quot;}
+  Q3 -- &quot;D&#x27;une source EXTERIEURE&lt;br/&gt;contrat, type, doc du tiers&quot; --&gt; F1[&quot;VRAI BUG PRODUIT&lt;br/&gt;Geste : prouver, documenter,&lt;br/&gt;corriger le CODE&lt;br/&gt;create-validation · add-order&quot;]
+  Q3 -- &quot;DU CODE lui-meme&quot; --&gt; F2[&quot;TEST FAUX&lt;br/&gt;Geste : reecrire le double et l&#x27;assertion&lt;br/&gt;le test DOIT devenir rouge&lt;br/&gt;journeys.update.spec.ts&quot;]
+  F2 -. &quot;une fois reecrit, il rejoint&quot; .-&gt; F1
+  classDef bug fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef faux fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef inst fill:#e0e7ff,stroke:#3b4fa8,color:#1a2260;
+  classDef ext fill:#d6f0f5,stroke:#1c6d80,color:#0d3a45;
+  classDef mag fill:#f3d9f7,stroke:#7b3f8c,color:#3d1f45;
+  class F1 bug;
+  class F2 faux;
+  class F3 inst;
+  class F4 ext;
+  class F5 mag;</pre></div>
+  <pre class="code" id="k18" hidden>flowchart TD
+  S[&quot;Un artefact de la suite&lt;br/&gt;rouge OU vert&quot;] --&gt; Q0{&quot;Je relance N fois&lt;br/&gt;sur le MEME code.&lt;br/&gt;Le verdict varie-t-il ?&quot;}
+  Q0 -- &quot;OUI, il varie&quot; --&gt; Q1{&quot;La variation suit-elle&lt;br/&gt;la disponibilite d&#x27;un tiers ?&lt;br/&gt;je coupe le reseau&quot;}
+  Q1 -- &quot;OUI&quot; --&gt; F4[&quot;EXTERIEUR&lt;br/&gt;Nominatim · OSRM&lt;br/&gt;Geste : DOUBLE + test de contrat rare&lt;br/&gt;e2e/tests/place-search.spec.ts&quot;]
+  Q1 -- &quot;NON&quot; --&gt; Q2{&quot;La variation suit-elle&lt;br/&gt;l&#x27;ORDRE d&#x27;execution&lt;br/&gt;ou un fichier laisse ?&quot;}
+  Q2 -- &quot;OUI&quot; --&gt; F5[&quot;MAGASIN&lt;br/&gt;Geste : un repertoire par execution&lt;br/&gt;preuve : git status apres coup&quot;]
+  Q2 -- &quot;NON&quot; --&gt; F3[&quot;INSTABLE&lt;br/&gt;Geste : supprimer la cause&lt;br/&gt;JAMAIS un retry&quot;]
+  Q0 -- &quot;NON, il est stable&quot; --&gt; Q3{&quot;D&#x27;ou vient l&#x27;attendu ?&quot;}
+  Q3 -- &quot;D&#x27;une source EXTERIEURE&lt;br/&gt;contrat, type, doc du tiers&quot; --&gt; F1[&quot;VRAI BUG PRODUIT&lt;br/&gt;Geste : prouver, documenter,&lt;br/&gt;corriger le CODE&lt;br/&gt;create-validation · add-order&quot;]
+  Q3 -- &quot;DU CODE lui-meme&quot; --&gt; F2[&quot;TEST FAUX&lt;br/&gt;Geste : reecrire le double et l&#x27;assertion&lt;br/&gt;le test DOIT devenir rouge&lt;br/&gt;journeys.update.spec.ts&quot;]
+  F2 -. &quot;une fois reecrit, il rejoint&quot; .-&gt; F1
+  classDef bug fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef faux fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef inst fill:#e0e7ff,stroke:#3b4fa8,color:#1a2260;
+  classDef ext fill:#d6f0f5,stroke:#1c6d80,color:#0d3a45;
+  classDef mag fill:#f3d9f7,stroke:#7b3f8c,color:#3d1f45;
+  class F1 bug;
+  class F2 faux;
+  class F3 inst;
+  class F4 ext;
+  class F5 mag;</pre>
+</section>
+
+<section class="card" id="c19">
+  <header>
+    <div>
+      <h2>M6-2-le-cout-du-test-instable</h2>
+      <p class="ctx">Notion M6.2 — « Combien coûte un test qui dépend de Nominatim ? » <span class="src">· module-M6-dans-le-pipeline.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(19,'M6-2-le-cout-du-test-instable')">SVG</button>
+      <button onclick="dlPng(19,'M6-2-le-cout-du-test-instable')">PNG</button>
+      <button class="ghost" onclick="toggleCode(19)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r19"><pre class="mermaid">flowchart LR
+  T[&quot;e2e/tests/place-search.spec.ts&lt;br/&gt;appelle le VRAI Nominatim&lt;br/&gt;feature #11 — AUCUN bug&quot;] --&gt; E{&quot;Echec dans le pipeline&quot;}
+  E --&gt; C1[&quot;COUT MACHINE&lt;br/&gt;une relance automatique&lt;br/&gt;fractions de centime&quot;]
+  E --&gt; C2[&quot;COUT HUMAIN&lt;br/&gt;une investigation manuelle&lt;br/&gt;ordre de grandeur : 5,67 $&quot;]
+  E --&gt; C3[&quot;COUT DE CONFIANCE&lt;br/&gt;l&#x27;equipe cesse de lire les rouges&lt;br/&gt;~84 % des pass vers fail sont instables&quot;]
+  C1 --&gt; R{&quot;La reponse facile :&lt;br/&gt;retries: 2&quot;}
+  R -. &quot;ne change ni le taux&lt;br/&gt;ni la cause&quot; .-&gt; C2
+  R -. &quot;AUGMENTE le cout de confiance&quot; .-&gt; C3
+  C2 --&gt; P[&quot;LA PARADE&quot;]
+  C3 --&gt; P
+  P --&gt; P1[&quot;1. DOUBLE dans la suite courante&lt;br/&gt;a chaque execution&lt;br/&gt;verdict independant du tiers&quot;]
+  P --&gt; P2[&quot;2. TEST DE CONTRAT separe et RARE&lt;br/&gt;hebdomadaire&lt;br/&gt;n&#x27;arrete jamais une contribution&quot;]
+  classDef terrain fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef cout fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef piege fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef parade fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class T terrain;
+  class C1,C2,C3 cout;
+  class R piege;
+  class P,P1,P2 parade;</pre></div>
+  <pre class="code" id="k19" hidden>flowchart LR
+  T[&quot;e2e/tests/place-search.spec.ts&lt;br/&gt;appelle le VRAI Nominatim&lt;br/&gt;feature #11 — AUCUN bug&quot;] --&gt; E{&quot;Echec dans le pipeline&quot;}
+  E --&gt; C1[&quot;COUT MACHINE&lt;br/&gt;une relance automatique&lt;br/&gt;fractions de centime&quot;]
+  E --&gt; C2[&quot;COUT HUMAIN&lt;br/&gt;une investigation manuelle&lt;br/&gt;ordre de grandeur : 5,67 $&quot;]
+  E --&gt; C3[&quot;COUT DE CONFIANCE&lt;br/&gt;l&#x27;equipe cesse de lire les rouges&lt;br/&gt;~84 % des pass vers fail sont instables&quot;]
+  C1 --&gt; R{&quot;La reponse facile :&lt;br/&gt;retries: 2&quot;}
+  R -. &quot;ne change ni le taux&lt;br/&gt;ni la cause&quot; .-&gt; C2
+  R -. &quot;AUGMENTE le cout de confiance&quot; .-&gt; C3
+  C2 --&gt; P[&quot;LA PARADE&quot;]
+  C3 --&gt; P
+  P --&gt; P1[&quot;1. DOUBLE dans la suite courante&lt;br/&gt;a chaque execution&lt;br/&gt;verdict independant du tiers&quot;]
+  P --&gt; P2[&quot;2. TEST DE CONTRAT separe et RARE&lt;br/&gt;hebdomadaire&lt;br/&gt;n&#x27;arrete jamais une contribution&quot;]
+  classDef terrain fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef cout fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef piege fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef parade fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class T terrain;
+  class C1,C2,C3 cout;
+  class R piege;
+  class P,P1,P2 parade;</pre>
+</section>
+
+<section class="card" id="c20">
+  <header>
+    <div>
+      <h2>M6-3-les-six-blocs-et-les-fuites</h2>
+      <p class="ctx">Notion M6.3 — « Mettre l&#x27;agent en CI sans se faire piéger » <span class="src">· module-M6-dans-le-pipeline.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(20,'M6-3-les-six-blocs-et-les-fuites')">SVG</button>
+      <button onclick="dlPng(20,'M6-3-les-six-blocs-et-les-fuites')">PNG</button>
+      <button class="ghost" onclick="toggleCode(20)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r20"><pre class="mermaid">flowchart TB
+  subgraph JOB[&quot;Le job de test — six blocs&quot;]
+    direction TB
+    B1[&quot;B1 DECLENCHEUR&lt;br/&gt;qui peut lancer, sur quel code&quot;]
+    B2[&quot;B2 PERMISSIONS&lt;br/&gt;lecture seule par defaut&quot;]
+    B3[&quot;B3 BUDGET&lt;br/&gt;delai du job · tours de l&#x27;agent · cout&quot;]
+    B4[&quot;B4 ENVIRONNEMENT&lt;br/&gt;magasin isole Z4 · tiers neutralise Z5&quot;]
+    B5[&quot;B5 EXECUTION&lt;br/&gt;test:backend puis e2e&quot;]
+    B6[&quot;B6 ARTEFACTS&lt;br/&gt;traces, rapports, journal de couts&quot;]
+    B1 --&gt; B2 --&gt; B3 --&gt; B4 --&gt; B5 --&gt; B6
+  end
+  F1[&quot;FUITE 1 — contribution externe&lt;br/&gt;contexte de confiance + code propose&lt;br/&gt;= execution avec vos secrets&quot;] -. &quot;attaque&quot; .-&gt; B1
+  F2[&quot;FUITE 2 — jeton trop puissant&lt;br/&gt;disponible dans CHAQUE etape,&lt;br/&gt;y compris les actions tierces&quot;] -. &quot;attaque&quot; .-&gt; B2
+  F3[&quot;FUITE 3 — aucun delai declare&lt;br/&gt;le plafond dur de 6 h n&#x27;est pas une protection&quot;] -. &quot;attaque&quot; .-&gt; B3
+  F4[&quot;FUITE 4 — magasin partage&lt;br/&gt;et appel reel au tiers&lt;br/&gt;l&#x27;ordre des jobs decide du resultat&quot;] -. &quot;attaque&quot; .-&gt; B4
+  F5[&quot;FUITE 5 — aucun artefact&lt;br/&gt;rouge sans trace :&lt;br/&gt;les 5 categories deviennent indistinctes&quot;] -. &quot;attaque&quot; .-&gt; B6
+  B6 --&gt; V([&quot;Un rouge dont on sait dire POURQUOI&quot;])
+  classDef bloc fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef fuite fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef but fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class B1,B2,B3,B4,B5,B6 bloc;
+  class F1,F2,F3,F4,F5 fuite;
+  class V but;</pre></div>
+  <pre class="code" id="k20" hidden>flowchart TB
+  subgraph JOB[&quot;Le job de test — six blocs&quot;]
+    direction TB
+    B1[&quot;B1 DECLENCHEUR&lt;br/&gt;qui peut lancer, sur quel code&quot;]
+    B2[&quot;B2 PERMISSIONS&lt;br/&gt;lecture seule par defaut&quot;]
+    B3[&quot;B3 BUDGET&lt;br/&gt;delai du job · tours de l&#x27;agent · cout&quot;]
+    B4[&quot;B4 ENVIRONNEMENT&lt;br/&gt;magasin isole Z4 · tiers neutralise Z5&quot;]
+    B5[&quot;B5 EXECUTION&lt;br/&gt;test:backend puis e2e&quot;]
+    B6[&quot;B6 ARTEFACTS&lt;br/&gt;traces, rapports, journal de couts&quot;]
+    B1 --&gt; B2 --&gt; B3 --&gt; B4 --&gt; B5 --&gt; B6
+  end
+  F1[&quot;FUITE 1 — contribution externe&lt;br/&gt;contexte de confiance + code propose&lt;br/&gt;= execution avec vos secrets&quot;] -. &quot;attaque&quot; .-&gt; B1
+  F2[&quot;FUITE 2 — jeton trop puissant&lt;br/&gt;disponible dans CHAQUE etape,&lt;br/&gt;y compris les actions tierces&quot;] -. &quot;attaque&quot; .-&gt; B2
+  F3[&quot;FUITE 3 — aucun delai declare&lt;br/&gt;le plafond dur de 6 h n&#x27;est pas une protection&quot;] -. &quot;attaque&quot; .-&gt; B3
+  F4[&quot;FUITE 4 — magasin partage&lt;br/&gt;et appel reel au tiers&lt;br/&gt;l&#x27;ordre des jobs decide du resultat&quot;] -. &quot;attaque&quot; .-&gt; B4
+  F5[&quot;FUITE 5 — aucun artefact&lt;br/&gt;rouge sans trace :&lt;br/&gt;les 5 categories deviennent indistinctes&quot;] -. &quot;attaque&quot; .-&gt; B6
+  B6 --&gt; V([&quot;Un rouge dont on sait dire POURQUOI&quot;])
+  classDef bloc fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef fuite fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef but fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class B1,B2,B3,B4,B5,B6 bloc;
+  class F1,F2,F3,F4,F5 fuite;
+  class V but;</pre>
+</section>
+
+<section class="card" id="c21">
+  <header>
+    <div>
+      <h2>M7-1-le-savoir-qui-manque</h2>
+      <p class="ctx">Notion M7.1 — « Le pari : l&#x27;IA trouve-t-elle cette faille ? » <span class="src">· module-M7-ce-que-l-ia-ne-voit-pas.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(21,'M7-1-le-savoir-qui-manque')">SVG</button>
+      <button onclick="dlPng(21,'M7-1-le-savoir-qui-manque')">PNG</button>
+      <button class="ghost" onclick="toggleCode(21)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r21"><pre class="mermaid">flowchart LR
+  subgraph CTX[&quot;① Ce qu&#x27;on donne au modele&quot;]
+    direction TB
+    C1[&quot;backend/src/map/map.service.ts&quot;]
+    C2[&quot;Les types partages&lt;br/&gt;lat: number · lng: number&quot;]
+    C3[&quot;Le style du depot&quot;]
+  end
+  subgraph DEHORS[&quot;② Ce qui vit DEHORS — jamais fourni&quot;]
+    direction TB
+    D1[&quot;Documentation d&#x27;OSRM&lt;br/&gt;ordre des coordonnees&lt;br/&gt;dans le chemin du service route&quot;]
+    D2[&quot;Conventions d&#x27;unites&quot;]
+    D3[&quot;Semantique des codes de retour du tiers&quot;]
+  end
+  CTX ==&gt; LLM[&quot;Relecture par le modele&quot;]
+  DEHORS -. &quot;JAMAIS TRANSMIS&quot; .-&gt; LLM
+  LLM --&gt; R1[&quot;Verdict : le fichier est correct&lt;br/&gt;+ suggestions de forme&quot;]
+  R1 --&gt; P[&quot;Produit : POST /api/map/route&lt;br/&gt;200 + polyline VALIDE&lt;br/&gt;trace absurde&quot;]
+  D1 ==&gt; T[&quot;LE TEST QUI ATTRAPE&lt;br/&gt;assertion sur l&#x27;URL construite&lt;br/&gt;aucun appel reseau&quot;]
+  T --&gt; V([&quot;ROUGE — le defaut #16 est prouve&quot;])
+  classDef ctx fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef out fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef bad fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef good fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class C1,C2,C3,LLM ctx;
+  class D1,D2,D3 out;
+  class R1,P bad;
+  class T,V good;</pre></div>
+  <pre class="code" id="k21" hidden>flowchart LR
+  subgraph CTX[&quot;① Ce qu&#x27;on donne au modele&quot;]
+    direction TB
+    C1[&quot;backend/src/map/map.service.ts&quot;]
+    C2[&quot;Les types partages&lt;br/&gt;lat: number · lng: number&quot;]
+    C3[&quot;Le style du depot&quot;]
+  end
+  subgraph DEHORS[&quot;② Ce qui vit DEHORS — jamais fourni&quot;]
+    direction TB
+    D1[&quot;Documentation d&#x27;OSRM&lt;br/&gt;ordre des coordonnees&lt;br/&gt;dans le chemin du service route&quot;]
+    D2[&quot;Conventions d&#x27;unites&quot;]
+    D3[&quot;Semantique des codes de retour du tiers&quot;]
+  end
+  CTX ==&gt; LLM[&quot;Relecture par le modele&quot;]
+  DEHORS -. &quot;JAMAIS TRANSMIS&quot; .-&gt; LLM
+  LLM --&gt; R1[&quot;Verdict : le fichier est correct&lt;br/&gt;+ suggestions de forme&quot;]
+  R1 --&gt; P[&quot;Produit : POST /api/map/route&lt;br/&gt;200 + polyline VALIDE&lt;br/&gt;trace absurde&quot;]
+  D1 ==&gt; T[&quot;LE TEST QUI ATTRAPE&lt;br/&gt;assertion sur l&#x27;URL construite&lt;br/&gt;aucun appel reseau&quot;]
+  T --&gt; V([&quot;ROUGE — le defaut #16 est prouve&quot;])
+  classDef ctx fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef out fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef bad fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef good fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class C1,C2,C3,LLM ctx;
+  class D1,D2,D3 out;
+  class R1,P bad;
+  class T,V good;</pre>
+</section>
+
+<section class="card" id="c22">
+  <header>
+    <div>
+      <h2>M7-2-ouvert-ferme-et-lomission-coordonnee</h2>
+      <p class="ctx">Notion M7.2 — « Modéliser une charge réaliste » <span class="src">· module-M7-ce-que-l-ia-ne-voit-pas.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(22,'M7-2-ouvert-ferme-et-lomission-coordonnee')">SVG</button>
+      <button onclick="dlPng(22,'M7-2-ouvert-ferme-et-lomission-coordonnee')">PNG</button>
+      <button class="ghost" onclick="toggleCode(22)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r22"><pre class="mermaid">flowchart TB
+  subgraph FERME[&quot;MODELE FERME — &#x27;N utilisateurs virtuels&#x27;&quot;]
+    direction LR
+    A1[&quot;10 clients&lt;br/&gt;en boucle&quot;] --&gt; A2[&quot;Le serveur ralentit&lt;br/&gt;200 ms devient 800 ms&quot;]
+    A2 --&gt; A3[&quot;Les clients attendent&lt;br/&gt;donc ils repartent moins souvent&quot;]
+    A3 --&gt; A4[&quot;Le debit d&#x27;arrivee BAISSE&lt;br/&gt;tout seul&quot;]
+    A4 --&gt; A5([&quot;La degradation est MASQUEE&lt;br/&gt;omission coordonnee&quot;])
+  end
+  subgraph OUVERT[&quot;MODELE OUVERT — &#x27;taux d&#x27;arrivee impose&#x27;&quot;]
+    direction LR
+    B1[&quot;50 requetes / seconde&lt;br/&gt;quoi qu&#x27;il arrive&quot;] --&gt; B2[&quot;Le serveur ralentit&lt;br/&gt;200 ms devient 800 ms&quot;]
+    B2 --&gt; B3[&quot;Les requetes continuent&lt;br/&gt;d&#x27;arriver au meme rythme&quot;]
+    B3 --&gt; B4[&quot;La file s&#x27;allonge&lt;br/&gt;le p95 explose&quot;]
+    B4 --&gt; B5([&quot;La degradation est VISIBLE&lt;br/&gt;et le seuil tombe&quot;])
+  end
+  Z[&quot;Z4 — le magasin de fichiers .md&lt;br/&gt;le cout croit avec le NOMBRE DE FICHIERS&quot;] -. &quot;la variable qu&#x27;on oublie&lt;br/&gt;dans les deux modeles&quot; .-&gt; A2
+  Z -. &quot; &quot; .-&gt; B2
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef var fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class A1,A2,A3,A4,A5 ko;
+  class B1,B2,B3,B4,B5 ok;
+  class Z var;</pre></div>
+  <pre class="code" id="k22" hidden>flowchart TB
+  subgraph FERME[&quot;MODELE FERME — &#x27;N utilisateurs virtuels&#x27;&quot;]
+    direction LR
+    A1[&quot;10 clients&lt;br/&gt;en boucle&quot;] --&gt; A2[&quot;Le serveur ralentit&lt;br/&gt;200 ms devient 800 ms&quot;]
+    A2 --&gt; A3[&quot;Les clients attendent&lt;br/&gt;donc ils repartent moins souvent&quot;]
+    A3 --&gt; A4[&quot;Le debit d&#x27;arrivee BAISSE&lt;br/&gt;tout seul&quot;]
+    A4 --&gt; A5([&quot;La degradation est MASQUEE&lt;br/&gt;omission coordonnee&quot;])
+  end
+  subgraph OUVERT[&quot;MODELE OUVERT — &#x27;taux d&#x27;arrivee impose&#x27;&quot;]
+    direction LR
+    B1[&quot;50 requetes / seconde&lt;br/&gt;quoi qu&#x27;il arrive&quot;] --&gt; B2[&quot;Le serveur ralentit&lt;br/&gt;200 ms devient 800 ms&quot;]
+    B2 --&gt; B3[&quot;Les requetes continuent&lt;br/&gt;d&#x27;arriver au meme rythme&quot;]
+    B3 --&gt; B4[&quot;La file s&#x27;allonge&lt;br/&gt;le p95 explose&quot;]
+    B4 --&gt; B5([&quot;La degradation est VISIBLE&lt;br/&gt;et le seuil tombe&quot;])
+  end
+  Z[&quot;Z4 — le magasin de fichiers .md&lt;br/&gt;le cout croit avec le NOMBRE DE FICHIERS&quot;] -. &quot;la variable qu&#x27;on oublie&lt;br/&gt;dans les deux modeles&quot; .-&gt; A2
+  Z -. &quot; &quot; .-&gt; B2
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef var fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class A1,A2,A3,A4,A5 ko;
+  class B1,B2,B3,B4,B5 ok;
+  class Z var;</pre>
+</section>
+
+<section class="card" id="c23">
+  <header>
+    <div>
+      <h2>M7-3-la-chaine-de-securite-et-ses-angles-morts</h2>
+      <p class="ctx">Notion M7.3 — « Sécurité : ce que le LLM ne peut pas garantir » <span class="src">· module-M7-ce-que-l-ia-ne-voit-pas.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(23,'M7-3-la-chaine-de-securite-et-ses-angles-morts')">SVG</button>
+      <button onclick="dlPng(23,'M7-3-la-chaine-de-securite-et-ses-angles-morts')">PNG</button>
+      <button class="ghost" onclick="toggleCode(23)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r23"><pre class="mermaid">flowchart TB
+  subgraph PROP[&quot;Les 3 proprietes ecrites dans le contrat — feature #3&quot;]
+    direction LR
+    S1[&quot;S1 · toujours 200&lt;br/&gt;non-divulgation du compte&quot;]
+    S2[&quot;S2 · jeton expirant&lt;br/&gt;a 1 heure&quot;]
+    S3[&quot;S3 · effet de bord fichier&lt;br/&gt;data/mails/ + console&quot;]
+  end
+  PROP --&gt; CH{&quot;Quel outil peut le PROUVER ?&quot;}
+  CH --&gt; O1[&quot;SAST — analyse statique&lt;br/&gt;voit les motifs du code&lt;br/&gt;AVEUGLE a l&#x27;execution&quot;]
+  CH --&gt; O2[&quot;SCA — dependances&lt;br/&gt;voit ce qui est PUBLIE&lt;br/&gt;AVEUGLE a votre logique&quot;]
+  CH --&gt; O3[&quot;DAST — application qui tourne&lt;br/&gt;voit le comportement&lt;br/&gt;AVEUGLE au pourquoi&quot;]
+  CH --&gt; O4[&quot;REVUE PAR LLM&lt;br/&gt;propose des hypotheses&lt;br/&gt;NE GARANTIT RIEN&quot;]
+  CH ==&gt; O5[&quot;TEST DE PROPRIETE&lt;br/&gt;Jest + supertest&lt;br/&gt;execute et PROUVE&quot;]
+  O4 -. &quot;alimente&quot; .-&gt; O5
+  O5 --&gt; V([&quot;La seule ligne qu&#x27;on met&lt;br/&gt;dans le carnet de route&quot;])
+  X[&quot;POURQUOI le LLM ne garantit pas :&lt;br/&gt;1 non-determinisme&lt;br/&gt;2 pas de source externe&lt;br/&gt;3 pas de contre-preuve&quot;] -.-&gt; O4
+  classDef prop fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef outil fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef llm fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef preuve fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class S1,S2,S3 prop;
+  class O1,O2,O3 outil;
+  class O4,X llm;
+  class O5,V preuve;</pre></div>
+  <pre class="code" id="k23" hidden>flowchart TB
+  subgraph PROP[&quot;Les 3 proprietes ecrites dans le contrat — feature #3&quot;]
+    direction LR
+    S1[&quot;S1 · toujours 200&lt;br/&gt;non-divulgation du compte&quot;]
+    S2[&quot;S2 · jeton expirant&lt;br/&gt;a 1 heure&quot;]
+    S3[&quot;S3 · effet de bord fichier&lt;br/&gt;data/mails/ + console&quot;]
+  end
+  PROP --&gt; CH{&quot;Quel outil peut le PROUVER ?&quot;}
+  CH --&gt; O1[&quot;SAST — analyse statique&lt;br/&gt;voit les motifs du code&lt;br/&gt;AVEUGLE a l&#x27;execution&quot;]
+  CH --&gt; O2[&quot;SCA — dependances&lt;br/&gt;voit ce qui est PUBLIE&lt;br/&gt;AVEUGLE a votre logique&quot;]
+  CH --&gt; O3[&quot;DAST — application qui tourne&lt;br/&gt;voit le comportement&lt;br/&gt;AVEUGLE au pourquoi&quot;]
+  CH --&gt; O4[&quot;REVUE PAR LLM&lt;br/&gt;propose des hypotheses&lt;br/&gt;NE GARANTIT RIEN&quot;]
+  CH ==&gt; O5[&quot;TEST DE PROPRIETE&lt;br/&gt;Jest + supertest&lt;br/&gt;execute et PROUVE&quot;]
+  O4 -. &quot;alimente&quot; .-&gt; O5
+  O5 --&gt; V([&quot;La seule ligne qu&#x27;on met&lt;br/&gt;dans le carnet de route&quot;])
+  X[&quot;POURQUOI le LLM ne garantit pas :&lt;br/&gt;1 non-determinisme&lt;br/&gt;2 pas de source externe&lt;br/&gt;3 pas de contre-preuve&quot;] -.-&gt; O4
+  classDef prop fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef outil fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef llm fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef preuve fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class S1,S2,S3 prop;
+  class O1,O2,O3 outil;
+  class O4,X llm;
+  class O5,V preuve;</pre>
+</section>
+
+<section class="card" id="c24">
+  <header>
+    <div>
+      <h2>M7-4-le-partage-de-laccessibilite</h2>
+      <p class="ctx">Notion M7.4 — « Ce qu&#x27;`axe` voit — et ne voit pas — sur une carte » <span class="src">· module-M7-ce-que-l-ia-ne-voit-pas.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(24,'M7-4-le-partage-de-laccessibilite')">SVG</button>
+      <button onclick="dlPng(24,'M7-4-le-partage-de-laccessibilite')">PNG</button>
+      <button class="ghost" onclick="toggleCode(24)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r24"><pre class="mermaid">flowchart TB
+  P[&quot;Une barriere d&#x27;accessibilite&lt;br/&gt;sur la carte Leaflet ou PlaceSearchInput&quot;] --&gt; Q1{&quot;Le defaut est-il present&lt;br/&gt;DANS LA STRUCTURE&lt;br/&gt;au moment du scan ?&quot;}
+  Q1 -- &quot;OUI&quot; --&gt; A[&quot;DETECTE AUTOMATIQUEMENT&lt;br/&gt;nom accessible · contraste de TEXTE&lt;br/&gt;alternative d&#x27;image · etiquette&lt;br/&gt;taille de cible — SEULE regle WCAG 2.2&lt;br/&gt;cartes 1 · 2 · 3 · 4 · 9&quot;]
+  Q1 -- &quot;NON&quot; --&gt; Q2{&quot;Le defaut est-il un&lt;br/&gt;COMPORTEMENT, une SEQUENCE&lt;br/&gt;ou une PERCEPTION ?&quot;}
+  Q2 -- &quot;OUI&quot; --&gt; H[&quot;EXIGE UN TEST HUMAIN&lt;br/&gt;clavier seul · ordre de focus 2.4.3&lt;br/&gt;focus visible 2.4.7 · contraste NON textuel 1.4.11&lt;br/&gt;annonce au lecteur d&#x27;ecran · etat ARIA qui ment&lt;br/&gt;cartes 5 · 6 · 7 · 8 · 10 · 11 · 12&quot;]
+  Q2 -- &quot;NON&quot; --&gt; D[&quot;DECISION DE CONCEPTION&lt;br/&gt;que doit-on OFFRIR ?&lt;br/&gt;aucun outil, aucun test ne la rend&lt;br/&gt;cartes 13 · 14&quot;]
+  A --&gt; M1[&quot;57 % des PROBLEMES&quot;]
+  H --&gt; M2[&quot;mais seulement 16 criteres&lt;br/&gt;sur 50 sont touches — env. 32 %&quot;]
+  M1 --- U{&quot;DEUX UNITES&lt;br/&gt;problemes vs criteres&lt;br/&gt;toujours dire l&#x27;unite&quot;}
+  M2 --- U
+  classDef auto fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef hum fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef dec fill:#f3d9f7,stroke:#7b3f8c,color:#3d1f45;
+  classDef mes fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  class A,M1 auto;
+  class H,M2 hum;
+  class D dec;
+  class U mes;</pre></div>
+  <pre class="code" id="k24" hidden>flowchart TB
+  P[&quot;Une barriere d&#x27;accessibilite&lt;br/&gt;sur la carte Leaflet ou PlaceSearchInput&quot;] --&gt; Q1{&quot;Le defaut est-il present&lt;br/&gt;DANS LA STRUCTURE&lt;br/&gt;au moment du scan ?&quot;}
+  Q1 -- &quot;OUI&quot; --&gt; A[&quot;DETECTE AUTOMATIQUEMENT&lt;br/&gt;nom accessible · contraste de TEXTE&lt;br/&gt;alternative d&#x27;image · etiquette&lt;br/&gt;taille de cible — SEULE regle WCAG 2.2&lt;br/&gt;cartes 1 · 2 · 3 · 4 · 9&quot;]
+  Q1 -- &quot;NON&quot; --&gt; Q2{&quot;Le defaut est-il un&lt;br/&gt;COMPORTEMENT, une SEQUENCE&lt;br/&gt;ou une PERCEPTION ?&quot;}
+  Q2 -- &quot;OUI&quot; --&gt; H[&quot;EXIGE UN TEST HUMAIN&lt;br/&gt;clavier seul · ordre de focus 2.4.3&lt;br/&gt;focus visible 2.4.7 · contraste NON textuel 1.4.11&lt;br/&gt;annonce au lecteur d&#x27;ecran · etat ARIA qui ment&lt;br/&gt;cartes 5 · 6 · 7 · 8 · 10 · 11 · 12&quot;]
+  Q2 -- &quot;NON&quot; --&gt; D[&quot;DECISION DE CONCEPTION&lt;br/&gt;que doit-on OFFRIR ?&lt;br/&gt;aucun outil, aucun test ne la rend&lt;br/&gt;cartes 13 · 14&quot;]
+  A --&gt; M1[&quot;57 % des PROBLEMES&quot;]
+  H --&gt; M2[&quot;mais seulement 16 criteres&lt;br/&gt;sur 50 sont touches — env. 32 %&quot;]
+  M1 --- U{&quot;DEUX UNITES&lt;br/&gt;problemes vs criteres&lt;br/&gt;toujours dire l&#x27;unite&quot;}
+  M2 --- U
+  classDef auto fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef hum fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef dec fill:#f3d9f7,stroke:#7b3f8c,color:#3d1f45;
+  classDef mes fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  class A,M1 auto;
+  class H,M2 hum;
+  class D dec;
+  class U mes;</pre>
+</section>
+
+<section class="card" id="c25">
+  <header>
+    <div>
+      <h2>M8-1-la-matrice-du-risque</h2>
+      <p class="ctx">Notion M8.1 — « L&#x27;enchère : où mettre l&#x27;effort de test ? » <span class="src">· module-M8-decider.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(25,'M8-1-la-matrice-du-risque')">SVG</button>
+      <button onclick="dlPng(25,'M8-1-la-matrice-du-risque')">PNG</button>
+      <button class="ghost" onclick="toggleCode(25)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r25"><pre class="mermaid">flowchart TB
+  T[&quot;Ou mettre l&#x27;effort de test ?&lt;br/&gt;Deux axes, jamais un seul&quot;]
+  T --&gt; Q1[&quot;QUADRANT I — probabilite FORTE x impact FORT&lt;br/&gt;TEST APPROFONDI&lt;br/&gt;plusieurs niveaux, cas limites, oracle externe explicite&lt;br/&gt;lots 7 · 16 · 9 · 8&quot;]
+  T --&gt; Q3[&quot;QUADRANT III — probabilite FAIBLE x impact FORT&lt;br/&gt;TEST CIBLE&lt;br/&gt;le chemin critique seul, tenu dans la duree&lt;br/&gt;lots 2 · 1 · 4 · 15&quot;]
+  T --&gt; Q2[&quot;QUADRANT II — probabilite FORTE x impact MODERE&lt;br/&gt;TEST LARGE ET PEU PROFOND&lt;br/&gt;un cas nominal, un cas d&#x27;erreur, automatise&lt;br/&gt;lots 6 · 14 · 11 · 3&quot;]
+  T --&gt; Q4[&quot;QUADRANT IV — probabilite FAIBLE x impact MODERE&lt;br/&gt;EFFORT MINIMAL&lt;br/&gt;reevalue a chaque changement de code&lt;br/&gt;lots 5 · 10 · 12 · 13&quot;]
+  P[&quot;PROBABILITE — risque technique&lt;br/&gt;defaut connu · absence de test · churn&lt;br/&gt;nombre d&#x27;auteurs · dependance a un tiers&quot;] -.-&gt; T
+  I[&quot;IMPACT — risque metier&lt;br/&gt;perte de donnees silencieuse · non-conformite&lt;br/&gt;blocage de mise en ligne · population touchee&quot;] -.-&gt; T
+  Q1 --&gt; R[&quot;RISQUE RESIDUEL DECLARE&lt;br/&gt;ce qu&#x27;on renonce a couvrir, et pourquoi&lt;br/&gt;section 7 du carnet de route&quot;]
+  Q4 --&gt; R
+  classDef q1 fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef q2 fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef q3 fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef q4 fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef axe fill:#eeeeee,stroke:#777777,color:#333333;
+  classDef res fill:#f3d9f7,stroke:#7b3f8c,color:#3d1f45;
+  class Q1 q1;
+  class Q2 q2;
+  class Q3 q3;
+  class Q4 q4;
+  class P,I,T axe;
+  class R res;</pre></div>
+  <pre class="code" id="k25" hidden>flowchart TB
+  T[&quot;Ou mettre l&#x27;effort de test ?&lt;br/&gt;Deux axes, jamais un seul&quot;]
+  T --&gt; Q1[&quot;QUADRANT I — probabilite FORTE x impact FORT&lt;br/&gt;TEST APPROFONDI&lt;br/&gt;plusieurs niveaux, cas limites, oracle externe explicite&lt;br/&gt;lots 7 · 16 · 9 · 8&quot;]
+  T --&gt; Q3[&quot;QUADRANT III — probabilite FAIBLE x impact FORT&lt;br/&gt;TEST CIBLE&lt;br/&gt;le chemin critique seul, tenu dans la duree&lt;br/&gt;lots 2 · 1 · 4 · 15&quot;]
+  T --&gt; Q2[&quot;QUADRANT II — probabilite FORTE x impact MODERE&lt;br/&gt;TEST LARGE ET PEU PROFOND&lt;br/&gt;un cas nominal, un cas d&#x27;erreur, automatise&lt;br/&gt;lots 6 · 14 · 11 · 3&quot;]
+  T --&gt; Q4[&quot;QUADRANT IV — probabilite FAIBLE x impact MODERE&lt;br/&gt;EFFORT MINIMAL&lt;br/&gt;reevalue a chaque changement de code&lt;br/&gt;lots 5 · 10 · 12 · 13&quot;]
+  P[&quot;PROBABILITE — risque technique&lt;br/&gt;defaut connu · absence de test · churn&lt;br/&gt;nombre d&#x27;auteurs · dependance a un tiers&quot;] -.-&gt; T
+  I[&quot;IMPACT — risque metier&lt;br/&gt;perte de donnees silencieuse · non-conformite&lt;br/&gt;blocage de mise en ligne · population touchee&quot;] -.-&gt; T
+  Q1 --&gt; R[&quot;RISQUE RESIDUEL DECLARE&lt;br/&gt;ce qu&#x27;on renonce a couvrir, et pourquoi&lt;br/&gt;section 7 du carnet de route&quot;]
+  Q4 --&gt; R
+  classDef q1 fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef q2 fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef q3 fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef q4 fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef axe fill:#eeeeee,stroke:#777777,color:#333333;
+  classDef res fill:#f3d9f7,stroke:#7b3f8c,color:#3d1f45;
+  class Q1 q1;
+  class Q2 q2;
+  class Q3 q3;
+  class Q4 q4;
+  class P,I,T axe;
+  class R res;</pre>
+</section>
+
+<section class="card" id="c26">
+  <header>
+    <div>
+      <h2>M8-2-la-boucle-de-gouvernance</h2>
+      <p class="ctx">Notion M8.2 — « Gouverner un agent dans la durée : dérive et évaluations » <span class="src">· module-M8-decider.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(26,'M8-2-la-boucle-de-gouvernance')">SVG</button>
+      <button onclick="dlPng(26,'M8-2-la-boucle-de-gouvernance')">PNG</button>
+      <button class="ghost" onclick="toggleCode(26)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r26"><pre class="mermaid">flowchart LR
+  subgraph D[&quot;Ce qui change sans votre decision&quot;]
+    direction TB
+    D1[&quot;Comportement du modele&lt;br/&gt;a nom constant&quot;]
+    D2[&quot;Disponibilite du modele&lt;br/&gt;deprecation puis retrait&quot;]
+    D3[&quot;Le prompt et le depot&lt;br/&gt;modifies par un collegue&quot;]
+  end
+  subgraph J[&quot;Le jeu d&#x27;evaluations — versionne dans le depot&quot;]
+    direction TB
+    C1[&quot;CAS POSITIFS&lt;br/&gt;les 6 defauts connus&lt;br/&gt;l&#x27;agent doit les faire tomber&quot;]
+    C2[&quot;CAS NEGATIFS&lt;br/&gt;assertion ajustee · code de production&lt;br/&gt;appel reel au tiers · magasin sale&quot;]
+    C3[&quot;CAS DE GARDE&lt;br/&gt;Z1 verte doit rester verte&quot;]
+  end
+  D ==&gt; T{&quot;DECLENCHEUR&lt;br/&gt;changement de modele&lt;br/&gt;changement de skill&lt;br/&gt;cadence fixe&quot;}
+  T ==&gt; J
+  J ==&gt; S[&quot;SCOREUR — du CODE&lt;br/&gt;hierarchie : code, puis juge, puis humain&quot;]
+  S ==&gt; R{&quot;SEUIL&lt;br/&gt;9 cas sur 11&quot;}
+  R -- &quot;au-dessus&quot; --&gt; OK[&quot;L&#x27;agent continue&lt;br/&gt;le score est journalise&quot;]
+  R -- &quot;en dessous&quot; --&gt; KO[&quot;L&#x27;agent est SUSPENDU&lt;br/&gt;pas &#x27;surveille&#x27;&quot;]
+  KO --&gt; P[&quot;PROPRIETAIRE NOMME&lt;br/&gt;une personne, pas une equipe&quot;]
+  OK --&gt; P
+  classDef derive fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef eval fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef ko fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef prop fill:#f3d9f7,stroke:#7b3f8c,color:#3d1f45;
+  class D1,D2,D3 derive;
+  class C1,C2,C3,S eval;
+  class OK ok;
+  class KO ko;
+  class P prop;</pre></div>
+  <pre class="code" id="k26" hidden>flowchart LR
+  subgraph D[&quot;Ce qui change sans votre decision&quot;]
+    direction TB
+    D1[&quot;Comportement du modele&lt;br/&gt;a nom constant&quot;]
+    D2[&quot;Disponibilite du modele&lt;br/&gt;deprecation puis retrait&quot;]
+    D3[&quot;Le prompt et le depot&lt;br/&gt;modifies par un collegue&quot;]
+  end
+  subgraph J[&quot;Le jeu d&#x27;evaluations — versionne dans le depot&quot;]
+    direction TB
+    C1[&quot;CAS POSITIFS&lt;br/&gt;les 6 defauts connus&lt;br/&gt;l&#x27;agent doit les faire tomber&quot;]
+    C2[&quot;CAS NEGATIFS&lt;br/&gt;assertion ajustee · code de production&lt;br/&gt;appel reel au tiers · magasin sale&quot;]
+    C3[&quot;CAS DE GARDE&lt;br/&gt;Z1 verte doit rester verte&quot;]
+  end
+  D ==&gt; T{&quot;DECLENCHEUR&lt;br/&gt;changement de modele&lt;br/&gt;changement de skill&lt;br/&gt;cadence fixe&quot;}
+  T ==&gt; J
+  J ==&gt; S[&quot;SCOREUR — du CODE&lt;br/&gt;hierarchie : code, puis juge, puis humain&quot;]
+  S ==&gt; R{&quot;SEUIL&lt;br/&gt;9 cas sur 11&quot;}
+  R -- &quot;au-dessus&quot; --&gt; OK[&quot;L&#x27;agent continue&lt;br/&gt;le score est journalise&quot;]
+  R -- &quot;en dessous&quot; --&gt; KO[&quot;L&#x27;agent est SUSPENDU&lt;br/&gt;pas &#x27;surveille&#x27;&quot;]
+  KO --&gt; P[&quot;PROPRIETAIRE NOMME&lt;br/&gt;une personne, pas une equipe&quot;]
+  OK --&gt; P
+  classDef derive fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef eval fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef ko fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef prop fill:#f3d9f7,stroke:#7b3f8c,color:#3d1f45;
+  class D1,D2,D3 derive;
+  class C1,C2,C3,S eval;
+  class OK ok;
+  class KO ko;
+  class P prop;</pre>
+</section>
+
+<section class="card" id="c27">
+  <header>
+    <div>
+      <h2>M8-3-ce-qui-sort-du-si</h2>
+      <p class="ctx">Notion M8.3 — « Ce qui vous engage juridiquement » <span class="src">· module-M8-decider.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(27,'M8-3-ce-qui-sort-du-si')">SVG</button>
+      <button onclick="dlPng(27,'M8-3-ce-qui-sort-du-si')">PNG</button>
+      <button class="ghost" onclick="toggleCode(27)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r27"><pre class="mermaid">flowchart LR
+  subgraph SI[&quot;Votre systeme d&#x27;information — le depot Carnet de voyage&quot;]
+    direction TB
+    G1[&quot;Z1 — comptes&lt;br/&gt;magasin .md&lt;br/&gt;data/mails/ horodatage-adresse .md&quot;]
+    G2[&quot;Z3 · Z4 — contenus utilisateur&lt;br/&gt;/uploads/ · les commentaires des .md&quot;]
+    G3[&quot;Z2 — voyages et etapes&lt;br/&gt;titres, dates, destinations&quot;]
+    CODE[&quot;Le code et les tests&quot;]
+  end
+  S1{{&quot;SORTIE APPLICATIVE&lt;br/&gt;permanente · anterieure a l&#x27;IA&lt;br/&gt;a chaque geocodage&quot;}}
+  S2{{&quot;SORTIE DE DEVELOPPEMENT&lt;br/&gt;nouvelle · configurable&lt;br/&gt;a chaque requete a l&#x27;assistant&quot;}}
+  G1 --&gt; S2
+  G2 --&gt; S2
+  CODE --&gt; S2
+  G3 --&gt; S1
+  S1 --&gt; N[&quot;Service tiers public et gratuit&lt;br/&gt;Nominatim · OSRM&lt;br/&gt;aucun contrat, aucune maitrise&quot;]
+  S2 --&gt; F[&quot;Fournisseur de modele&lt;br/&gt;contrat de sous-traitance&lt;br/&gt;retention CONFIGUREE, pas presumee&quot;]
+  S2 -. &quot;ce qu&#x27;on retire du contexte&quot; .-&gt; X[&quot;permissions.deny&lt;br/&gt;dans .claude/settings.json&lt;br/&gt;PAS de .claudeignore : il n&#x27;existe pas&quot;]
+  classDef gisement fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef sortie1 fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef sortie2 fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef garde fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class G1,G2,G3,CODE gisement;
+  class S1,N sortie1;
+  class S2,F sortie2;
+  class X garde;</pre></div>
+  <pre class="code" id="k27" hidden>flowchart LR
+  subgraph SI[&quot;Votre systeme d&#x27;information — le depot Carnet de voyage&quot;]
+    direction TB
+    G1[&quot;Z1 — comptes&lt;br/&gt;magasin .md&lt;br/&gt;data/mails/ horodatage-adresse .md&quot;]
+    G2[&quot;Z3 · Z4 — contenus utilisateur&lt;br/&gt;/uploads/ · les commentaires des .md&quot;]
+    G3[&quot;Z2 — voyages et etapes&lt;br/&gt;titres, dates, destinations&quot;]
+    CODE[&quot;Le code et les tests&quot;]
+  end
+  S1{{&quot;SORTIE APPLICATIVE&lt;br/&gt;permanente · anterieure a l&#x27;IA&lt;br/&gt;a chaque geocodage&quot;}}
+  S2{{&quot;SORTIE DE DEVELOPPEMENT&lt;br/&gt;nouvelle · configurable&lt;br/&gt;a chaque requete a l&#x27;assistant&quot;}}
+  G1 --&gt; S2
+  G2 --&gt; S2
+  CODE --&gt; S2
+  G3 --&gt; S1
+  S1 --&gt; N[&quot;Service tiers public et gratuit&lt;br/&gt;Nominatim · OSRM&lt;br/&gt;aucun contrat, aucune maitrise&quot;]
+  S2 --&gt; F[&quot;Fournisseur de modele&lt;br/&gt;contrat de sous-traitance&lt;br/&gt;retention CONFIGUREE, pas presumee&quot;]
+  S2 -. &quot;ce qu&#x27;on retire du contexte&quot; .-&gt; X[&quot;permissions.deny&lt;br/&gt;dans .claude/settings.json&lt;br/&gt;PAS de .claudeignore : il n&#x27;existe pas&quot;]
+  classDef gisement fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef sortie1 fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef sortie2 fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef garde fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class G1,G2,G3,CODE gisement;
+  class S1,N sortie1;
+  class S2,F sortie2;
+  class X garde;</pre>
+</section>
+
+<section class="card" id="c28">
+  <header>
+    <div>
+      <h2>BOSS-J2-l-eclaireur</h2>
+      <p class="ctx">🏆 Col J2 — « L&#x27;Éclaireur » <span class="src">· boss/boss-J2-eclaireur.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(28,'BOSS-J2-l-eclaireur')">SVG</button>
+      <button onclick="dlPng(28,'BOSS-J2-l-eclaireur')">PNG</button>
+      <button class="ghost" onclick="toggleCode(28)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r28"><pre class="mermaid">flowchart LR
+  C[&quot;CLAUDE.md&lt;br/&gt;la memoire projet&lt;br/&gt;3 interdits · l&#x27;oracle · les runners&quot;] --&gt; S
+  E[&quot;docs/API-CONTRACT.md&lt;br/&gt;L&#x27;EXIGENCE — la seule source&quot;] --&gt; S[&quot;SKILL exigence-vers-test&lt;br/&gt;① lire ② generer ③ EXECUTER ④ classer&quot;]
+  S --&gt; G[&quot;Tests *.spec.ts&lt;br/&gt;crees, jamais modifies&quot;]
+  G --&gt; H1{&quot;HOOK garde-assertions&lt;br/&gt;PreToolUse sur Edit et Write&quot;}
+  H1 -- &quot;test preexistant&lt;br/&gt;ou code de production&quot; --&gt; KO[&quot;exit 2 — REFUSE&quot;]
+  H1 -- &quot;fichier neuf&quot; --&gt; X[&quot;npm run test:backend&lt;br/&gt;EXECUTION REELLE&quot;]
+  X --&gt; O[&quot;Sortie brute du runner&lt;br/&gt;collee, jamais reformulee&quot;]
+  O --&gt; V[&quot;SUBAGENT verificateur-de-tests&lt;br/&gt;fenetre de contexte SEPAREE&lt;br/&gt;lecture seule · 6 questions&quot;]
+  V -- &quot;REFUSE&quot; --&gt; S
+  V -- &quot;ACCEPTE&quot; --&gt; H2{&quot;HOOK magasin-propre&lt;br/&gt;Stop — git status&quot;}
+  H2 -- &quot;residus dans data/ ou uploads/&quot; --&gt; KO2[&quot;exit 2 — l&#x27;agent ne rend pas la main&quot;]
+  H2 -- &quot;propre&quot; --&gt; R([&quot;carnet/j2-rapport-agent.md&lt;br/&gt;lisible par un chef de projet&quot;])
+  T[&quot;LA TRICHE&lt;br/&gt;assertion affaiblie&lt;br/&gt;apres un echec&quot;] -. &quot;barree par le hook&quot; .-&gt; KO
+  T -. &quot;si elle passe : git diff&lt;br/&gt;MALUS 60 PR&quot; .-&gt; R
+  classDef source fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef brique fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef garde fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  class E,C,O,R source;
+  class S,G,X,V brique;
+  class H1,H2 garde;
+  class KO,KO2,T ko;</pre></div>
+  <pre class="code" id="k28" hidden>flowchart LR
+  C[&quot;CLAUDE.md&lt;br/&gt;la memoire projet&lt;br/&gt;3 interdits · l&#x27;oracle · les runners&quot;] --&gt; S
+  E[&quot;docs/API-CONTRACT.md&lt;br/&gt;L&#x27;EXIGENCE — la seule source&quot;] --&gt; S[&quot;SKILL exigence-vers-test&lt;br/&gt;① lire ② generer ③ EXECUTER ④ classer&quot;]
+  S --&gt; G[&quot;Tests *.spec.ts&lt;br/&gt;crees, jamais modifies&quot;]
+  G --&gt; H1{&quot;HOOK garde-assertions&lt;br/&gt;PreToolUse sur Edit et Write&quot;}
+  H1 -- &quot;test preexistant&lt;br/&gt;ou code de production&quot; --&gt; KO[&quot;exit 2 — REFUSE&quot;]
+  H1 -- &quot;fichier neuf&quot; --&gt; X[&quot;npm run test:backend&lt;br/&gt;EXECUTION REELLE&quot;]
+  X --&gt; O[&quot;Sortie brute du runner&lt;br/&gt;collee, jamais reformulee&quot;]
+  O --&gt; V[&quot;SUBAGENT verificateur-de-tests&lt;br/&gt;fenetre de contexte SEPAREE&lt;br/&gt;lecture seule · 6 questions&quot;]
+  V -- &quot;REFUSE&quot; --&gt; S
+  V -- &quot;ACCEPTE&quot; --&gt; H2{&quot;HOOK magasin-propre&lt;br/&gt;Stop — git status&quot;}
+  H2 -- &quot;residus dans data/ ou uploads/&quot; --&gt; KO2[&quot;exit 2 — l&#x27;agent ne rend pas la main&quot;]
+  H2 -- &quot;propre&quot; --&gt; R([&quot;carnet/j2-rapport-agent.md&lt;br/&gt;lisible par un chef de projet&quot;])
+  T[&quot;LA TRICHE&lt;br/&gt;assertion affaiblie&lt;br/&gt;apres un echec&quot;] -. &quot;barree par le hook&quot; .-&gt; KO
+  T -. &quot;si elle passe : git diff&lt;br/&gt;MALUS 60 PR&quot; .-&gt; R
+  classDef source fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef brique fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef garde fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  class E,C,O,R source;
+  class S,G,X,V brique;
+  class H1,H2 garde;
+  class KO,KO2,T ko;</pre>
+</section>
+
+<section class="card" id="c29">
+  <header>
+    <div>
+      <h2>BOSS-J4-la-carte-des-risques</h2>
+      <p class="ctx">🏔️ Col final J4 — « Le Comité de mise en ligne » <span class="src">· boss/boss-J4-comite-mise-en-ligne.md</span></p>
+    </div>
+    <div class="acts">
+      <button onclick="dlSvg(29,'BOSS-J4-la-carte-des-risques')">SVG</button>
+      <button onclick="dlPng(29,'BOSS-J4-la-carte-des-risques')">PNG</button>
+      <button class="ghost" onclick="toggleCode(29)">source</button>
+    </div>
+  </header>
+  <div class="render" id="r29"><pre class="mermaid">flowchart TB
+  T[&quot;CARTE DES RISQUES — 16 fonctionnalites au 4e jour&lt;br/&gt;probabilite x impact · couverture · decision&quot;]
+  T --&gt; QI[&quot;QUADRANT I — proba FORTE x impact FORT&lt;br/&gt;NO-GO ou condition bloquante&quot;]
+  T --&gt; QII[&quot;QUADRANT II — proba FORTE x impact MODERE&lt;br/&gt;GO conditionnel&quot;]
+  T --&gt; QIII[&quot;QUADRANT III — proba FAIBLE x impact FORT&lt;br/&gt;GO — surveiller&quot;]
+  T --&gt; QIV[&quot;QUADRANT IV — proba FAIBLE x impact MODERE&lt;br/&gt;GO — dette assumee&quot;]
+  QI --&gt; F7[&quot;#7 Modification d&#x27;une journey&lt;br/&gt;defaut ouvert · perte de donnees silencieuse&lt;br/&gt;PREUVE : test reecrit, ROUGE&quot;]
+  QI --&gt; F16[&quot;#16 Carte — itineraire&lt;br/&gt;defaut ouvert · lat,lng vers OSRM&lt;br/&gt;PREUVE : assertion sur l&#x27;URL construite&quot;]
+  QI --&gt; F9[&quot;#9 Modification d&#x27;une etape&lt;br/&gt;defaut ouvert · endDate ignoree&lt;br/&gt;PREUVE : relecture de la reponse&quot;]
+  QII --&gt; F14[&quot;#14 Commentaires d&#x27;etape&lt;br/&gt;defaut ouvert · authorId null&lt;br/&gt;PREUVE : le type partage&quot;]
+  QII --&gt; F11[&quot;#11 Recherche de lieu&lt;br/&gt;aucun defaut · dependance tierce&lt;br/&gt;PARADE : double + test de contrat&quot;]
+  QII --&gt; F3[&quot;#3 Recuperation de mot de passe&lt;br/&gt;aucun defaut · effet de bord data/mails/&quot;]
+  QIII --&gt; F6[&quot;#6 Creation d&#x27;une journey&lt;br/&gt;CORRIGE au col J3 · test rouge d&#x27;abord&quot;]
+  QIII --&gt; F8[&quot;#8 Ajout d&#x27;une etape&lt;br/&gt;CORRIGE au col J3 · TU + E2E&quot;]
+  QIII --&gt; F2[&quot;#1 #2 #4 — Z1 et liste&lt;br/&gt;etalons · restent verts&quot;]
+  QIV --&gt; F15[&quot;#15 Carte — visualisation&lt;br/&gt;non couvert · barriere clavier constatee&quot;]
+  QIV --&gt; FR[&quot;#5 #10 #12 #13&lt;br/&gt;terrains vierges · dette declaree&quot;]
+  QI ==&gt; D[&quot;DECISION&lt;br/&gt;GO CONDITIONNEL sur Z1 et Z2&lt;br/&gt;NO-GO sur la carte : #15 et #16&quot;]
+  QIV -.-&gt; R[&quot;RISQUE RESIDUEL ASSUME&lt;br/&gt;section 7 du carnet de route&quot;]
+  classDef q1 fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef q2 fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef q3 fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef q4 fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef dec fill:#f3d9f7,stroke:#7b3f8c,color:#3d1f45;
+  class QI,F7,F16,F9 q1;
+  class QII,F14,F11,F3 q2;
+  class QIII,F6,F8,F2 q3;
+  class QIV,F15,FR q4;
+  class D,R,T dec;</pre></div>
+  <pre class="code" id="k29" hidden>flowchart TB
+  T[&quot;CARTE DES RISQUES — 16 fonctionnalites au 4e jour&lt;br/&gt;probabilite x impact · couverture · decision&quot;]
+  T --&gt; QI[&quot;QUADRANT I — proba FORTE x impact FORT&lt;br/&gt;NO-GO ou condition bloquante&quot;]
+  T --&gt; QII[&quot;QUADRANT II — proba FORTE x impact MODERE&lt;br/&gt;GO conditionnel&quot;]
+  T --&gt; QIII[&quot;QUADRANT III — proba FAIBLE x impact FORT&lt;br/&gt;GO — surveiller&quot;]
+  T --&gt; QIV[&quot;QUADRANT IV — proba FAIBLE x impact MODERE&lt;br/&gt;GO — dette assumee&quot;]
+  QI --&gt; F7[&quot;#7 Modification d&#x27;une journey&lt;br/&gt;defaut ouvert · perte de donnees silencieuse&lt;br/&gt;PREUVE : test reecrit, ROUGE&quot;]
+  QI --&gt; F16[&quot;#16 Carte — itineraire&lt;br/&gt;defaut ouvert · lat,lng vers OSRM&lt;br/&gt;PREUVE : assertion sur l&#x27;URL construite&quot;]
+  QI --&gt; F9[&quot;#9 Modification d&#x27;une etape&lt;br/&gt;defaut ouvert · endDate ignoree&lt;br/&gt;PREUVE : relecture de la reponse&quot;]
+  QII --&gt; F14[&quot;#14 Commentaires d&#x27;etape&lt;br/&gt;defaut ouvert · authorId null&lt;br/&gt;PREUVE : le type partage&quot;]
+  QII --&gt; F11[&quot;#11 Recherche de lieu&lt;br/&gt;aucun defaut · dependance tierce&lt;br/&gt;PARADE : double + test de contrat&quot;]
+  QII --&gt; F3[&quot;#3 Recuperation de mot de passe&lt;br/&gt;aucun defaut · effet de bord data/mails/&quot;]
+  QIII --&gt; F6[&quot;#6 Creation d&#x27;une journey&lt;br/&gt;CORRIGE au col J3 · test rouge d&#x27;abord&quot;]
+  QIII --&gt; F8[&quot;#8 Ajout d&#x27;une etape&lt;br/&gt;CORRIGE au col J3 · TU + E2E&quot;]
+  QIII --&gt; F2[&quot;#1 #2 #4 — Z1 et liste&lt;br/&gt;etalons · restent verts&quot;]
+  QIV --&gt; F15[&quot;#15 Carte — visualisation&lt;br/&gt;non couvert · barriere clavier constatee&quot;]
+  QIV --&gt; FR[&quot;#5 #10 #12 #13&lt;br/&gt;terrains vierges · dette declaree&quot;]
+  QI ==&gt; D[&quot;DECISION&lt;br/&gt;GO CONDITIONNEL sur Z1 et Z2&lt;br/&gt;NO-GO sur la carte : #15 et #16&quot;]
+  QIV -.-&gt; R[&quot;RISQUE RESIDUEL ASSUME&lt;br/&gt;section 7 du carnet de route&quot;]
+  classDef q1 fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef q2 fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef q3 fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef q4 fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef dec fill:#f3d9f7,stroke:#7b3f8c,color:#3d1f45;
+  class QI,F7,F16,F9 q1;
+  class QII,F14,F11,F3 q2;
+  class QIII,F6,F8,F2 q3;
+  class QIV,F15,FR q4;
+  class D,R,T dec;</pre>
+</section>
+</div>
+<script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+mermaid.initialize({startOnLoad:true,theme:"base",securityLevel:"loose",
+  themeVariables:{primaryColor:"#EDF2F7",primaryTextColor:"#1A202C",primaryBorderColor:"#2B6CB0",
+    lineColor:"#4A5568",fontFamily:"-apple-system,Segoe UI,Roboto,sans-serif",fontSize:"14px"}});
+window.toggleCode=i=>{const k=document.getElementById("k"+i);k.hidden=!k.hidden};
+function svgOf(i){const s=document.querySelector("#r"+i+" svg");if(!s)return null;
+  const c=s.cloneNode(true);c.setAttribute("xmlns","http://www.w3.org/2000/svg");
+  if(!c.getAttribute("width")){const b=s.getBBox();c.setAttribute("width",b.width);c.setAttribute("height",b.height);}
+  return new XMLSerializer().serializeToString(c);}
+function save(blob,name){const u=URL.createObjectURL(blob);const a=document.createElement("a");
+  a.href=u;a.download=name;a.click();URL.revokeObjectURL(u);}
+window.dlSvg=(i,n)=>{const s=svgOf(i);if(!s)return alert("Diagramme non rendu");
+  save(new Blob([s],{type:"image/svg+xml"}),n+".svg");};
+window.dlPng=(i,n)=>{const s=svgOf(i);if(!s)return alert("Diagramme non rendu");
+  const img=new Image();const url="data:image/svg+xml;base64,"+btoa(unescape(encodeURIComponent(s)));
+  img.onload=()=>{const cv=document.createElement("canvas");const k=2;
+    cv.width=img.width*k;cv.height=img.height*k;const x=cv.getContext("2d");
+    x.fillStyle="#fff";x.fillRect(0,0,cv.width,cv.height);x.scale(k,k);x.drawImage(img,0,0);
+    cv.toBlob(b=>save(b,n+".png"));};img.src=url;};
+</script></body></html>

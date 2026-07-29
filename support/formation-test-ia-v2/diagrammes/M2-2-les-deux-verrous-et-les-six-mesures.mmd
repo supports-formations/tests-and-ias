@@ -1,0 +1,29 @@
+flowchart TB
+  S["Une suite de tests<br/>qu'on n'a pas ecrite"] --> R1{"R1 — L'ORACLE<br/>d'ou vient la valeur attendue ?"}
+  R1 -- "d'une source exterieure au code" --> R2{"R2 — LA CAPACITE D'ECHEC<br/>quelle modification la ferait tomber ?"}
+  R1 -- "du code, d'un double,<br/>de la sortie du jour" --> KO["REFUSEE<br/>la revue s'arrete ici"]
+  R2 -- "on nomme la ligne" --> R3
+  R2 -- "aucune" --> KO
+  subgraph B["Six mesures — cotees de 0 a 2"]
+    direction TB
+    R3["R3 — Placement des doubles"]
+    R4["R4 — Force des assertions"]
+    R5["R5 — Tracabilite aux EX-nnn"]
+    R6["R6 — Cas limites et d'erreur"]
+    R7["R7 — Isolation et reproductibilite"]
+    R8["R8 — Lisibilite et nommage"]
+  end
+  R8 --> V{"Score sur 16"}
+  V -- "13 a 16" --> OK["ACCEPTEE"]
+  V -- "9 a 12" --> MID["A REPRENDRE<br/>les lignes a 0 ou 1 sont listees"]
+  V -- "0 a 8" --> KO2["REFUSEE"]
+  T7["journeys.update.spec.ts<br/>feature #7 — VERTE"] -. "R1 = 0 et R2 = 0" .-> KO
+  T2["Suite du login<br/>feature #2 — VERTE"] -. "R1 = 2 et R2 = 2" .-> R2
+  classDef veto fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef mesure fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef mid fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class KO,KO2,T7 veto;
+  class R3,R4,R5,R6,R7,R8 mesure;
+  class OK,T2 ok;
+  class MID mid;

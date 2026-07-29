@@ -1,0 +1,23 @@
+flowchart TB
+  subgraph JOB["Le job de test — six blocs"]
+    direction TB
+    B1["B1 DECLENCHEUR<br/>qui peut lancer, sur quel code"]
+    B2["B2 PERMISSIONS<br/>lecture seule par defaut"]
+    B3["B3 BUDGET<br/>delai du job · tours de l'agent · cout"]
+    B4["B4 ENVIRONNEMENT<br/>magasin isole Z4 · tiers neutralise Z5"]
+    B5["B5 EXECUTION<br/>test:backend puis e2e"]
+    B6["B6 ARTEFACTS<br/>traces, rapports, journal de couts"]
+    B1 --> B2 --> B3 --> B4 --> B5 --> B6
+  end
+  F1["FUITE 1 — contribution externe<br/>contexte de confiance + code propose<br/>= execution avec vos secrets"] -. "attaque" .-> B1
+  F2["FUITE 2 — jeton trop puissant<br/>disponible dans CHAQUE etape,<br/>y compris les actions tierces"] -. "attaque" .-> B2
+  F3["FUITE 3 — aucun delai declare<br/>le plafond dur de 6 h n'est pas une protection"] -. "attaque" .-> B3
+  F4["FUITE 4 — magasin partage<br/>et appel reel au tiers<br/>l'ordre des jobs decide du resultat"] -. "attaque" .-> B4
+  F5["FUITE 5 — aucun artefact<br/>rouge sans trace :<br/>les 5 categories deviennent indistinctes"] -. "attaque" .-> B6
+  B6 --> V(["Un rouge dont on sait dire POURQUOI"])
+  classDef bloc fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef fuite fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef but fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class B1,B2,B3,B4,B5,B6 bloc;
+  class F1,F2,F3,F4,F5 fuite;
+  class V but;

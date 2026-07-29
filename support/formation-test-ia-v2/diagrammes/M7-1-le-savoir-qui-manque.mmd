@@ -1,0 +1,27 @@
+flowchart LR
+  subgraph CTX["① Ce qu'on donne au modele"]
+    direction TB
+    C1["backend/src/map/map.service.ts"]
+    C2["Les types partages<br/>lat: number · lng: number"]
+    C3["Le style du depot"]
+  end
+  subgraph DEHORS["② Ce qui vit DEHORS — jamais fourni"]
+    direction TB
+    D1["Documentation d'OSRM<br/>ordre des coordonnees<br/>dans le chemin du service route"]
+    D2["Conventions d'unites"]
+    D3["Semantique des codes de retour du tiers"]
+  end
+  CTX ==> LLM["Relecture par le modele"]
+  DEHORS -. "JAMAIS TRANSMIS" .-> LLM
+  LLM --> R1["Verdict : le fichier est correct<br/>+ suggestions de forme"]
+  R1 --> P["Produit : POST /api/map/route<br/>200 + polyline VALIDE<br/>trace absurde"]
+  D1 ==> T["LE TEST QUI ATTRAPE<br/>assertion sur l'URL construite<br/>aucun appel reseau"]
+  T --> V(["ROUGE — le defaut #16 est prouve"])
+  classDef ctx fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef out fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef bad fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef good fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  class C1,C2,C3,LLM ctx;
+  class D1,D2,D3 out;
+  class R1,P bad;
+  class T,V good;

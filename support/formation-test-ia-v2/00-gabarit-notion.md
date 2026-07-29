@@ -37,7 +37,7 @@ Chaque notion s'écrit dans cet ordre exact. Aucune section n'est facultative.
 | **Objectif d'apprentissage** | À l'issue, le·a participant·e est capable de <verbe observable> |
 | **Niveau visé (Bloom)** | Connaître · Comprendre · Appliquer · Analyser · Évaluer · Créer |
 | **Micro-évaluation** | QCM éclair (n questions) / Exercice court (nn min) |
-| **Ancrage fil rouge** | <ce que la notion fait avancer dans le projet> |
+| **Ancrage fil rouge** | <zone(s) `Z1`-`Z6` du *Carnet de voyage* · état du terrain 🟢 ⚪ 🟡 🔴 · ce que la notion fait avancer dans le projet> |
 | **Prérequis** | <notion(s) dont celle-ci dépend, ou « aucun »> |
 
 #### ▸ Pourquoi cette modalité
@@ -78,10 +78,11 @@ Un diagramme par notion **quand il clarifie** — jamais décoratif. Fourni en t
    la phrase à dire sur chaque élément, et l'erreur d'interprétation à prévenir.
 
 #### ▸ 🔍 Démonstration / exemple
-**Un seul** exemple, exécutable, ancré sur le projet fil rouge.
+**Un seul** exemple, exécutable, ancré sur une zone `Z1`-`Z6` du projet fil rouge.
 Comporte : le point de départ, le geste exact (commande, prompt, clic), le résultat obtenu,
 et **ce que l'exemple révèle** — y compris quand l'IA se trompe.
 Pour une démo live : la liste des choses qui peuvent rater et le repli associé.
+**Contrainte de stack : tout le code est en TypeScript** (voir §6).
 
 #### ▸ ✅ Micro-évaluation
 **Variante A — QCM éclair** (2 à 3 questions, 3 à 4 réponses chacune) :
@@ -153,7 +154,55 @@ Un module ne se termine **jamais** sans une victoire mesurable.
 |---|---|---|
 | Module | `module-Mx-<slug>.md` | `module-M3-parler-a-la-machine.md` |
 | Notion | `Mx.n` | `M3.2` |
-| Diagramme | `diagrammes/Mx-n-<slug>.svg` | `diagrammes/M3-2-fenetre-de-contexte.svg` |
+| Diagramme | `diagrammes/Mx-n-<slug>.svg` | `diagrammes/M3-2-les-cinq-blocs.svg` |
 | QCM long | `qcm/qcm-Mx.md` | `qcm/qcm-M3.md` |
-| Boss | `boss/boss-Jn-<slug>.md` | `boss/boss-J2-agent-zero.md` |
+| Boss | `boss/boss-Jn-<slug>.md` | `boss/boss-J2-eclaireur.md` |
 | Source V1 | `[S-xx]` → `annexes/reference-v1/` | — |
+
+Le format est inchangé. Seuls les slugs sont désormais ceux des quatre cols réels :
+`boss-J1-inventaire` · `boss-J2-eclaireur` · `boss-J3-passage-difficile` ·
+`boss-J4-comite-mise-en-ligne`.
+
+---
+
+## 6. Contrainte de stack et ancrage fil rouge
+
+Le projet fil rouge est **Carnet de voyage** (voir `00-fil-rouge.md`). Deux contraintes
+s'appliquent à **tout** exemple, démonstration, exercice et corrigé de la V2.
+
+### 6.1 Le code est en TypeScript — sans exception
+
+| Couche du projet | Ce qu'on écrit dans les notions |
+|---|---|
+| Back — NestJS, API REST | Jest · `@nestjs/testing` · supertest |
+| Front — React + Vite | Vitest · React Testing Library · `@testing-library/user-event` |
+| E2E | `@playwright/test` · `@axe-core/playwright` |
+| Stockage — fichiers `.md` + `gray-matter` | Fixtures de fichiers, isolation par répertoire temporaire |
+| Dépendances externes — Nominatim, OSRM | Test doubles, tests de contrat, timeouts |
+
+**Interdit** : tout exemple en C#/.NET, xUnit, NUnit, Angular ou Jasmine/Karma. Ces contenus
+de la V1 restent consultables dans `annexes/reference-v1/` et sont cités en lien, jamais recopiés
+ni projetés. Une notion qui a besoin d'un exemple hors stack est une notion mal ancrée.
+
+### 6.2 L'ancrage se fait sur une zone `Z1`-`Z6`
+
+| Zone | Périmètre | Ce qu'elle sert à enseigner |
+|---|---|---|
+| **Z1** | `backend/auth` + pages front | Cas limites, validation, tests qui mentent par sur-mock |
+| **Z2** | `backend/journeys` + liste et détail front | Oracle métier, intégration API, couverture trompeuse |
+| **Z3** | `backend/steps` | Relations, données de test, effets de bord |
+| **Z4** | `backend/storage` (`.md` + `gray-matter`) | Isolation, fixtures, état partagé, nettoyage |
+| **Z5** | `backend/places` → Nominatim · `backend/map` → OSRM | Flakiness native, doubles, contrat, résilience |
+| **Z6** | `frontend` React/Vite · `e2e/` Playwright | Testing Library, E2E, sélecteurs, accessibilité |
+
+Règles d'écriture :
+
+- la ligne **Ancrage fil rouge** du tableau d'en-tête nomme la ou les zones **et** l'état du
+  terrain visé : 🟢 sain (l'étalon) · ⚪ non testé (le terrain d'exercice) · 🟡 testé mais faux
+  (le piège) · 🔴 bugué (la preuve) ;
+- l'ancrage est **motivé** : on écrit en une phrase *pourquoi* cette notion se joue sur cette
+  zone. Un ancrage décoratif est un ancrage refusé en relecture ;
+- une notion portant un anti-pattern (critère `D-4`) s'ancre sur du 🟡 ou du 🔴 — jamais sur
+  du 🟢 : le piège doit exister avant la séance ;
+- **aucun nom de fichier de code, aucune route, aucun nom de test précis n'est écrit tant qu'il
+  n'a pas été relevé dans le dépôt.** On reste au niveau de la zone et du module fonctionnel.

@@ -1,0 +1,28 @@
+flowchart LR
+  E["EXIGENCE<br/>docs/API-CONTRACT.md<br/>ou type partage"] --> G["① GENERER<br/>fichiers *.spec.ts"]
+  G --> C1{"CONDITION 1<br/>l'attendu vient-il<br/>d'une source EXTERIEURE<br/>au code ?"}
+  C1 -- "NON" --> F1["TEST TAUTOLOGIQUE<br/>aucune modification du code<br/>ne le ferait tomber"]
+  C1 -- "OUI" --> X["② EXECUTER<br/>npm run test:backend"]
+  X --> C2{"CONDITION 2<br/>la suite a-t-elle<br/>REELLEMENT tourne ?"}
+  C2 -- "NON — l'agent DECLARE" --> F2["POINT DE RUPTURE N°1<br/>le rapport est un recit"]
+  C2 -- "OUI — sortie brute conservee" --> A["③ ANALYSER<br/>d'ou vient l'attendu ?"]
+  A --> C3{"CONDITION 3<br/>l'oracle est-il NOMME<br/>et cite ?"}
+  C3 -- "NON" --> F3["VERDICT PAR DEFAUT :<br/>« le test est faux »<br/>c'est le moins cher a corriger"]
+  C3 -- "OUI" --> V["VERDICT<br/>test faux / code faux / indetermine"]
+  V --> R["④ CORRIGER<br/>le TEST, jamais le code"]
+  R --> C4{"CONDITION 4<br/>l'assertion a-t-elle<br/>ete AFFAIBLIE ?"}
+  C4 -- "OUI" --> F4["POINT DE RUPTURE N°2<br/>vert ET defaut intact<br/>notion M5.4"]
+  C4 -- "NON" --> OK(["TOUR SUIVANT<br/>ou fin, avec preuve"])
+  OK -.-> G
+  H["GARDE-FOU NIVEAU 3<br/>hook deterministe"] -. "bloque" .-> F4
+  S["GARDE-FOU NIVEAU 4<br/>subagent adversarial<br/>contexte separe"] -. "refuse" .-> F1
+  classDef etape fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef cond fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef garde fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  class G,X,A,R,E etape;
+  class C1,C2,C3,C4,V cond;
+  class F1,F2,F3,F4 ko;
+  class OK ok;
+  class H,S garde;

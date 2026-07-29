@@ -1,0 +1,25 @@
+flowchart LR
+  subgraph SRC["① La source — docs/API-CONTRACT.md"]
+    direction TB
+    L1["Routes<br/>POST /api/journeys"]
+    L2["Types partages<br/>Journey · Step"]
+    L3["Preambule<br/>dates ISO · Bearer"]
+  end
+  SRC --> AT{"② Atomisation<br/>un seul attendu par ligne ?"}
+  AT -- "NON — deux attendus" --> AT
+  AT -- "OUI" --> T{"③ Les 4 criteres<br/>T1 observable · T2 univoque<br/>T3 isolable · T4 falsifiable"}
+  T -- "4 sur 4" --> E1["EX-nnn — TESTABLE<br/>type de test · priorite"]
+  T -- "3 sur 4" --> E2["EX-nnn — TESTABLE PARTIELLEMENT<br/>la partie couverte est nommee"]
+  T -- "2 sur 4 ou moins" --> E3["EX-nnn — NON TESTABLE EN L'ETAT<br/>+ la question au metier"]
+  E1 --> A["④ Assertion<br/>expect(...).toBe(400)"]
+  E2 --> A
+  E3 -. "ne produit AUCUNE assertion" .-> S["Fiche de silence — M2.3"]
+  X["Le code de production"] -. "oracle interdit — M1.4" .-> A
+  classDef src fill:#d6e4ff,stroke:#2b4c8c,color:#12244a;
+  classDef ok fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef part fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef ko fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  class L1,L2,L3 src;
+  class E1,A ok;
+  class E2 part;
+  class E3,S,X ko;

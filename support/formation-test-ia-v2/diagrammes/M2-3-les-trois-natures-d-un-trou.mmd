@@ -1,0 +1,20 @@
+flowchart TB
+  F["Une fiche : « le contrat ne dit pas ... »"] --> Q1{"La reponse est-elle ecrite<br/>DANS UNE SECTION DE ROUTE ?"}
+  Q1 -- "OUI" --> FX["FAUX SILENCE<br/>on relit, et on note ou etait la reponse"]
+  Q1 -- "NON" --> Q2{"Est-elle ecrite<br/>DANS LE PREAMBULE<br/>ou dans le bloc des TYPES PARTAGES ?"}
+  Q2 -- "OUI" --> FX
+  Q2 -- "NON" --> Q3{"La question posee est-elle<br/>LA BONNE QUESTION ?"}
+  Q3 -- "NON" --> MF["SILENCE MAL FORMULE<br/>on reformule — la vraie question<br/>est presque toujours plus couteuse"]
+  MF --> Q1
+  Q3 -- "OUI" --> Q4{"La question est-elle FERMEE ?<br/>appelle-t-elle une decision ?"}
+  Q4 -- "NON" --> MF
+  Q4 -- "OUI" --> SR["SILENCE REEL<br/>question au metier + cout d'erreur<br/>AUCUNE assertion tant qu'il n'est pas tranche"]
+  SR --> IA["Si on ne le leve pas :<br/>LE MODELE TRANCHERA<br/>sans auteur, sans date, sans recours"]
+  classDef faux fill:#f8d7da,stroke:#c0392b,color:#7b1c1c;
+  classDef mal fill:#fff3cd,stroke:#b8860b,color:#6b4e00;
+  classDef reel fill:#d4edda,stroke:#2e7d32,color:#1b5e20;
+  classDef alerte fill:#e8e8f5,stroke:#4a4a8a,color:#20204a;
+  class FX faux;
+  class MF mal;
+  class SR reel;
+  class IA alerte;
