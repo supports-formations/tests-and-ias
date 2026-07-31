@@ -1,0 +1,32 @@
+name: Generate Missing Unit Tests
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+jobs:
+  generate-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          direct_prompt: |
+            Regarde le diff de cette PR (git diff origin/${{ github.base_ref }}...HEAD).
+            Identifie les fichiers de code modifiés ou ajoutés qui n'ont
+            pas de test correspondant modifié dans le même diff.
+            S'il n'y en a aucun, ne fais rien et termine.
+            Sinon, utilise le skill generation-tests-unitaires pour
+            générer et valider des tests pour ces fichiers. Crée une
+            branche "tests/auto-${{ github.event.pull_request.number }}",
+            commit les tests, et ouvre une PR liée pour review.
+            Ne commit jamais directement sur la branche d'origine.
