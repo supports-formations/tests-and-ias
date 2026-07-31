@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { makeUser, registerUser, loginViaUi } from './helpers';
 
 // Feature #2 — Login. Bug-free feature, complete + reliable e2e test (docs/stats.md).
-test('un utilisateur peut se connecter et accéder à la liste de ses voyages', async ({ page }) => {
+test('un utilisateur peut se connecter et accéder à la liste de ses voyages persos', async ({ page }) => {
   const user = makeUser('login');
   await registerUser(user);
 
