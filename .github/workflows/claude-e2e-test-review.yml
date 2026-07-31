@@ -1,0 +1,64 @@
+name: Claude E2E Test Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - "**/e2e/**/*.ts"
+      - "**/e2e/**/*.tsx"
+      - "**/e2e/**/*.js"
+      - "**/e2e/**/*.mjs"
+      - "**/e2e/**/*.cjs"
+      - "**/e2e/playwright.config.*"
+  workflow_dispatch:
+
+concurrency:
+  group: claude-e2e-review-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  review-e2e-tests:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.draft == false }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Claude review for E2E tests
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          track_progress: true
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            Review only the E2E test changes in this pull request (files under any e2e/ directory).
+
+            Focus on:
+            - Test reliability and flakiness risks (timing, race conditions, network instability)
+            - Assertion quality (false positives/negatives, meaningful expectations)
+            - Selector robustness and maintainability
+            - Proper setup/teardown and test isolation
+            - Data handling and deterministic behavior
+            - Playwright best practices and readability
+
+            Comment directly on the PR:
+            - Use inline comments for precise issues.
+            - Add one global summary comment with severity and concrete fixes.
+            - If no issue is found, explicitly say tests look good and mention residual risk.
+
+            Important:
+            - Keep feedback scoped to E2E tests and related Playwright configuration.
+            - Do not request unrelated refactors outside E2E scope.
+
+          claude_args: |
+            --max-turns 12
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"
