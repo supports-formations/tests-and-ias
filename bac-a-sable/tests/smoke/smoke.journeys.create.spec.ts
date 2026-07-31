@@ -4,7 +4,7 @@ import { API_URL, makeUser, registerAndLogin } from './helpers';
 // Smoke — Création d'un voyage (F8). Parcours nominal : un utilisateur authentifié
 // crée un voyage avec des dates valides. Pas de test des règles de validation
 // (endDate < startDate, champs manquants).
-test('un utilisateur peut créer un voyage intéressant', async ({ request }) => {
+test('un utilisateur peut créer un voyage avec des dates valides', async ({ request }) => {
   const token = await registerAndLogin(makeUser('smoke-journey-create'));
 
   const res = await request.post(`${API_URL}/journeys`, {
